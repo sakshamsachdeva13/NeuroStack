@@ -15,7 +15,7 @@ require('dotenv').config({ path: '.env' });
 require('dotenv').config({ path: '.env.local' });
 
 mongoose.connect(process.env.DATABASE);
-
+console.log("this si a server.js")
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 mongoose.connection.on('error', (error) => {
