@@ -13,6 +13,7 @@ const cookieParser = require('cookie-parser');
 
 // const errorHandlers = require('./handlers/errorHandlers');
 // const erpApiRouter = require('./routes/appRoutes/appApi');
+const authRouter = require('./routes/authRoute');
 
 const fileUpload = require('express-fileupload');
 // create our Express app
@@ -42,11 +43,13 @@ app.use(compression());
 // app.use('/download', coreDownloadRouter);
 // app.use('/public', corePublicRouter);
 
+app.use('/api' , authRouter)
+
 // If that above routes didnt work, we 404 them and forward to error handler
-app.use(errorHandlers.notFound);
+// app.use(errorHandlers.notFound);
 
 // production error handler
-app.use(errorHandlers.productionErrors);
+// app.use(errorHandlers.productionErrors);
 
 // done! we export it so we can start the site in start.js
 module.exports = app;
