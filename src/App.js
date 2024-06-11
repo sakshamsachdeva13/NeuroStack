@@ -1,11 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
 import Login from './pages/Login/login';
+import Layout from './components/Layout/Layout';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   return (
     <div className="App">
-      <Login />
+      {/* <Login /> */}
+
+       <Layout>
+        <Dashboard />
+       </Layout>
     </div>
   );
 }
