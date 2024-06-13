@@ -1,19 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-import Login from './pages/Login/login';
-import Layout from './components/Layout/Layout';
-import Dashboard from './pages/Dashboard/Dashboard';
+import React from 'react';
+import Layout from './Layout/Layout';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import  Dashboard  from './pages/Dashboard/Dashboard';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      {/* <Login /> */}
-
-       <Layout>
-        <Dashboard />
-       </Layout>
-    </div>
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          
+          {/* Add more routes as needed */}
+        </Routes>
+      </Layout>
+    </Router>
   );
-}
+};
 
 export default App;

@@ -1,11 +1,11 @@
 import React from "react";
 import { classes } from "./Layout.module.css";
 import Navigation from "../components/Navigation/Navigation";
-const Layout = ({children}) => {
+const Layout = (children) => {
   return (
-    <div className={classes.container}>
+    <div>
       <Navigation />
-      {children}
+      {/* {children} */}
     </div>
   );
 };

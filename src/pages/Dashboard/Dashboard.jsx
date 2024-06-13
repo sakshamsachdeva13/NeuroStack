@@ -1,5 +1,6 @@
 import React from 'react'
-import {classes } from './Navigation.module.css'
+import classes from '../../components/Navigation/Navigation.module.css';
+
 
 const Dashboard = () => {
   return (

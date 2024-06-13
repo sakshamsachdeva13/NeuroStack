@@ -1,9 +1,62 @@
-
-
-.container {
-    width: 100%;
-
-    padding : 5rem;
-
-    background-color: pink;
-}
+/* Navigation.module.css */
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    position: relative; /* Added relative positioning */
+  }
+  
+  .navContainer::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: calc(20% + 10px); /* Further extended starting position */
+    width: calc(60% - 20px); /* Further extended width */
+    height: 2px; /* Thickness of the shadow line */
+    background: linear-gradient(to right, transparent, gray, transparent);
+  }
+  
+  .navList {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .navItem {
+    font-size: 20px;
+  }
+  
+  .navLink {
+    text-decoration: none;
+    color: red; /* Default color */
+    font-family: verdana;
+  }
+  
+  .activeNavLink {
+    color: blue; /* Color for the active link */
+  }
+  
+  .userContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 15px;
+    font-family: verdana;
+  }
+  
+  .carrot {
+    cursor: pointer;
+  }
+  
+  .logoutDropdown {
+    position: absolute;
+    top: 70px; /* Position dropdown just below the userContainer */
+    right: 0;
+    background-color: white;
+    padding: 0.5rem;
+    z-index: 10; /* Ensures the dropdown appears above other elements */
+    display: block;
+  }
+  
