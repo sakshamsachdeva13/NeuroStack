@@ -1,17 +1,14 @@
-import './App.css';
-import Login from './pages/Login/login';
+// import "./App.css";
+import Login from "./pages/Login/login";
 // import Layout from './components/Layout/Layout';
 // import Dashboard from './pages/Dashboard/Dashboard';
-
-
+import classes from './App.module.css'
+import { Container, Grid } from "@mui/material";
 function App() {
   return (
-    <div className="App">
-      {/* <Login /> */}
-
-       {/* <Layout> */}
-      <Login />
-    </div>
+    <Container maxWidth="xl">
+        <Login />
+    </Container>
   );
 }
 

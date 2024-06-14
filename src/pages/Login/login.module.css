@@ -1,89 +1,40 @@
-<<<<<<< HEAD
-.BODY {
-    background-color: gr;
+.logoContainer {
+  flex-grow: 1 ;
+  flex-basis : 0;
 }
-=======
-body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.logoContainer {
+  display : flex;
+  justify-content: center;
+  align-items: center;
 }
-  
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 800px; 
-    width: 100%;
-    background-color: white;
-    border-radius: 10px; 
-    overflow: hidden; 
+.inputContainer{
+  flex-grow: 1 ;
+  flex-basis : 0;
+  height : 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content : space-evenly;
+  align-items: center;
+  align-content: end;
+  background-color: #082630ff;
+  color : white;
 }
-  
-.photo {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white; 
+
+.inputContainer > button {
+  width : 70%;
+  margin : 0 auto;
 }
-  
-.photo img {
-    max-width: 100%;
-    height: auto;
+
+.inputContainer > div {
+  width : 70%;
+  margin : 0 auto;
 }
-  
-.loginOptions {
-    flex: 1;
-    max-width: 350px; 
-    padding: 20px;
-    background-color: white; 
-}
-  
-.loginOptions h2 {
-    margin-bottom: 20px;
-    text-align: center;
-}
-  
-.loginOptions label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-  
-.loginOptions input[type="text"],
-.loginOptions input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    padding-left: 0px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box; 
-}
-  
-.loginOptions input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-  
-.loginOptions input[type="submit"]:hover {
-    background-color: #0056b3;
-}
-  
-.error {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
-}
-  
->>>>>>> shubham_login
+
+
+/* 
+--gunmetal: #082630ff;
+--honolulu-blue: #0E7EC6ff;
+--eminence: #692379ff;
+--gunmetal-2: #0A2830ff;
+--lapis-lazuli: #0D6297ff; */

@@ -1,60 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { TextField, Box, Grid, FormControl, Button } from "@mui/material";
+import Logo from "../../components/Logo/Logo";
 import classes from "./login.module.css";
-import neuroStackImage from "../../assets/NeuroStack.jpg";
 
-function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const Login = () => {
+  const [errors, setErrors] = useState("");
+  const [formValid, setFormValid] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // Basic client-side validation
-    console.log(username);    
-    console.log(password)
-    if (username.trim() === "" || password.trim() === "") {
-      setError("Please enter a username and password");
-      
+  const { username, password } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  useEffect(() => {
+    validateForm();
+  }, [formData]);
+
+  const validateForm = () => {
+    const errors = {};
+    if (!formData.username.trim()) {
+      errors.username = "username is required";
     }
+    if (!formData.password.trim()) {
+      errors.password = "Password is required";
+    }
+
+    setErrors(errors);
+    setFormValid(Object.keys(errors).length === 0);
+  };
+
+  const onSubmit = () => {
+            console.log(formData)
   };
   return (
-    <div className={classes.container}>
-      <div className={classes.photo}>
-        <img src={neuroStackImage} alt="Logo" />
+    <Box
+      my={20}
+      mx={45}
+      sx={{
+        width: 800,
+        height: 400,
+        borderRadius: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "#082630ff",
+        "&:hover": {
+          bgcolor: "#082630ff",
+        },
+      }}
+    >
+      <div className={classes.logoContainer}>
+        <Logo />
       </div>
-      <div className={classes.loginOptions}>
-        <h2>Login</h2>
-        <form className={classes.form}>
-          <label htmlFor="username">Username:</label>
-          <br />
-          <input
-            type="text"
-            id="username"
+
+      <form onSubmit={onSubmit} className={classes.inputContainer}>
+      
+          <TextField
+            //   required
+            id="outlined-basic"
+            label="username or id"
             name="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className={classes.input}
+            onChange={onChange}
+            sx={{
+              input: {
+                color: "white",
+                border: "white",
+                fontWeight: "600",
+              },
+            }}
           />
-          <br />
-          <label htmlFor="password">Password:</label>
-          <br />
-          <input
-            type="password"
-            id="password"
+     
+        
+          <TextField
+            required
+            id="outlined-password-input"
+            label="Password"
             name="password"
+            type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={classes.input}
+            onChange={onChange}
+            color="primary"
+            style={{
+              outline: "white",
+            }}
+            sx={{
+              input: {
+                color: "white",
+                border: "white",
+                fontWeight: "600",
+              },
+            }}
           />
-          <br />
-          <button onClick={handleLogin} className={classes.submit}>
-            Login
-          </button>
-        </form>
-        {error && <p className={classes.error}>{error}</p>}
-      </div>
-    </div>
+        
+        <Button variant="outlined" type="submit">Submit</Button>
+      </form>
+    </Box>
   );
-}
+};
 
 export default Login;
