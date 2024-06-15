@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField, Box, Grid, FormControl, Button } from "@mui/material";
+import * as actions from "../../store/actions/index.action";
 import Logo from "../../components/Logo/Logo";
 import classes from "./login.module.css";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const loginAction = (user) => dispatch(actions.login(user));
   const [errors, setErrors] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,8 +37,9 @@ const Login = () => {
     setFormValid(Object.keys(errors).length === 0);
   };
 
-  const onSubmit = () => {
-            console.log(formData)
+  const onSubmit = (e) => {
+    e.preventDefault();
+    loginAction(formData);
   };
   return (
     <Box
@@ -57,47 +62,44 @@ const Login = () => {
         <Logo />
       </div>
 
-      <form onSubmit={onSubmit} className={classes.inputContainer}>
-      
-          <TextField
-            //   required
-            id="outlined-basic"
-            label="username or id"
-            name="username"
-            value={username}
-            onChange={onChange}
-            sx={{
-              input: {
-                color: "white",
-                border: "white",
-                fontWeight: "600",
-              },
-            }}
-          />
-     
-        
-          <TextField
-            required
-            id="outlined-password-input"
-            label="Password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={onChange}
-            color="primary"
-            style={{
-              outline: "white",
-            }}
-            sx={{
-              input: {
-                color: "white",
-                border: "white",
-                fontWeight: "600",
-              },
-            }}
-          />
-        
-        <Button variant="outlined" type="submit">Submit</Button>
+      <form onSubmit={onSubmit} method='POST' className={classes.inputContainer}>
+        <TextField
+          //   required
+          id="outlined-basic"
+          label="username or id"
+          name="username"
+          value={username}
+          onChange={onChange}
+          sx={{
+            input: {
+              color: "white",
+              border: "white",
+              fontWeight: "600",
+            },
+          }}
+        />
+
+        <TextField
+          required
+          id="outlined-password-input"
+          label="Password"
+          name="password"
+          type="password"
+          value={password}
+          onChange={onChange}
+          color="primary"
+          sx={{
+            input: {
+              color: "white",
+              border: "white",
+              fontWeight: "600",
+            },
+          }}
+        />
+
+        <Button variant="outlined" type="submit">
+          Submit
+        </Button>
       </form>
     </Box>
   );
