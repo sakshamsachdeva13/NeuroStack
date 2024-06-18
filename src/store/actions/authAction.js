@@ -1,5 +1,5 @@
 import axios from "../../axios_interceptor";
-import * as actions from "./index.action";
+// import * as actions from "./index.action";
 import * as actionTypes from "./actionTypes";
 export const login = (credentials) => {
   return (dispatch) => {
