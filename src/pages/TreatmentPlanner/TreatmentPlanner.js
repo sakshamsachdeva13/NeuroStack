@@ -92,7 +92,7 @@ const DynamicForm = () => {
                 value={medication.name}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               />
               <input
                 type="text"
@@ -101,14 +101,14 @@ const DynamicForm = () => {
                 value={medication.dose}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               />
               <select
                 name="frequency"
                 value={medication.frequency}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               >
                 <option value="">Frequency</option>
                 {[1, 2, 3, 4, 5].map(value => (
@@ -120,7 +120,7 @@ const DynamicForm = () => {
                 value={medication.frequencyUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -132,7 +132,7 @@ const DynamicForm = () => {
                 value={medication.duration}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               >
                 <option value="">Duration</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => (
@@ -144,7 +144,7 @@ const DynamicForm = () => {
                 value={medication.durationUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
-                disabled={!isMedicationEditable}
+                readOnly={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -152,7 +152,7 @@ const DynamicForm = () => {
                 <option value="Months">Months</option>
                 <option value="Years">Years</option>
               </select>
-              <button type="button" className="btn btn-danger" onClick={() => handleRemoveMedication(index)} disabled={!isMedicationEditable}>Delete</button>
+              <button type="button" className="btn btn-danger" onClick={() => handleRemoveMedication(index)} readOnly={!isMedicationEditable}>Delete</button>
             </div>
           ))}
         </div>
@@ -184,7 +184,7 @@ const DynamicForm = () => {
                 value={therapy.duration}
                 onChange={(event) => handleTherapyChange(index, event)}
                 className="form-control me-2"
-                disabled={!isTherapyEditable}
+                readOnly={!isTherapyEditable}
               >
                 <option value="">Duration</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => (
@@ -196,7 +196,7 @@ const DynamicForm = () => {
                 value={therapy.durationUnit}
                 onChange={(event) => handleTherapyChange(index, event)}
                 className="form-control me-2"
-                disabled={!isTherapyEditable}
+                readOnly={!isTherapyEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -204,7 +204,7 @@ const DynamicForm = () => {
                 <option value="Months">Months</option>
                 <option value="Years">Years</option>
               </select>
-              <button type="button" className="btn btn-danger" onClick={() => handleRemoveTherapy(index)} disabled={!isTherapyEditable}>Delete</button>
+              <button type="button" className="btn btn-danger" onClick={() => handleRemoveTherapy(index)} readOnly={!isTherapyEditable}>Delete</button>
             </div>
           ))}
         </div>
@@ -216,3 +216,5 @@ const DynamicForm = () => {
 };
 
 export default DynamicForm;
+
+
