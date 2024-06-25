@@ -10,7 +10,7 @@ import { Dashboard } from "@mui/icons-material";
 import TreatmentPlanner from "./pages/TreatmentPlanner/TreatmentPlanner";
 import Page404 from "./pages/page404/page404";
 function App() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   const AuthApp = (
     <Routes>
