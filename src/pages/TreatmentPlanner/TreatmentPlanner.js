@@ -214,7 +214,5 @@ const DynamicForm = () => {
     </div>
   );
 };
-
+ 
 export default DynamicForm;
-
-
