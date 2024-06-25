@@ -1,40 +1,69 @@
-.logoContainer {
-  flex-grow: 1 ;
-  flex-basis : 0;
-}
-
-.logoContainer {
-  display : flex;
+.container {
+  display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
+  height: auto;
+  margin-top: 50px;
 }
-.inputContainer{
-  flex-grow: 1 ;
-  flex-basis : 0;
-  height : 100%;
+
+.formContainer {
   display: flex;
-  flex-direction: column;
-  justify-content : space-evenly;
+  flex-direction: column; /* Align children vertically */
+  justify-content: center;
   align-items: center;
-  align-content: end;
-  background-color: #082630ff;
-  color : white;
+  width: 100%;
+  height: auto;
+  max-width: 50%;
+  background-color: whitesmoke; 
+  color: #421313;
+  padding: 12px;
+  margin-top: 3%;
+  margin-left: 25%;
+  margin-right: 25%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add box shadow */
 }
 
-.inputContainer > button {
-  width : 70%;
-  margin : 0 auto;
+.imageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5vw; /* Adjust the spacing */
 }
 
-.inputContainer > div {
-  width : 70%;
-  margin : 0 auto;
+.logo {
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
 }
 
+.loginContainer {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 5vw; /* Adjust the spacing */
+}
 
-/* 
---gunmetal: #082630ff;
---honolulu-blue: #0E7EC6ff;
---eminence: #692379ff;
---gunmetal-2: #0A2830ff;
---lapis-lazuli: #0D6297ff; */
+.loginBox {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.loginTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.loginDescription {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.textField {
+  margin-bottom: 20px;
+}
+
+.submitButton {
+  margin-top: 20px;
+}

@@ -2,39 +2,49 @@
 import Login from "./pages/Login/login";
 import Navigation from "./components/Navigation/Navigation";
 // import Layout from './components/Layout/Layout';
-// import Dashboard from './pages/Dashboard/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
+import SearchUser from "./pages/user/user";
+import SignUp from "./pages/signup/signup";
+import Page404 from './pages/page404/page404'
+import TreatmentPlanner from './pages/TreatmentPlanner/TreatmentPlanner';
+
 import classes from "./App.module.css";
 import { Routes, Route } from "react-router-dom";
 import { Container, Grid } from "@mui/material";
-import { Dashboard } from "@mui/icons-material";
-import DynamicForm from "./pages/TreatmentPlanner/TreatmentPlanner";
-import Page404 from "./pages/page404/page404";
-function App() {
-  const isAuthenticated = false;
+  function App() {
+    const isAuthenticated = true;
+    const userType = 'user';
+    const AuthApp = (
+      <Routes>
+        <Route path="/" exact element={<Login />} />
+        <Route element={<Page404 />} />
+      </Routes>
+    );
 
-  const AuthApp = (
-    <Routes>
-      <Route path="/login" exact element={<Login />} />
-      <Route path="/" exact element={<DynamicForm />} />
-      <Route element={<Page404 />} />
-    </Routes>
-  );
+    const defaultApp = (
+      <>
+        <Navigation userType ={userType}/>
+        <Routes>
+          <Route path="/" exact element={<Dashboard />} />
+          <Route path="/planner" exact element={<TreatmentPlanner />} />
+          <Route element={<Page404 />} />
+        </Routes>
+      </>
+    );
 
-  const defaultApp = (
-    // <>
-    //   <Navigation />
-    //   <Routes>
-    //     <Route path="/" exact element={<Dashboard />} />
-    //     <Route path="/planner" exact element={<DynamicForm />} />
-    //     <Route element={<Page404 />} />
-    //   </Routes>
-      
-    // </>
-    <DynamicForm />
-  );
+    const adminApp = (
+      <>
+        <Navigation userType ={userType}/>
+        <Routes>
+          <Route path='/' exact element={<SearchUser />} />
+          <Route path='/createUser' element={<SignUp />} />
+        </Routes>
+      </>
+    )
 
-  const renderApp = isAuthenticated ? defaultApp : AuthApp;
-  return <Container maxWidth="xl">{renderApp}</Container>;
-}
+
+    const renderApp = isAuthenticated ? userType === 'admin' ? adminApp : defaultApp : AuthApp;
+    return <Container maxWidth={false} disableGutters>{renderApp}</Container>;
+  }
 
 export default App;
