@@ -8,11 +8,12 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
+import Logo from '../../assets/NeuroStack.jpg';
+import styles from './Navigation.module.css';
 
 function ResponsiveAppBar({ userType }) {
 
@@ -46,29 +47,12 @@ function ResponsiveAppBar({ userType }) {
 
   const items = pages.map((page) => <NavLink to={page.path}>{page.page}</NavLink>);
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+    <AppBar position="static" sx={{ padding: 0, margin: 0 }}>
+      <Container sx={{ padding: 0, margin: 0 }} maxWidth={false}>
+        <Toolbar disableGutters sx={{ padding: 0, margin: 0 }}>
+          <img src={Logo} alt="Logo" className={styles.logo} />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: 'center' }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -76,8 +60,9 @@ function ResponsiveAppBar({ userType }) {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              className={styles.menuIconButton}
             >
-              {/* <MenuIcon /> */}
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -104,27 +89,19 @@ function ResponsiveAppBar({ userType }) {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {items}
+
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: 'center' }}>
+            {pages.map((page) => (
+              <NavLink
+                key={page.page}
+                to={page.path}
+                className={({ isActive }) => isActive ? styles.activeNavLink : styles.navLink}
+              >
+                {page.page}
+              </NavLink>
+            ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -161,4 +138,5 @@ function ResponsiveAppBar({ userType }) {
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;

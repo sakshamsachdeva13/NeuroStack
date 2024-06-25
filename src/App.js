@@ -13,7 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import { Container, Grid } from "@mui/material";
   function App() {
     const isAuthenticated = true;
-    const userType = 'admin';
+    const userType = 'user';
     const AuthApp = (
       <Routes>
         <Route path="/" exact element={<Login />} />
@@ -44,7 +44,7 @@ import { Container, Grid } from "@mui/material";
 
 
     const renderApp = isAuthenticated ? userType === 'admin' ? adminApp : defaultApp : AuthApp;
-    return <Container maxWidth="xl">{renderApp}</Container>;
+    return <Container maxWidth={false} disableGutters>{renderApp}</Container>;
   }
 
 export default App;
