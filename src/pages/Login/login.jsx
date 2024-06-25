@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { TextField, Box, Grid, FormControl, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { TextField, Box, Button, Typography } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
 import Logo from "../../components/Logo/Logo";
 import classes from "./login.module.css";
@@ -27,7 +27,7 @@ const Login = () => {
   const validateForm = () => {
     const errors = {};
     if (!formData.username.trim()) {
-      errors.username = "username is required";
+      errors.username = "Username is required";
     }
     if (!formData.password.trim()) {
       errors.password = "Password is required";
@@ -41,66 +41,57 @@ const Login = () => {
     e.preventDefault();
     loginAction(formData);
   };
+
   return (
-    <Box
-      my={20}
-      mx={45}
-      sx={{
-        width: 800,
-        height: 400,
-        borderRadius: 1,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        bgcolor: "#082630ff",
-        "&:hover": {
-          bgcolor: "#082630ff",
-        },
-      }}
-    >
-      <div className={classes.logoContainer}>
-        <Logo />
-      </div>
-
-      <form onSubmit={onSubmit} method='POST' className={classes.inputContainer}>
-        <TextField
-          //   required
-          id="outlined-basic"
-          label="username or id"
-          name="username"
-          value={username}
-          onChange={onChange}
-          sx={{
-            input: {
-              color: "white",
-              border: "white",
-              fontWeight: "600",
-            },
-          }}
-        />
-
-        <TextField
-          required
-          id="outlined-password-input"
-          label="Password"
-          name="password"
-          type="password"
-          value={password}
-          onChange={onChange}
-          color="primary"
-          sx={{
-            input: {
-              color: "white",
-              border: "white",
-              fontWeight: "600",
-            },
-          }}
-        />
-
-        <Button variant="outlined" type="submit">
-          Submit
-        </Button>
-      </form>
+    <Box className={classes.formContainer}>
+      {/* <Box className={classes.loginForm}> */}
+        <Box className={classes.logoContainer}>
+          <Logo className={classes.logo} />
+        </Box>
+        <Box className={classes.loginBox}>
+          <Typography variant="h4" className={classes.loginTitle}>
+            Welcome Back!
+          </Typography>
+          <Typography variant="body1" className={classes.loginDescription}>
+            Please login to continue.
+          </Typography>
+          <form onSubmit={onSubmit} className={classes.form}>
+            <TextField
+              id="outlined-basic"
+              label="Username"
+              name="username"
+              value={username}
+              onChange={onChange}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              className={classes.textField}
+            />
+            <TextField
+              required
+              id="outlined-password-input"
+              label="Password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={onChange}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              className={classes.textField}
+            />
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              color="primary"
+              className={classes.submitButton}
+            >
+              Login
+            </Button>
+          </form>
+        {/* </Box> */}
+      </Box>
     </Box>
   );
 };

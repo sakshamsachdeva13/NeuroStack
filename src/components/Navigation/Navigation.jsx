@@ -15,17 +15,18 @@ import { NavLink } from "react-router-dom";
 import Logo from '../../assets/NeuroStack.jpg';
 import styles from './Navigation.module.css';
 
-const userRole = "user";
-const pages =
-  userRole === "admin"
-    ? []
-    : [
+function ResponsiveAppBar({ userType }) {
+
+
+  const pages =
+    userType === "admin"
+      ? [{ page: "User Accessibility", path: '/' }, { page: "Create User", path: '/createUser' }]
+      : [
         { page: "Dashboard", path: "/" },
         { page: "Treatment Plan", path: "/planner" },
       ];
-const settings = ["Logout"];
+  const settings = ["Logout"];
 
-function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,6 +45,7 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const items = pages.map((page) => <NavLink to={page.path}>{page.page}</NavLink>);
   return (
     <AppBar position="static" sx={{ padding: 0, margin: 0 }}>
       <Container sx={{ padding: 0, margin: 0 }} maxWidth={false}>
