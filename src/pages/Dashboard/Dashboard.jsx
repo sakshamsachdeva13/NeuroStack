@@ -136,6 +136,12 @@ const Dashboard = () => {
     };
   }, []);
 
+  const handleSubmit = () => {
+    // Implement submit functionality here
+    console.log('Submit button clicked');
+    // Add your submit logic here (e.g., fetch data, update state)
+  };
+
   return (
     <div className={styles.dashboard}>
       <div className={styles.filters}>
@@ -191,6 +197,9 @@ const Dashboard = () => {
             placeholder="Select Symptoms"
           />
         </div>
+        <button className={`${styles.submitButton} ${styles.small}`} onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
       <div className={styles.chartRow}>
         <div className={styles.chartContainer}>
