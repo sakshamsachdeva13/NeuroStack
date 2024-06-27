@@ -1,0 +1,54 @@
+/* signup.module.css */
+
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    margin-top: 50px;
+  }
+  
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    max-width: 50%;
+    background-color: whitesmoke;
+    color: #421313;
+    padding: 10px;
+    margin-top: 3%;
+    margin-left: 35%;
+    margin-right: 35%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .loginBox {
+    max-width: 400px;
+    padding: 20px;
+  }
+  
+  .loginTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 40px; /* Increase the margin to see if it works */
+    text-align: center;
+  }
+  
+  .textField {
+    margin-bottom: 10px;
+  }
+  
+  .submitButton {
+    margin-top: 20px;
+    background-color: blue;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+  
+
+  
