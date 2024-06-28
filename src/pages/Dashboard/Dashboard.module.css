@@ -7,9 +7,9 @@
 
 .filters {
   display: flex;
-  flex-wrap: wrap; /* Allow filters to wrap to next line */
+  flex-wrap: wrap;
   justify-content: space-between;
-  align-items: center; /* Center items vertically */
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .filter + .filter {
-  margin-left: 20px; /* Space between filters */
+  margin-left: 20px;
   margin-right: -70px;
 }
 
@@ -36,14 +36,21 @@
 
 .chartRow {
   display: flex;
+  flex-direction: row; /* Changed from column to row */
   justify-content: space-between;
   gap: 20px;
 }
 
 .chartContainer {
   flex: 1;
-  height: 400px;
+  padding: 20px; /* Optional: Add padding for spacing */
 }
+
+.chartContainer canvas {
+  width: 100% !important; /* Ensures the canvas takes full width */
+  height: 400px; /* Adjust the height as needed */
+}
+
 
 .submitButton {
   padding: 8px 16px;
@@ -55,7 +62,6 @@
   font-weight: bold;
 }
 
-/* Small submit button style */
 .submitButton.small {
   padding: 6px 12px;
   font-size: 14px;
