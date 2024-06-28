@@ -44,6 +44,7 @@ const Dashboard = () => {
   const [symptomScale, setSymptomScale] = useState(null);
   const [patientSelection, setPatientSelection] = useState(null);
   const [symptomSelection, setSymptomSelection] = useState([]);
+  const [showCharts, setShowCharts] = useState(false);
 
   const patientStatusData = {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
@@ -109,6 +110,7 @@ const Dashboard = () => {
   }, []);
 
   const handleSubmit = () => {
+    setShowCharts(true);
     console.log('Submit button clicked');
   };
 
@@ -127,14 +129,17 @@ const Dashboard = () => {
           },
         },
       },
-      title: {
-        display: true,
-        text: 'Paralysis', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
     },
+  };
+
+  const getFilteredData = (type) => {
+    const index = symptomScaleOptions.findIndex(option => option.value === type);
+    const filteredData = patientStatusData.datasets[index];
+
+    return {
+      labels: patientStatusData.labels,
+      datasets: [filteredData],
+    };
   };
 
   return (
@@ -196,17 +201,39 @@ const Dashboard = () => {
           Submit
         </button>
       </div>
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Bar ref={barChartRef} data={patientStatusData} options={options} />
-        </div>
-        <div className={styles.chartContainer}>
-          <Line ref={lineChartRef} data={patientStatusData} options={options} />
-        </div>
-      </div>
-      <div className={styles.chartContainer}>
-        <Pie ref={pieChartRef} data={pieChartData} options={options} />
-      </div>
+      {showCharts && (
+        <>
+          {symptomSelection.length > 0 && (
+            <div className={styles.chartRow}>
+              {symptomSelection.includes('paralysis') && (
+                <div className={styles.chartContainer}>
+                  <Pie ref={pieChartRef} data={pieChartData} options={options} />
+                </div>
+              )}
+              {symptomSelection.includes('muscle-weakness') && (
+                <div className={styles.chartContainer}>
+                  <Pie ref={pieChartRef} data={pieChartData} options={options} />
+                </div>
+              )}
+              {symptomSelection.includes('poor-coordination') && (
+                <div className={styles.chartContainer}>
+                  <Pie ref={pieChartRef} data={pieChartData} options={options} />
+                </div>
+              )}
+            </div>
+          )}
+          {symptomScale && (
+            <div className={styles.chartRow}>
+              <div className={styles.chartContainer}>
+                <Bar ref={barChartRef} data={getFilteredData(symptomScale.value)} options={options} />
+              </div>
+              <div className={styles.chartContainer}>
+                <Line ref={lineChartRef} data={getFilteredData(symptomScale.value)} options={options} />
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
