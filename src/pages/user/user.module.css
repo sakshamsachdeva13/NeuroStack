@@ -80,3 +80,47 @@
 .dialogContent p {
   margin: 8px 0;
 }
+
+
+@media (max-width: 768px) {
+  .searchUserContainer {
+    padding: 15px;
+  }
+
+  .searchBar {
+    padding: 8px 15px;
+    border-radius: 20px;
+  }
+
+  .searchField {
+    margin-left: 8px;
+  }
+
+  .viewDetailsButton {
+    padding: 8px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchUserContainer {
+    padding: 10px;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .searchField {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+}

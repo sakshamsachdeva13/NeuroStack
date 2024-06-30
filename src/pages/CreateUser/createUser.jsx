@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { TextField, Box, Grid, Button, FormControl, InputLabel, Select, MenuItem, Typography} from "@mui/material";
+import { TextField, Box, Grid, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
-import classes from "./signup.module.css";
+import classes from "./createUser.module.css";
 
 const SignUp = () => {
   const dispatch = useDispatch();
   const signupAction = (user) => dispatch(actions.signup(user));
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
   const [formValid, setFormValid] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     employee_id: "",
     email: "",
-    phone: ""
+    phone: "",
+    selectedOption: ""
   });
 
   const { first_name, last_name, employee_id, email, phone, selectedOption } = formData;
@@ -25,7 +27,7 @@ const SignUp = () => {
       const cleanedValue = value.replace(/[^A-Za-z]/gi, '');
       setFormData({ ...formData, [name]: cleanedValue });
     } else if (name === "phone") {
-      const cleanedValue = value.replace(/[^0-9]/g, '');
+      const cleanedValue = value.replace(/[^0-9]/g, '').slice(0, 10);
       setFormData({ ...formData, [name]: cleanedValue });
     } else {
       setFormData({ ...formData, [name]: value });
@@ -33,18 +35,31 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    validateForm();
-  }, [formData]);
+    if (submitted) {
+      validateForm();
+    }
+  }, [formData, submitted]);
 
   const validateForm = () => {
     const errors = {};
+    if (!formData.first_name) errors.first_name = "First name is required.";
+    if (!formData.last_name) errors.last_name = "Last name is required.";
+    if (!formData.email) errors.email = "Email is required.";
+    if (!formData.phone) errors.phone = "Phone number is required.";
+    if (!formData.employee_id) errors.employee_id = "Employee ID is required.";
+    if (!formData.selectedOption) errors.selectedOption = "Department is required.";
+
     setErrors(errors);
     setFormValid(Object.keys(errors).length === 0);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    signupAction(formData);
+    setSubmitted(true);
+    validateForm();
+    if (formValid) {
+      signupAction(formData);
+    }
   };
 
   return (
@@ -63,6 +78,8 @@ const SignUp = () => {
                 value={first_name}
                 onChange={onChange}
                 className={classes.textField}
+                error={submitted && !!errors.first_name}
+                helperText={submitted && errors.first_name}
               />
             </Grid>
             <Grid item xs={6}>
@@ -73,6 +90,8 @@ const SignUp = () => {
                 value={last_name}
                 onChange={onChange}
                 className={classes.textField}
+                error={submitted && !!errors.last_name}
+                helperText={submitted && errors.last_name}
               />
             </Grid>
             <Grid item xs={12}>
@@ -85,9 +104,10 @@ const SignUp = () => {
                 type="email"
                 fullWidth
                 className={classes.textField}
+                error={submitted && !!errors.email}
+                helperText={submitted && errors.email}
               />
             </Grid>
-
             <Grid item xs={12}>
               <TextField
                 id="outlined-phone"
@@ -98,9 +118,10 @@ const SignUp = () => {
                 type="tel"
                 fullWidth
                 className={classes.textField}
+                error={submitted && !!errors.phone}
+                helperText={submitted && errors.phone}
               />
             </Grid>
-
             <Grid item xs={6}>
               <TextField
                 id="outlined-employee-id"
@@ -109,6 +130,8 @@ const SignUp = () => {
                 value={employee_id}
                 onChange={onChange}
                 className={classes.textField}
+                // error={submitted && !!errors.employee_id}
+                // helperText={submitted && errors.employee_id}
               />
             </Grid>
             <Grid item xs={6}>
@@ -117,18 +140,14 @@ const SignUp = () => {
                 color="primary"
                 fullWidth
                 sx={{
-                  height: '100%', 
-                  
-                  // Ensures the button matches the height of the TextField
-                }}
+                  height: '100%', }}
                 className={classes.submitButton}
               >
                 Generate ID
               </Button>
             </Grid>
-
             <Grid item xs={12}>
-              <FormControl fullWidth className={classes.textField}>
+              <FormControl fullWidth className={classes.textField} error={submitted && !!errors.selectedOption}>
                 <InputLabel id="choose_department">Choose Department</InputLabel>
                 <Select
                   id="choose_department"
@@ -142,17 +161,15 @@ const SignUp = () => {
                   <MenuItem value="neurosurgeon">Neurosurgeon</MenuItem>
                   <MenuItem value="therapist">Therapist</MenuItem>
                 </Select>
+                {submitted && errors.selectedOption && (
+                  <Typography color="error">{errors.selectedOption}</Typography>
+                )}
               </FormControl>
             </Grid>
-
             <Grid item xs={12}>
               <Button variant="outlined" type="submit" fullWidth className={classes.submitButton}>
                 Save And Send Credentials
               </Button>
-            </Grid>
-
-            <Grid item xs={12} sx={{ my: 0 }}>
-              {/* Add margin to create space */}
             </Grid>
           </Grid>
         </form>

@@ -44,53 +44,52 @@ const Login = () => {
 
   return (
     <Box className={classes.formContainer}>
-      {/* <Box className={classes.loginForm}> */}
-        <Box className={classes.logoContainer}>
-          <Logo className={classes.logo} />
-        </Box>
-        <Box className={classes.loginBox}>
-          <Typography variant="h4" className={classes.loginTitle}>
-            Welcome Back!
-          </Typography>
-          <Typography variant="body1" className={classes.loginDescription}>
-            Please login to continue.
-          </Typography>
-          <form onSubmit={onSubmit} className={classes.form}>
-            <TextField
-              id="outlined-basic"
-              label="Username"
-              name="username"
-              value={username}
-              onChange={onChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              className={classes.textField}
-            />
-            <TextField
-              required
-              id="outlined-password-input"
-              label="Password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={onChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              className={classes.textField}
-            />
-            <Button
-              variant="contained"
-              type="submit"
-              fullWidth
-              color="primary"
-              className={classes.submitButton}
-            >
-              Login
-            </Button>
-          </form>
-        {/* </Box> */}
+      <Box className={classes.logoContainer}>
+        <Logo className={classes.logo} />
+      </Box>
+      <Box className={classes.loginBox}>
+        <Typography variant="h4" className={classes.loginTitle}>
+          Welcome Back!
+        </Typography>
+        <Typography variant="body1" className={classes.loginDescription}>
+          Please login to continue.
+        </Typography>
+        <form onSubmit={onSubmit} className={classes.form}>
+          <TextField
+            id="outlined-basic"
+            label="Username"
+            name="username"
+            value={username}
+            onChange={onChange}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            className={classes.textField}
+          />
+          <TextField
+            required
+            id="outlined-password-input"
+            label="Password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={onChange}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            className={classes.textField}
+          />
+          <Button
+            variant="contained"
+            type="submit"
+            fullWidth
+            color="primary"
+            className={classes.submitButton}
+            disabled={!formValid}
+          >
+            Login
+          </Button>
+        </form>
       </Box>
     </Box>
   );
