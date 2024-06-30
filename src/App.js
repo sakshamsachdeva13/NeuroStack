@@ -4,7 +4,7 @@ import Navigation from "./components/Navigation/Navigation";
 // import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import SearchUser from "./pages/user/user";
-import SignUp from "./pages/CreateUser/createUser";
+import CreateUser from "./pages/CreateUser/createUser";
 import Page404 from './pages/page404/page404'
 import TreatmentPlanner from './pages/TreatmentPlanner/TreatmentPlanner';
 
@@ -13,7 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import { Container, Grid } from "@mui/material";
   function App() {
     const isAuthenticated = true; // false for login page
-    const userType = 'user'; // admin for admin flow
+    const userType = 'admin'; // admin for admin flow
     const AuthApp = (
       <Routes>
         <Route path="/" exact element={<Login />} />
@@ -37,7 +37,7 @@ import { Container, Grid } from "@mui/material";
         <Navigation userType ={userType}/>
         <Routes>
           <Route path='/' exact element={<SearchUser />} />
-          <Route path='/createUser' element={<SignUp />} />
+          <Route path='/createUser' element={<CreateUser />} />
         </Routes>
       </>
     )
