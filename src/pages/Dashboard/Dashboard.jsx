@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Dashboard.module.css';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, PieController, ArcElement } from 'chart.js';
-
+import Chart from './Charts/chart'
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -258,7 +258,7 @@ const Dashboard = () => {
         </div>
         <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
       </div>
-      {filteredData && (
+      {/* {filteredData && (
         <div className={styles.chartRow}>
           <div className={styles.chartContainer}>
             <Bar ref={barChartRef} data={filteredData} options={options} />
@@ -280,7 +280,9 @@ const Dashboard = () => {
             <Pie ref={pieChartPoorCoordinationRef} data={pieChartData} options={poorCoordinationOptions} />
           </div>
         </div>
-      )}
+      )} */}
+
+      <Chart type="Bar"/>
     </div>
   );
 };
