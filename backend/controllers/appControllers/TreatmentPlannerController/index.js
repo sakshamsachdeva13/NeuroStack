@@ -1,15 +1,16 @@
-const create = require('./create')
-const read = require('./read')
+const create = require("./create");
+const read = require("./read");
+const update = require("./update");
+const Model = require("../../../models/TreatmentPlan");
 
 const createTPController = () => {
+  let tpc = {};
 
-    let  tpc = {};
+  tpc.create = (req, res) => create(Model, req, res);
+  tpc.read = (req, res) => read(Model, req, res);
+  tpc.update = (req, res) => update(Model, req, res);
 
-    tpc.create = (req , res) => create(req , res);
-    tpc.read = (req , res) => read(req , res);
-
-    return tpc;
-
-}
+  return tpc;
+};
 
 module.exports = createTPController;

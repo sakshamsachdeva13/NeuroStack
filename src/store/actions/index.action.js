@@ -1,2 +1,2 @@
-export { login } from "./authAction.js";
-export { signup } from './authAction.js';
+export { login , signup} from "./authAction.js";
+export { createTreatmentPlan , getTreatmentPlan } from './TreatmentPlan.actions.js'

@@ -1,15 +1,56 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './treatment.module.css';
+import React, { useState, useSelector, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./treatment.module.css";
+import { useDispatch, useCallback } from "react-redux";
+import * as actions from "../../store/actions/index.action";
 
 const DynamicForm = () => {
-  const [medications, setMedications] = useState([{ name: '', dose: '', frequency: '', frequencyUnit: '', duration: '', durationUnit: '' }]);
-  const [therapies, setTherapies] = useState([{ name: '', duration: '', durationUnit: '' }]);
+  const dispatch = useDispatch();
+  const createTP = (reqBody) => dispatch(actions.createTreatmentPlan(reqBody));
+  const setTp = (reqBody) =>
+    useCallback(dispatch(actions.getTreatmentPlan(reqBody)), [dispatch]);
+  const treatmentPlanFormData = useSelector(
+    (state) => state.treatmentPlan.treatmentPlan
+  );
+  const [medications, setMedications] = useState([
+    {
+      nameOfMedicine: "",
+      dose: "",
+      frequency: "",
+      frequencyUnit: "",
+      duration: "",
+      durationUnit: "",
+    },
+  ]);
+  const [therapies, setTherapies] = useState([
+    { nameOfTherapy: "", duration: "", durationUnit: "" },
+  ]);
   const [isMedicationEditable, setIsMedicationEditable] = useState(false);
   const [isTherapyEditable, setIsTherapyEditable] = useState(false);
 
+  useEffect(() => {
+    setTp((patient_id = "1234"));
+  }, [setTp]);
+
+  useEffect(() => {
+    const [medications, therapies] = treatmentPlanFormData;
+
+    setMedications(medications);
+    setTherapies(therapies);
+  }, [treatmentPlanFormData]);
+
   const handleAddMedication = () => {
-    setMedications([...medications, { name: '', dose: '', frequency: '', frequencyUnit: '', duration: '', durationUnit: '' }]);
+    setMedications([
+      ...medications,
+      {
+        nameOfMedicine: "",
+        dose: "",
+        frequency: "",
+        frequencyUnit: "",
+        duration: "",
+        durationUnit: "",
+      },
+    ]);
   };
 
   const handleRemoveMedication = (index) => {
@@ -19,12 +60,17 @@ const DynamicForm = () => {
 
   const handleMedicationChange = (index, event) => {
     const { name, value } = event.target;
-    const newMedications = medications.map((medication, i) => i === index ? { ...medication, [name]: value } : medication);
+    const newMedications = medications.map((medication, i) =>
+      i === index ? { ...medication, [name]: value } : medication
+    );
     setMedications(newMedications);
   };
 
   const handleAddTherapy = () => {
-    setTherapies([...therapies, { name: '', duration: '', durationUnit: '' }]);
+    setTherapies([
+      ...therapies,
+      { nameOfTherapy: "", duration: "", durationUnit: "" },
+    ]);
   };
 
   const handleRemoveTherapy = (index) => {
@@ -34,7 +80,9 @@ const DynamicForm = () => {
 
   const handleTherapyChange = (index, event) => {
     const { name, value } = event.target;
-    const newTherapies = therapies.map((therapy, i) => i === index ? { ...therapy, [name]: value } : therapy);
+    const newTherapies = therapies.map((therapy, i) =>
+      i === index ? { ...therapy, [name]: value } : therapy
+    );
     setTherapies(newTherapies);
   };
 
@@ -42,23 +90,35 @@ const DynamicForm = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+    const requestBody = {};
 
+    requestBody.patient_id = "1234";
+    requestBody.doctor_id = "5678";
     for (const medication of medications) {
-      if (!validateName(medication.name)) {
-        alert('Medication name must contain only alphabets');
+      if (!validateName(medication.nameOfMedicine)) {
+        alert("Medication name must contain only alphabets");
         return;
       }
     }
+
+    requestBody.medication = medications;
 
     for (const therapy of therapies) {
       if (!validateName(therapy.name)) {
-        alert('Therapy name must contain only alphabets');
+        alert("Therapy name must contain only alphabets");
         return;
       }
     }
+    requestBody.therapy = therapies;
 
-    console.log('Medications:', medications);
-    console.log('Therapies:', therapies);
+    if (treatmentPlanFormData._id) {
+      requestBody._id = treatmentPlanFormData._id;
+      requestBody.medication._id = treatmentPlanFormData.medication._id;
+      requestBody.therapy._id = treatmentPlanFormData.therapy._id;
+      updateTp(requestBody);
+    } else {
+      createTP(requestBody);
+    }
   };
 
   const toggleMedicationEdit = () => {
@@ -76,20 +136,30 @@ const DynamicForm = () => {
           <div className="d-flex justify-content-between align-items-center mb-2 p-2">
             <h5>Medication</h5>
             <div>
-              <button type="button" className="btn btn-secondary btn-sm me-2" onClick={toggleMedicationEdit}>
-                {isMedicationEditable ? 'Lock' : 'Edit'}
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm me-2"
+                onClick={toggleMedicationEdit}
+              >
+                {isMedicationEditable ? "Lock" : "Edit"}
               </button>
-              <button type="button" className="btn btn-primary btn-sm" onClick={handleAddMedication}>+</button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleAddMedication}
+              >
+                +
+              </button>
             </div>
           </div>
-          <hr/>
+          <hr />
           {medications.map((medication, index) => (
             <div key={index} className="input-group mb-3 px-3">
               <input
                 type="text"
-                name="name"
+                name="nameOfMedicine"
                 placeholder="Name"
-                value={medication.name}
+                value={medication.nameOfMedicine}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className="form-control me-2"
                 readOnly={!isMedicationEditable}
@@ -111,8 +181,10 @@ const DynamicForm = () => {
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Frequency</option>
-                {[1, 2, 3, 4, 5].map(value => (
-                  <option key={value} value={value}>{value}</option>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
                 ))}
               </select>
               <select
@@ -135,8 +207,10 @@ const DynamicForm = () => {
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Duration</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => (
-                  <option key={value} value={value}>{value}</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
                 ))}
               </select>
               <select
@@ -152,7 +226,14 @@ const DynamicForm = () => {
                 <option value="Months">Months</option>
                 <option value="Years">Years</option>
               </select>
-              <button type="button" className="btn btn-danger" onClick={() => handleRemoveMedication(index)} readOnly={!isMedicationEditable}>Delete</button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => handleRemoveMedication(index)}
+                readOnly={!isMedicationEditable}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
@@ -161,18 +242,28 @@ const DynamicForm = () => {
           <div className="d-flex justify-content-between align-items-center mb-2 p-2">
             <h5>Therapy</h5>
             <div>
-              <button type="button" className="btn btn-secondary btn-sm me-2" onClick={toggleTherapyEdit}>
-                {isTherapyEditable ? 'Lock' : 'Edit'}
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm me-2"
+                onClick={toggleTherapyEdit}
+              >
+                {isTherapyEditable ? "Lock" : "Edit"}
               </button>
-              <button type="button" className="btn btn-primary btn-sm" onClick={handleAddTherapy}>+</button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={handleAddTherapy}
+              >
+                +
+              </button>
             </div>
           </div>
-          <hr/>
+          <hr />
           {therapies.map((therapy, index) => (
             <div key={index} className="input-group mb-3 px-3">
               <input
                 type="text"
-                name="name"
+                name="nameOfTherapy"
                 placeholder="Name"
                 value={therapy.name}
                 onChange={(event) => handleTherapyChange(index, event)}
@@ -187,8 +278,10 @@ const DynamicForm = () => {
                 readOnly={!isTherapyEditable}
               >
                 <option value="">Duration</option>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => (
-                  <option key={value} value={value}>{value}</option>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
                 ))}
               </select>
               <select
@@ -204,15 +297,24 @@ const DynamicForm = () => {
                 <option value="Months">Months</option>
                 <option value="Years">Years</option>
               </select>
-              <button type="button" className="btn btn-danger" onClick={() => handleRemoveTherapy(index)} readOnly={!isTherapyEditable}>Delete</button>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => handleRemoveTherapy(index)}
+                readOnly={!isTherapyEditable}
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
 
-        <button type="submit" className="btn btn-success">Submit</button>
+        <button type="submit" className="btn btn-success">
+          Submit
+        </button>
       </form>
     </div>
   );
 };
- 
+
 export default DynamicForm;
