@@ -1,5 +1,6 @@
 import React from "react";
 import { Bar, Line, Pie } from 'react-chartjs-2';
+import styles from './charts.module.css';
 
 const Chart = ({ type }) => {
   let charts = <></>;
@@ -96,6 +97,34 @@ const Chart = ({ type }) => {
     },
   };
 
+  const muscleWeaknessOptions = {
+    ...options,
+    plugins: {
+      ...options.plugins,
+      title: {
+        display: true,
+        text: 'Muscle Weakness', // Title above the chart
+        fontSize: 16,
+        fontColor: '#333', // Title font color
+        padding: 20,
+      },
+    },
+  };
+
+  const poorCoordinationOptions = {
+    ...options,
+    plugins: {
+      ...options.plugins,
+      title: {
+        display: true,
+        text: 'Poor Coordination', // Title above the chart
+        fontSize: 16,
+        fontColor: '#333', // Title font color
+        padding: 20,
+      },
+    },
+  };
+
   console.log(sample)
   
   switch (type) {
@@ -111,7 +140,7 @@ const Chart = ({ type }) => {
       charts = <></>;
       break;
     default:
-      charts = <Bar data ={sample} options={options}/>;
+      charts = <Pie data ={sample} options={options}/>;
         
   }
   return( 

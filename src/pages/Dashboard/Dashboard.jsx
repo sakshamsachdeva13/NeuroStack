@@ -1,11 +1,22 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import Chart from './Charts/chart';
+import Filter from './Filters/Filter';
 import styles from './Dashboard.module.css';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, PieController, ArcElement } from 'chart.js';
-import Chart from './Charts/chart'
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  Legend,
+  PieController,
+  ArcElement,
+} from 'chart.js';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -18,22 +29,6 @@ ChartJS.register(
   PieController,
   ArcElement
 );
-
-const symptomScaleOptions = [
-  { value: 'severity', label: 'Severity' },
-  { value: 'frequency', label: 'Frequency' },
-  { value: 'intensity', label: 'Intensity' },
-];
-
-const symptomSelectionOptions = [
-  { value: 'paralysis', label: 'Paralysis' },
-  { value: 'muscle-weakness', label: 'Muscle Weakness' },
-  { value: 'poor-coordination', label: 'Poor Coordination' },
-  { value: 'loss-of-sensation', label: 'Loss of Sensation' },
-  { value: 'seizures', label: 'Seizures' },
-  { value: 'confusion', label: 'Confusion' },
-  { value: 'pain', label: 'Pain' },
-];
 
 const Dashboard = () => {
   const barChartRef = useRef(null);
@@ -80,20 +75,22 @@ const Dashboard = () => {
 
   const pieChartData = {
     labels: ['Severity', 'Frequency', 'Intensity'],
-    datasets: [{
-      data: [3, 6, 4],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-      ],
-      borderWidth: 0, // Remove border
-    }],
+    datasets: [
+      {
+        data: [3, 6, 4],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 0, // Remove border
+      },
+    ],
     monthYearLabels: ['Jan 2024', 'Feb 2024', 'Mar 2024'], // Labels for tooltips
   };
 
@@ -134,10 +131,10 @@ const Dashboard = () => {
     // For demonstration purposes, we'll return the same data
     return {
       labels: patientStatusData.labels,
-      datasets: patientStatusData.datasets.map(dataset => ({
+      datasets: patientStatusData.datasets.map((dataset) => ({
         ...dataset,
-        data: dataset.data.map(value => value * Math.random()) // Randomly adjust data for demonstration
-      }))
+        data: dataset.data.map((value) => value * Math.random()), // Randomly adjust data for demonstration
+      })),
     };
   };
 
@@ -159,51 +156,21 @@ const Dashboard = () => {
     },
   };
 
-  const paralysisOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Paralysis', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
-
-  const muscleWeaknessOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Muscle Weakness', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
-
-  const poorCoordinationOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Poor Coordination', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
+  
 
   return (
     <div className={styles.dashboard}>
-    
+      <Filter
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+        symptomScale={symptomScale}
+        setSymptomScale={setSymptomScale}
+        patientSelection={patientSelection}
+        setPatientSelection={setPatientSelection}
+        symptomSelection={symptomSelection}
+        setSymptomSelection={setSymptomSelection}
+        handleSubmit={handleSubmit}
+      />
       {/* {filteredData && (
         <div className={styles.chartRow}>
           <div className={styles.chartContainer}>
@@ -227,8 +194,17 @@ const Dashboard = () => {
           </div>
         </div>
       )} */}
-
-      <Chart type="Bar"/>
+      <div className={styles.chartRow}>
+        <div className={styles.chartContainer}>
+          <Chart type="Bar" />
+        </div>
+        <div className={styles.chartContainer}>
+          <Chart type="Line" />
+        </div>
+        
+        <Chart type="Pie" />
+        
+      </div>
     </div>
   );
 };
