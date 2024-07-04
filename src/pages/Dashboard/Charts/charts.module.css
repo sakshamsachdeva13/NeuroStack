@@ -1,0 +1,17 @@
+.chartRow {
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .chartContainer {
+    flex: 1;
+    padding: 20px; /* Optional: Add padding for spacing */
+  }
+  
+  .chartContainer canvas {
+    width: 100% !important; /* Ensures the canvas takes full width */
+    height: 400px; /* Adjust the height as needed */
+  }
+    

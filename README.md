@@ -68,3 +68,49 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+{
+    Patients Name: "Saksham",
+    Age: "25",
+    Diagnosis: : Brain Attack,
+    Assigned Doctor: "John Smith",
+    Symptom Details: [{
+        Symptom Name: "Poor Coordination",
+        Frequency: {
+            "01/24": "7",
+            "02/24": "6",
+            "03/24": "8",
+            "04/24": "4",
+            "05/24": "3",
+            "06/24": "6",
+            "07/24": "5",
+            "08/24": "6",
+            "09/24": "8",
+            "10/24": "5"
+        }
+        Intesity:{
+            "01/24": "2",
+            "02/24": "4",
+            "03/24": "9",
+            "04/24": "8",
+            "05/24": "7",
+            "06/24": "2",
+            "07/24": "6",
+            "08/24": "5",
+            "09/24": "3",
+            "10/24": "5"
+        }
+        Severity:{
+            "01/24": "5",
+            "02/24": "2",
+            "03/24": "4",
+            "04/24": "7",
+            "05/24": "8",
+            "06/24": "1",
+            "07/24": "3",
+            "08/24": "6",
+            "09/24": "7",
+            "10/24": "5"
+        }
+    }]
+}
