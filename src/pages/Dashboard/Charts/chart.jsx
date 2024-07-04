@@ -1,11 +1,22 @@
 import React from "react";
-import { Bar, Line, Pie } from 'react-chartjs-2';
-import styles from './charts.module.css';
+import { Bar, Line } from 'react-chartjs-2';
 
 const Chart = ({ type }) => {
-  let charts = <></>;
-  
-  const sample = {
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem) => {
+            return `${tooltipItem.label}: ${tooltipItem.raw}`;
+          },
+        },
+      },
+    },
+  };
+
+  const sampleData = {
     labels: [
       "01/24",
       "02/24",
@@ -45,111 +56,25 @@ const Chart = ({ type }) => {
       },
     ],
   };
-  const pieChartData = {
-    labels: ['Severity', 'Frequency', 'Intensity'],
-    datasets: [{
-      data: [3, 6, 4],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-      ],
-      borderWidth: 0, // Remove border
-    }],
-    monthYearLabels: ['Jan 2024', 'Feb 2024', 'Mar 2024'], // Labels for tooltips
-  };
 
-  console.log("flow came here")
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => {
-            return `${tooltipItem.label}: ${tooltipItem.raw}`;
-          },
-          title: (tooltipItems) => {
-            const idx = tooltipItems[0].dataIndex;
-            return pieChartData.monthYearLabels[idx];
-          },
-        },
-      },
-    },
-  };
+  let charts = null;
 
-  const paralysisOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Paralysis', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
-
-  const muscleWeaknessOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Muscle Weakness', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
-
-  const poorCoordinationOptions = {
-    ...options,
-    plugins: {
-      ...options.plugins,
-      title: {
-        display: true,
-        text: 'Poor Coordination', // Title above the chart
-        fontSize: 16,
-        fontColor: '#333', // Title font color
-        padding: 20,
-      },
-    },
-  };
-
-  console.log(sample)
-  
   switch (type) {
     case "Bar":
-      charts = (<Bar data ={sample} options={options}/>);
+      charts = <Bar data={sampleData} options={options} />;
       break;
-
     case "Line":
-      charts = <Line  data ={sample} options={options} />;
-      break;
-
-    case "Pie":
-      charts = <></>;
+      charts = <Line data={sampleData} options={options} />;
       break;
     default:
-      charts = <Pie data ={sample} options={options}/>;
-        
+      charts = null;
   }
-  return( 
-    
-   <div>
-        {charts}
-   </div> 
 
-) ;
+  return (
+    <div>
+      {charts}
+    </div>
+  );
 };
 
 export default Chart;

@@ -5,34 +5,6 @@
   gap: 20px;
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.filter {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-}
-
-.filter + .filter {
-  margin-left: 20px;
-  margin-right: -70px;
-}
-
-.filter label {
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.datePickers {
-  display: flex;
-  gap: 10px;
-}
 
 .chartRow {
   display: flex;
@@ -62,7 +34,3 @@
   font-weight: bold;
 }
 
-.submitButton.small {
-  padding: 6px 12px;
-  font-size: 14px;
-}

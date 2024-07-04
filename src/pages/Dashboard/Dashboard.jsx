@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import Chart from './Charts/chart';
 import Filter from './Filters/Filter';
 import styles from './Dashboard.module.css';
@@ -73,27 +73,7 @@ const Dashboard = () => {
     ],
   };
 
-  const pieChartData = {
-    labels: ['Severity', 'Frequency', 'Intensity'],
-    datasets: [
-      {
-        data: [3, 6, 4],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(54, 162, 235, 0.6)',
-          'rgba(255, 206, 86, 0.6)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-        ],
-        borderWidth: 0, // Remove border
-      },
-    ],
-    monthYearLabels: ['Jan 2024', 'Feb 2024', 'Mar 2024'], // Labels for tooltips
-  };
-
+  
   useEffect(() => {
     return () => {
       if (barChartRef.current && barChartRef.current.chartInstance) {
@@ -101,15 +81,6 @@ const Dashboard = () => {
       }
       if (lineChartRef.current && lineChartRef.current.chartInstance) {
         lineChartRef.current.chartInstance.destroy();
-      }
-      if (pieChartParalysisRef.current && pieChartParalysisRef.current.chartInstance) {
-        pieChartParalysisRef.current.chartInstance.destroy();
-      }
-      if (pieChartMuscleWeaknessRef.current && pieChartMuscleWeaknessRef.current.chartInstance) {
-        pieChartMuscleWeaknessRef.current.chartInstance.destroy();
-      }
-      if (pieChartPoorCoordinationRef.current && pieChartPoorCoordinationRef.current.chartInstance) {
-        pieChartPoorCoordinationRef.current.chartInstance.destroy();
       }
     };
   }, []);
@@ -138,23 +109,7 @@ const Dashboard = () => {
     };
   };
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => {
-            return `${tooltipItem.label}: ${tooltipItem.raw}`;
-          },
-          title: (tooltipItems) => {
-            const idx = tooltipItems[0].dataIndex;
-            return pieChartData.monthYearLabels[idx];
-          },
-        },
-      },
-    },
-  };
+ 
 
   
 
@@ -202,7 +157,7 @@ const Dashboard = () => {
           <Chart type="Line" />
         </div>
         
-        <Chart type="Pie" />
+        
         
       </div>
     </div>
