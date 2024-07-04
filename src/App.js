@@ -36,6 +36,7 @@ import { Container, Grid } from "@mui/material";
       <>
         <Navigation userType ={userType}/>
         <Routes>
+        <Route path='/login' exact element={<Login />} />
           <Route path='/' exact element={<SearchUser />} />
           <Route path='/createUser' element={<CreateUser />} />
         </Routes>
