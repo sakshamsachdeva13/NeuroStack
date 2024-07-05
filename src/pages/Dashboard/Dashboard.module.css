@@ -5,24 +5,27 @@
   gap: 20px;
 }
 
-
 .chartRow {
   display: flex;
-  flex-direction: row; /* Changed from column to row */
+  flex-wrap: wrap; /* Allow charts to wrap to the next line if needed */
   justify-content: space-between;
   gap: 20px;
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 .chartContainer {
   flex: 1;
   padding: 20px; /* Optional: Add padding for spacing */
+  min-width: 300px; /* Adjust the minimum width as needed */
+  min-height: 400px; /* Adjust the minimum height as needed */
+  position: relative; /* Ensure relative positioning */
+  margin-bottom: 20px; /* Optional: Add margin between chart rows */
 }
 
 .chartContainer canvas {
   width: 100% !important; /* Ensures the canvas takes full width */
-  height: 400px; /* Adjust the height as needed */
+  height: 100% !important; /* Ensures the canvas takes full height */
 }
-
 
 .submitButton {
   padding: 8px 16px;
@@ -33,4 +36,3 @@
   margin-top: 28px;
   font-weight: bold;
 }
-
