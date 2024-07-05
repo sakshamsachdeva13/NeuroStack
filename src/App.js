@@ -13,7 +13,7 @@ import { Routes, Route } from "react-router-dom";
 import { Container, Grid } from "@mui/material";
   function App() {
     const isAuthenticated = true; // false for login page
-    const userType = 'admin'; // admin for admin flow
+    const userType = 'user'; // admin for admin flow
     const AuthApp = (
       <Routes>
         <Route path="/" exact element={<Login />} />
