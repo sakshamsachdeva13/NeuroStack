@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
-import Logo from '../../assets/NeuroStack.jpg';
+import Logo from '../../assets/NeuroStack.png';
 import styles from './Navigation.module.css';
 
 function ResponsiveAppBar({ userType }) {
@@ -47,7 +47,7 @@ function ResponsiveAppBar({ userType }) {
 
   const items = pages.map((page) => <NavLink to={page.path}>{page.page}</NavLink>);
   return (
-    <AppBar position="static" sx={{ padding: 0, margin: 0 }}>
+    <AppBar position="static" sx={{backgroundColor: '#000000', padding: 0, margin: 0 }}>
       <Container sx={{ padding: 0, margin: 0 }} maxWidth={false}>
         <Toolbar disableGutters sx={{ padding: 0, margin: 0 }}>
           <img src={Logo} alt="Logo" className={styles.logo} />

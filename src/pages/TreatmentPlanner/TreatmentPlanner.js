@@ -1,6 +1,6 @@
 import React, { useState,  useEffect, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./treatment.module.css";
+import styles from './treatment.module.css';
 import { useDispatch , useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
 
@@ -132,9 +132,9 @@ const DynamicForm = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className={`${styles.container} mt-5`}>
       <form onSubmit={onSubmit}>
-        <div className="mb-4 border p-0">
+        <div className={`${styles.formSection} mb-4 border p-0`}>
           <div className="d-flex justify-content-between align-items-center mb-2 p-2">
             <h5>Medication</h5>
             <div>
@@ -163,7 +163,7 @@ const DynamicForm = () => {
                 placeholder="Name"
                 value={medication.nameOfMedicine}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               />
               <input
@@ -172,14 +172,14 @@ const DynamicForm = () => {
                 placeholder="Dose"
                 value={medication.dose}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               />
               <select
                 name="frequency"
                 value={medication.frequency}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Frequency</option>
@@ -193,7 +193,7 @@ const DynamicForm = () => {
                 name="frequencyUnit"
                 value={medication.frequencyUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
@@ -205,7 +205,7 @@ const DynamicForm = () => {
                 name="duration"
                 value={medication.duration}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Duration</option>
@@ -219,7 +219,7 @@ const DynamicForm = () => {
                 name="durationUnit"
                 value={medication.durationUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
@@ -240,7 +240,7 @@ const DynamicForm = () => {
           ))}
         </div>
 
-        <div className="mb-4 border p-0">
+        <div className={`${styles.formSection} mb-4 border p-0`}>
           <div className="d-flex justify-content-between align-items-center mb-2 p-2">
             <h5>Therapy</h5>
             <div>
@@ -269,14 +269,14 @@ const DynamicForm = () => {
                 placeholder="Name"
                 value={therapy.nameOfTherapy}
                 onChange={(event) => handleTherapyChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isTherapyEditable}
               />
               <select
                 name="duration"
                 value={therapy.duration}
                 onChange={(event) => handleTherapyChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isTherapyEditable}
               >
                 <option value="">Duration</option>
@@ -290,7 +290,7 @@ const DynamicForm = () => {
                 name="durationUnit"
                 value={therapy.durationUnit}
                 onChange={(event) => handleTherapyChange(index, event)}
-                className="form-control me-2"
+                className={`${styles.formControl} form-control me-2`}
                 readOnly={!isTherapyEditable}
               >
                 <option value="">Select Unit</option>
