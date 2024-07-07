@@ -4,26 +4,25 @@ const TreatmentPlan = require("../../../models/TreatmentPlan");
 const update = async (Model, req, res) => {
   // create treatment plan here;
 
-  console.log(Model);
-  console.log(req.body);
   try {
-    const result = await TreatmentPlan.findOneAndUpdate({patient_id : req.body.patient_id} , req.body.treatmentPlan);
+   
+    const result = await TreatmentPlan.findOneAndUpdate({patient_id : req.body.patient_id} , req.body);
     console.log(result);
     if (result._id) {
-      res.status(201).json({
+      return res.status(201).json({
         result: result,
         success: true,
         message: "Treatment Plan updated SuccessFully",
       });
     } else {
-      res.status(400).json({
+      return  res.status(400).json({
         result: null,
         success: false,
         message: "Bad Request !",
       });
     }
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       result: err,
       success: false,
       message: err.message,

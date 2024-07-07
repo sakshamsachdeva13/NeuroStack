@@ -9,7 +9,7 @@ const reducer = (state = initialState , action) => {
         case actionTypes.CREATE_TP:
             return {...state };
         case actionTypes.SET_TP:
-            return {...state , TreatmentPlan : action.data};
+            return {...state , treatmentPlan : action.data};
         default:
             return state;
 

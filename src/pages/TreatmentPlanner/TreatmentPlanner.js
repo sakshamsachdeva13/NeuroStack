@@ -1,14 +1,14 @@
-import React, { useState, useSelector, useEffect } from "react";
+import React, { useState,  useEffect, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./treatment.module.css";
-import { useDispatch, useCallback } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
 
-const DynamicForm = () => {
+const DynamicForm = () => { 
   const dispatch = useDispatch();
   const createTP = (reqBody) => dispatch(actions.createTreatmentPlan(reqBody));
-  const setTp = (reqBody) =>
-    useCallback(dispatch(actions.getTreatmentPlan(reqBody)), [dispatch]);
+  const setTp = useCallback((reqBody) => dispatch(actions.getTreatmentPlan(reqBody)) , [dispatch]);
+  const updateTp = (reqBody) => dispatch(actions.updateTreatmentPlan(reqBody));
   const treatmentPlanFormData = useSelector(
     (state) => state.treatmentPlan.treatmentPlan
   );
@@ -29,14 +29,16 @@ const DynamicForm = () => {
   const [isTherapyEditable, setIsTherapyEditable] = useState(false);
 
   useEffect(() => {
-    setTp((patient_id = "1234"));
+    console.log("page update")
+    setTp({patient_id : "1234"});
   }, [setTp]);
 
   useEffect(() => {
-    const [medications, therapies] = treatmentPlanFormData;
+    console.log(treatmentPlanFormData);
+    const {medication, therapy} = treatmentPlanFormData;
 
-    setMedications(medications);
-    setTherapies(therapies);
+    setMedications(medication || []);
+    setTherapies(therapy || []);
   }, [treatmentPlanFormData]);
 
   const handleAddMedication = () => {
@@ -104,7 +106,7 @@ const DynamicForm = () => {
     requestBody.medication = medications;
 
     for (const therapy of therapies) {
-      if (!validateName(therapy.name)) {
+      if (!validateName(therapy.nameOfTherapy)) {
         alert("Therapy name must contain only alphabets");
         return;
       }
@@ -265,7 +267,7 @@ const DynamicForm = () => {
                 type="text"
                 name="nameOfTherapy"
                 placeholder="Name"
-                value={therapy.name}
+                value={therapy.nameOfTherapy}
                 onChange={(event) => handleTherapyChange(index, event)}
                 className="form-control me-2"
                 readOnly={!isTherapyEditable}

@@ -20,15 +20,16 @@ export const createTreatmentPlan = (requestBody) => {
 
 
 export const getTreatmentPlan = (requestBody) => {
-
+        console.log(requestBody)
     return dispatch => {
         const url = 'http://localhost:8888/api/Tp/read';
         axios
-        .get(url , requestBody)
+        .post(url , requestBody)
         .then(res => {
+            console.log(res)
             dispatch({
                 type : actionTypes.SET_TP,
-                data : res.data
+                data : res.data.result
             });
 
             // show Toast about tp created
