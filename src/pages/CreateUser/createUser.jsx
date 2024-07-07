@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TextField, Box, Grid, Button, FormControl, InputLabel, Select, MenuItem, Typography } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
-import classes from "./signup.module.css";
+import classes from "./createUser.module.css";
 
 const SignUp = () => {
   const dispatch = useDispatch();
