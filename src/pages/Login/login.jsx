@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { TextField, Box, Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom"; // Add Link from react-router-dom
 import * as actions from "../../store/actions/index.action";
 import Logo from "../../components/Logo/Logo";
 import classes from "./login.module.css";
@@ -79,6 +80,14 @@ const Login = () => {
             margin="normal"
             className={classes.textField}
           />
+          <Box className={classes.forgotPasswordContainer}>
+            <Typography variant="body2" className={classes.forgotPasswordText}>
+              Forgot Password?
+            </Typography>
+            <Link to="/reset-password" className={classes.forgotPasswordLink}>
+              Click Me
+            </Link>
+          </Box>
           <Button
             variant="contained"
             type="submit"
