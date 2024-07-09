@@ -17,7 +17,7 @@ function App() {
     ? JSON.parse(sessionStorage.getItem("user"))
     : null;
 
-  const userType = "admin";
+  const userType = user ? user.role : 'USER';
   const AuthApp = (
     <Routes>
       <Route path="/" exact element={<Login />} />
@@ -48,7 +48,7 @@ function App() {
   );
 
   const renderApp = user
-    ? userType === "admin"
+    ? userType === "USER"
       ? adminApp
       : defaultApp
     : AuthApp;
