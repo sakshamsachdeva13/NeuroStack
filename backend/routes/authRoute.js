@@ -1,12 +1,14 @@
 const route = require("express").Router();
-
-const { loginUser, signupUser } = require("../controllers/userControllers");
+const passwordGenerator = require("../middlewares/passwordHashGenerator");
+const {
+  loginUser,
+  signupUser,
+  generate,
+} = require("../controllers/userControllers");
 
 route.post("/login", loginUser);
 
-route.post("/signup", signupUser);
+route.post("/signup", passwordGenerator, signupUser);
 
-route.get("/test", (req, res) => {
-  res.send("Flow working fine");
-});
+route.post("/generate", generate);
 module.exports = route;
