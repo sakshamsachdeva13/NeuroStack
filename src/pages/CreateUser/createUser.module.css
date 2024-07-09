@@ -1,0 +1,86 @@
+.container {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin: 50px auto; /* This will center the container horizontally */
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  max-width: 50%;
+  background-color: whitesmoke;
+  color: #421313;
+  padding: 20px;
+  margin-top: 3%;
+  margin-left: 25%;
+  margin-right: 25%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.loginBox {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.loginTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px; /* Increase the margin to see if it works */
+  text-align: center;
+}
+
+.textField {
+  margin-bottom: 10px;
+}
+
+.submitButton {
+  margin-top: 20px;
+  background-color: blue;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+}
+
+/* Media Queries for Responsiveness */
+
+@media (max-width: 1024px) {
+  .formContainer {
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .formContainer {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 10px;
+    max-width: 90%;
+  }
+
+  .loginTitle {
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+
+  .submitButton {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+}

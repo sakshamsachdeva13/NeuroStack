@@ -1,38 +1,40 @@
 .dashboard {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 20px;
-}
-
-.chartRow {
-  display: flex;
-  flex-wrap: wrap; /* Allow charts to wrap to the next line if needed */
-  justify-content: space-between;
-  gap: 20px;
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
-}
-
-.chartContainer {
-  flex: 1;
-  padding: 20px; /* Optional: Add padding for spacing */
-  min-width: 300px; /* Adjust the minimum width as needed */
-  min-height: 400px; /* Adjust the minimum height as needed */
-  position: relative; /* Ensure relative positioning */
-  margin-bottom: 20px; /* Optional: Add margin between chart rows */
-}
-
-.chartContainer canvas {
-  width: 100% !important; /* Ensures the canvas takes full width */
-  height: 100% !important; /* Ensures the canvas takes full height */
-}
-
-.submitButton {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  margin-top: 28px;
-  font-weight: bold;
-}
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .filter {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+  }
+  
+  .filter label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .datePickers {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .chartRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .chartContainer {
+    flex: 1;
+    height: 400px;
+  }
+  

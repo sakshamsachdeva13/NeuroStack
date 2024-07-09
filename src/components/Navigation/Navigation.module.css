@@ -1,29 +1,28 @@
 .appBar {
-  background-color: #2c3e50; /* Change the background color */
+  background-color: #000000;;
   width: 100%;
   padding: 0;
-}
+}  
 
 .logo {
   /* margin-right: 16px; */
-  height: 80px;
-  width:auto;
+  height: 60px;
 }
 
 .navLink {
   color: white;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none; 
   margin: 0 16px;
   font-weight: bold;
   font-size: 18px;
 }
 
 .navLink:hover {
-  color: #f39c12; /* Change the color on hover */
+  color: #f39c12;
 }
 
 .activeNavLink {
-  border-bottom: 2px solid #ffffff; /* Indicate the active link */
+  border-bottom: 2px solid #ffffff; 
   text-decoration: none;
   font-weight:bold;
   color: #f39c12; 

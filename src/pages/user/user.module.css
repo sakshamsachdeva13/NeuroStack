@@ -1,59 +1,126 @@
 .searchUserContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchBar {
+  position: sticky; /* Fix the search bar */
+  top: 0; /* Position it at the top */
+  z-index: 1000; /* Ensure it stays above other content */
+  width: 100%; /* Take up full width */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center items horizontally */
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 20px; /* Add margin at the bottom to separate from user cards */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.searchBar svg {
+  margin-right: 8px;
+  color: #757575;
+}
+
+.searchField {
+  flex: 1;
+}
+
+.userCardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between user cards */
+}
+
+.userCard {
+  flex: 1 1 calc(50% - 20px); /* Adjust width to fit two cards per row */
+  max-width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.userCard:hover {
+  transform: translateY(-4px);
+}
+
+.viewDetailsButton {
+  background-color: #1976d2;
+  color: #ffffff;
+}
+
+.viewDetailsButton:hover {
+  background-color: #1565c0;
+}
+
+.dialogTitle {
+  background-color: #1976d2;
+  color: #ffffff;
+}
+
+.dialogContent {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between; /* Ensures items are spaced apart */
+}
+
+.dialogContentLeft {
+  flex: 1;
+}
+
+.dialogContentRight {
+  flex: 2; /* Increased width for the right side */
+}
+
+.dialogContent p {
+  margin: 8px 0;
+}
+
+
+@media (max-width: 768px) {
+  .searchUserContainer {
+    padding: 15px;
   }
-  
+
   .searchBar {
-    background: #e0e0e0;
-    padding: 10px 20px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
   }
-  
+
   .searchField {
-    margin-left: 10px;
-    flex: 1;
-    border-radius: 20px;
+    margin-left: 8px;
   }
-  
-  .userCardContainer {
-    margin-bottom: 20px;
-  }
-  
-  .userCard {
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .userCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .viewDetailsButton {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    transition: background-color 0.2s;
+    padding: 8px 15px;
   }
-  
-  .viewDetailsButton:hover {
-    background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+  .searchUserContainer {
+    padding: 10px;
   }
-  
-  .viewDetailsButton:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+
+  .searchBar {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
+
+  .searchField {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .viewDetailsButton {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+}
