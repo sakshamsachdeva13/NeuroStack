@@ -14,9 +14,9 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 import Logo from '../../assets/NeuroStack.png';
 import styles from './Navigation.module.css';
-
+import { useSelector } from "react-redux";
 function ResponsiveAppBar({ userType }) {
-
+  const username = JSON.parse(sessionStorage.getItem('user')).username || null;
 
   const pages =
     userType === "admin"
@@ -107,7 +107,7 @@ function ResponsiveAppBar({ userType }) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={username || "ABC"} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

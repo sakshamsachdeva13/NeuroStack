@@ -1,9 +1,10 @@
 import axios from "../../axios_interceptor";
+import toast from 'react-hot-toast'
 // import * as actions from "./index.action";
 import * as actionTypes from "./actionTypes";
 export const login = (credentials) => {
   return (dispatch) => {
-    const url = "http://localhost:8888/api/login";
+    const url = "http://localhost:8888/auth/login";
     axios
       .post(url, credentials)
       .then((res) => {
@@ -11,26 +12,32 @@ export const login = (credentials) => {
           type: actionTypes.SET_USER,
           data: res.data,
         });
-
+        console.log(res.data)
         sessionStorage.setItem("token", res.data.token);
-        sessionStorage.setItem("user", JSON.stringify(res.data.user));
-
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        dispatch({
+          type : actionTypes.SET_USER,
+          data : res.data
+        })
         setTimeout(() => {
-        //   window.location.replace("/");
-        alert("login successfull")
+          window.location.replace("/");
+          toast("login successfull")
+      
         }, 1000);
       })
       .catch((err) => {
         console.log("Error", err);
+        toast(err)
+
       });
   };
 };
 
-export const signup = (credentials) => {
+export const signup = (userData) => {
   return (dispatch) => {
-    const url = "http://localhost:8888/api/login";
+    const url = "http://localhost:8888/auth/signup";
     axios
-      .post(url, credentials)
+      .post(url, userData)
       .then((res) => {
         dispatch({
           type: actionTypes.SET_USER,
@@ -42,11 +49,29 @@ export const signup = (credentials) => {
 
         setTimeout(() => {
         //   window.location.replace("/");
-        alert("login successfull")
+        toast("signup successfull")
         }, 1000);
       })
       .catch((err) => {
+        toast(err)
         console.log("Error", err);
       });
   };
 };
+
+
+export const generateUsername = (userData) => {
+  return (dispatch) => {
+    const url = "http://localhost:8888/auth/generate";
+    axios.post(url , userData)
+    .then(res => {
+      dispatch({
+        type : actionTypes.SET_USERNAME, 
+        data : res.data.result
+      })
+    })
+    .catch(err => {
+        console.log("Error" , err);
+    })
+  }
+}

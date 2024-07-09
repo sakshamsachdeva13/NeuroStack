@@ -2,7 +2,7 @@ const sendEmail = require('../utils/mailer')
 
 const passwordGenerator = (req , res , next) => {
 
-    const {firstName, lastName, department, phoneNumber , employee_id
+    const {first_name, last_name, department, phone , employee_id
     } = req.body;
         // Characters to be used in the password
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -24,7 +24,11 @@ const passwordGenerator = (req , res , next) => {
             subject : "Confidenial || Credentials",
             text : ""
         };
+
+      // will send a email in a while here 
           
+        req.body.password = password;
+        next();
         
       }
       
