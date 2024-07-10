@@ -156,6 +156,66 @@ const generate = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req , res) => {
+    // check and verify that email is correct 
+    const {email} = req.body;
+
+    const user = await User.find({email});
+
+    if(!user) {
+      return res.json({
+        success : true,
+        result : null , 
+        message : "User not registred !!"
+      })
+    }
+    const secret = process.env.SECRET;
+    const payload = {
+      email: user.email,
+      id: user._id,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: '15m' });
+
+    const link = `http://localhost:8888/auth/reset-password/${user._id}/${token}`;
+
+    // sendEmail(link);
+
+    console.log(link);
+
+    res.render('reset link has been sent to registered email');
+
+
+}
+const getResetPassword = async (req , res) => {
+     //  check the token and render the reset password ejs ;
+     const { id, token } = req.params;
+     const user = await User.find({_id : id});
+
+     if(!user) {
+       res.status(400).json({
+        success : false ,
+        message : "User does not exit !!",
+        result : null
+       })
+     }  
+    // We have a valid id, and we have a valid user with this id
+    const secret =  process.env.SECRET;
+    try {
+      const payload = jwt.verify(token, secret);
+      res.render('reset-password', { email: user.email });
+    } catch (error) {
+      console.log(error.message);
+      res.send(error.message);
+    }
+}
+
+const postResetPassword = async (req ,res) => {
+  //  change the password ;
+  const {password , password2} = req.body;
+
+  console.log(password , password2);
+  res.send(password===password2);
+} 
 function generateUsername(firstname, lastname, email, phone) {
   const timestamp = Date.now().toString();
 
@@ -178,6 +238,7 @@ function generateUsername(firstname, lastname, email, phone) {
   return username;
 }
 
+
 module.exports = {
   signupUser,
   loginUser,
@@ -186,4 +247,7 @@ module.exports = {
   createUserConfig,
   getUserConfig,
   updateUserConfig,
+  forgotPassword,
+  getResetPassword,
+  postResetPassword
 };
