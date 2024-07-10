@@ -3,8 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { Container } from "@mui/material";
 
 import Login from "./pages/Login/login";
-import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import ResetSuccess from "./pages/ResetSuccess/ResetSuccess";
 import Navigation from "./components/Navigation/Navigation";
 import Dashboard from './pages/Dashboard/Dashboard';
 import SearchUser from "./pages/user/user";
@@ -25,8 +23,6 @@ function App() {
   const AuthApp = (
     <Routes>
       <Route path="/" exact element={<Login />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/reset-success" element={<ResetSuccess />} />
       <Route element={<Page404 />} />
     </Routes>
   );
@@ -37,8 +33,6 @@ function App() {
       <Routes>
         <Route path="/" exact element={<Dashboard />} />
         <Route path="/planner" exact element={<TreatmentPlanner />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/reset-success" element={<ResetSuccess />} />
         <Route element={<Page404 />} />
       </Routes>
     </>
@@ -51,8 +45,6 @@ function App() {
         <Route path="/login" exact element={<Login />} />
         <Route path="/" exact element={<SearchUser />} />
         <Route path="/createUser" element={<CreateUser />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/reset-success" element={<ResetSuccess />} />
       </Routes>
     </>
   );
