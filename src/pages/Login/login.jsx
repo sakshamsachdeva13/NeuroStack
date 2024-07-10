@@ -118,7 +118,7 @@ const Login = () => {
       {view === "reset" && (
         <Box className={classes.loginBox}>
           <Typography variant="h5" className={classes.loginTitle}>
-            Reset Password
+            Forgot Password
           </Typography>
           <Typography variant="body1" className={classes.loginDescription}>
             Enter your registered Email ID
