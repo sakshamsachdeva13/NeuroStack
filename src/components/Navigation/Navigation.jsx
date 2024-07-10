@@ -16,10 +16,12 @@ import Logo from '../../assets/NeuroStack.png';
 import styles from './Navigation.module.css';
 import { useSelector } from "react-redux";
 function ResponsiveAppBar({ userType }) {
-  const username = JSON.parse(sessionStorage.getItem('user')).username || null;
-
+  const user = sessionStorage.getItem('user');
+  const username = user ? JSON.parse(user) : "";
+  console.log(user);
+  console.log("============" , username.role);
   const pages =
-    userType === "admin"
+    username.role === "USER"
       ? [{ page: "User Accessibility", path: '/' }, { page: "Create User", path: '/createUser' }]
       : [
         { page: "Dashboard", path: "/" },
@@ -107,7 +109,7 @@ function ResponsiveAppBar({ userType }) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={username || "ABC"} src="/static/images/avatar/2.jpg" />
+                <Avatar alt={username.username || "ABC"} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

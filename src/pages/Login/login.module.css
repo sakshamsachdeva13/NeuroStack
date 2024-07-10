@@ -61,8 +61,9 @@
 
 .forgotPasswordLink {
   color: #1976d2;
-  text-decoration: none;
+  cursor: pointer;
   padding-left: 4px;
+  text-decoration: none;
 }
 
 .forgotPasswordLink:hover {
