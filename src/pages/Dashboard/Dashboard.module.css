@@ -1,62 +1,40 @@
 .dashboard {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 20px;
-}
-
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.filter {
-  flex: 1 1 200px; /* Grow and shrink with a minimum width of 200px */
-}
-
-.filter label {
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.datePickers {
-  display: flex;
-  gap: 10px;
-}
-
-.chartRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
-}
-
-.chartContainer {
-  flex: 1 1 300px; /* Grow and shrink with a minimum width of 300px */
-  height: 400px;
-}
-
-@media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .filter {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+  }
+  
+  .filter label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .datePickers {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .chartRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
   .chartContainer {
-    min-width: 100%;
+    flex: 1;
     height: 400px;
   }
-}
-
-@media (max-width: 480px) {
-  .filters {
-    flex-direction: column;
-    gap: 10px; /* Reduced gap for smaller screens */
-  }
-
-  .filter {
-    width: 100%;
-  }
-
-  .chartContainer {
-    height: 250px;
-  }
-}
+  

@@ -49,6 +49,27 @@
   margin-top: 10px;
 }
 
+.forgotPasswordContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.forgotPasswordText {
+  margin-right: 10px;
+}
+
+.forgotPasswordLink {
+  color: #1976d2;
+  cursor: pointer;
+  padding-left: 4px;
+  text-decoration: none;
+}
+
+.forgotPasswordLink:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .formContainer {
     padding: 10px;
@@ -64,6 +85,10 @@
 
   .submitButton {
     margin-top: 5px;
+  }
+
+  .forgotPasswordContainer {
+    margin-bottom: 10px;
   }
 }
 
@@ -82,5 +107,9 @@
 
   .submitButton {
     margin-top: 3px;
+  }
+
+  .forgotPasswordContainer {
+    margin-bottom: 8px;
   }
 }
