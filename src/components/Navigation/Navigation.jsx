@@ -17,11 +17,12 @@ import styles from './Navigation.module.css';
 import { useSelector } from "react-redux";
 function ResponsiveAppBar({ userType }) {
   const user = sessionStorage.getItem('user');
+
   const username = user ? JSON.parse(user) : "";
   console.log(user);
   console.log("============" , username.role);
   const pages =
-    username.role === "USER"
+    username.role === "ADMIN"
       ? [{ page: "User Accessibility", path: '/' }, { page: "Create User", path: '/createUser' }]
       : [
         { page: "Dashboard", path: "/" },

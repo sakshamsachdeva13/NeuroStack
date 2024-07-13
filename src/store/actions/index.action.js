@@ -1,4 +1,9 @@
-export { login, signup, generateUsername } from "./authAction.js";
+export {
+  login,
+  signup,
+  generateUsername,
+  sendLinkToEmail,
+} from "./authAction.js";
 export {
   createTreatmentPlan,
   getTreatmentPlan,
