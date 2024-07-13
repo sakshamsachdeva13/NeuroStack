@@ -4,20 +4,19 @@ import { Container } from "@mui/material";
 
 import Login from "./pages/Login/login";
 import Navigation from "./components/Navigation/Navigation";
-import Dashboard from './pages/Dashboard/Dashboard';
+import Dashboard from "./pages/Dashboard/Dashboard";
 import SearchUser from "./pages/user/user";
 import CreateUser from "./pages/CreateUser/createUser";
-import Page404 from './pages/page404/page404';
-import TreatmentPlanner from './pages/TreatmentPlanner/TreatmentPlanner';
+import Page404 from "./pages/page404/page404";
+import TreatmentPlanner from "./pages/TreatmentPlanner/TreatmentPlanner";
 
-import { Toaster } from 'react-hot-toast'; // Importing Toaster from react-hot-toast
+import { Toaster } from "react-hot-toast"; // Importing Toaster from react-hot-toast
 
 import classes from "./App.module.css";
 
 function App() {
-  const user = sessionStorage.getItem("user")
-    ? JSON.parse(sessionStorage.getItem("user"))
-    : null;
+  let userDetails = sessionStorage.getItem("user");
+  const user = userDetails ? JSON.parse(userDetails) : null;
 
   const userType = "admin";
   const AuthApp = (

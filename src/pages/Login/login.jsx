@@ -8,6 +8,7 @@ import classes from "./login.module.css";
 const Login = () => {
   const dispatch = useDispatch();
   const loginAction = (user) => dispatch(actions.login(user));
+  const sendLink = (email) => dispatch(actions.sendLinkToEmail(email));
   const [errors, setErrors] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,10 +46,13 @@ const Login = () => {
   };
 
   const handleResetPassword = () => {
+    
     setView("reset");
   };
 
   const handleSendLink = () => {
+    sendLink({email : email});
+
     setView("success");
   };
 

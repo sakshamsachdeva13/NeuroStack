@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Reset Success</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .formContainer,
+      .successContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+        background: linear-gradient(135deg, #f3f4f6, #ffffff);
+      }
+
+      .resetBox,
+      .successBox {
+        width: 100%;
+        max-width: 400px;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .resetTitle,
+      .successTitle {
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .textFieldContainer {
+        margin-bottom: 15px;
+      }
+
+      .textField {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .error {
+        color: red;
+        font-size: 12px;
+      }
+
+      .submitButton,
+      .loginButton {
+        margin-top: 15px;
+        padding: 10px 20px;
+        border-radius: 8px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .submitButton:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+
+      .submitButton:hover:not(:disabled),
+      .loginButton:hover {
+        background-color: #005bb5;
+      }
+
+      @media (max-width: 768px) {
+        .formContainer,
+        .successContainer {
+          padding: 15px;
+        }
+
+        .resetBox,
+        .successBox {
+          padding: 20px;
+        }
+
+        .textFieldContainer {
+          margin-bottom: 10px;
+        }
+
+        .submitButton,
+        .loginButton {
+          margin-top: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .resetBox,
+        .successBox {
+          padding: 15px;
+        }
+
+        .textFieldContainer {
+          margin-bottom: 8px;
+        }
+
+        .submitButton,
+        .loginButton {
+          margin-top: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="successContainer">
+      <div class="successBox">
+        <h4 class="successTitle">Your password is successfully changed!</h4>
+        <button class="loginButton" onclick="handleLoginRedirect()">
+          Go to Login
+        </button>
+      </div>
+    </div>
+
+    <script>
+      function handleLoginRedirect() {
+        window.location.href = "http://localhost:3000/"; // Ensure this path matches the route for the login page
+      }
+    </script>
+  </body>
+</html>
+

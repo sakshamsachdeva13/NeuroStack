@@ -17,5 +17,5 @@ route.post("/generate", generate);
 
 route.get("/reset-password/:id/:token", getResetPassword);
 route.post("/reset-password", postResetPassword);
-route.post("/forget-password", forgotPassword);
+route.post("/forgot-password", forgotPassword);
 module.exports = route;

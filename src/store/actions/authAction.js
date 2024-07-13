@@ -1,5 +1,5 @@
 import axios from "../../axios_interceptor";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 // import * as actions from "./index.action";
 import * as actionTypes from "./actionTypes";
 export const login = (credentials) => {
@@ -12,23 +12,21 @@ export const login = (credentials) => {
           type: actionTypes.SET_USER,
           data: res.data,
         });
-        console.log(res.data)
+        console.log(res.data);
         sessionStorage.setItem("token", res.data.token);
         sessionStorage.setItem("user", JSON.stringify(res.data));
         dispatch({
-          type : actionTypes.SET_USER,
-          data : res.data
-        })
+          type: actionTypes.SET_USER,
+          data: res.data,
+        });
         setTimeout(() => {
           window.location.replace("/");
-          toast("login successfull")
-      
+          toast("login successfull");
         }, 1000);
       })
       .catch((err) => {
         console.log("Error", err);
-        toast(err)
-
+        toast(err);
       });
   };
 };
@@ -48,30 +46,45 @@ export const signup = (userData) => {
         sessionStorage.setItem("user", JSON.stringify(res.data.user));
 
         setTimeout(() => {
-        //   window.location.replace("/");
-        toast("signup successfull")
+          //   window.location.replace("/");
+          toast("signup successfull");
         }, 1000);
       })
       .catch((err) => {
-        toast(err)
+        toast(err);
         console.log("Error", err);
       });
   };
 };
 
-
 export const generateUsername = (userData) => {
   return (dispatch) => {
     const url = "http://localhost:8888/auth/generate";
-    axios.post(url , userData)
-    .then(res => {
-      dispatch({
-        type : actionTypes.SET_USERNAME, 
-        data : res.data.result
+    axios
+      .post(url, userData)
+      .then((res) => {
+        dispatch({
+          type: actionTypes.SET_USERNAME,
+          data: res.data.result,
+        });
       })
-    })
-    .catch(err => {
-        console.log("Error" , err);
-    })
-  }
-}
+      .catch((err) => {
+        console.log("Error", err);
+      });
+  };
+};
+
+export const sendLinkToEmail = (email) => {
+  return (dispatch) => {
+    const url = "http://localhost:8888/auth/forgot-password";
+    axios
+      .post(url, email)
+      .then((res) => {
+        dispatch({ type: actionTypes.SEND_RESET_LINK, data: res.data });
+        toast("Email has been sent to registred Email")})
+      .catch((err) => {
+        toast(err.message);
+        console.log("Error", err);
+      });
+  };
+};
