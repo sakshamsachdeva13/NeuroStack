@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.614.0",
     "aws-sdk": "^2.1641.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
