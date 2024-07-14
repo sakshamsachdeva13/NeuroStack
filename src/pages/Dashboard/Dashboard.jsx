@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import Chart from './Charts/chart';
-import Filter from './Filters/Filter';
-import styles from './Dashboard.module.css';
+import Chart from '../../components/Charts/chart';
+import Filter from '../../components/Filters/Filter';
+import DoctorNotes from '../../components/doctorNotes/doctorNotes';
+import PatientInfo from '../../components/patientInfo/patientInfo';
+import PatientHistory from '../../components/patientHistory/patientHistory';
+import PatientFiles from '../../components/patientFiles/patientFiles';
+import classes from './Dashboard.module.css';
+import Handsontable from 'handsontable';
 
 import {
   Chart as ChartJS,
@@ -30,14 +35,59 @@ ChartJS.register(
   ArcElement
 );
 
-const Dashboard = () => {
-  const [timeRange, setTimeRange] = useState({ from: null, to: null });
-  const [symptomScale, setSymptomScale] = useState(null);
-  const [patientSelection, setPatientSelection] = useState(null);
-  const [symptomSelection, setSymptomSelection] = useState([]);
-  const [filteredData, setFilteredData] = useState(null);
+const demoPatients = [
+  {
+    id: '123',
+    name: 'John Doe',
+    age: 45,
+    disease: 'Disease A',
+    symptoms: ['Fever', 'Cough', 'Paralysis'],
+    history: [
+      '2024-07-06: Blood test done, results normal.',
+      '2024-07-07: MRI scan completed, no abnormalities found.',
+    ],
+    files: [],
+  },
+  {
+    id: '124',
+    name: 'Jane Smith',
+    age: 30,
+    disease: 'Disease B',
+    symptoms: ['Muscle Weakness', 'Poor Coordination'],
+    history: [
+      '2024-07-05: Blood test done, elevated CPK levels.',
+      '2024-07-06: Neurological exam shows mild weakness in limbs.',
+    ],
+    files: [],
+  },
+  {
+    id: '125',
+    name: 'Alice Johnson',
+    age: 60,
+    disease: 'Disease C',
+    symptoms: ['Loss of Sensation', 'Seizures'],
+    history: [
+      '2024-07-04: EEG shows abnormal activity.',
+      '2024-07-05: Started on anti-seizure medication.',
+    ],
+    files: [],
+  },
+  {
+    id: '126',
+    name: 'Bob Brown',
+    age: 50,
+    disease: 'Disease D',
+    symptoms: ['Paralysis', 'Muscle Weakness'],
+    history: [
+      '2024-07-03: EMG shows reduced nerve conduction velocity.',
+      '2024-07-04: Muscle biopsy performed, awaiting results.',
+    ],
+    files: [],
+  }
+];
 
-  const patientStatusData = {
+const symptomDataMap = {
+  paralysis: {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
     datasets: [
       {
@@ -65,9 +115,8 @@ const Dashboard = () => {
         tension: 0.1,
       },
     ],
-  };
-
-  const muscleWeaknessData = {
+  },
+  'muscle-weakness': {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
     datasets: [
       {
@@ -95,9 +144,8 @@ const Dashboard = () => {
         tension: 0.1,
       },
     ],
-  };
-
-  const poorCoordinationData = {
+  },
+  'poor-coordination': {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
     datasets: [
       {
@@ -125,9 +173,8 @@ const Dashboard = () => {
         tension: 0.1,
       },
     ],
-  };
-
-  const lossOfSensationData = {
+  },
+  'loss-of-sensation': {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
     datasets: [
       {
@@ -155,9 +202,8 @@ const Dashboard = () => {
         tension: 0.1,
       },
     ],
-  };
-
-  const seizuresData = {
+  },
+  seizures: {
     labels: ['01/24', '02/24', '03/24', '04/24', '05/24', '06/24', '07/24', '08/24', '09/24', '10/24'],
     datasets: [
       {
@@ -185,102 +231,115 @@ const Dashboard = () => {
         tension: 0.1,
       },
     ],
-  };
+  },
+};
+
+const Dashboard = () => {
+  const [timeRange, setTimeRange] = useState({ from: null, to: null });
+  const [symptomScale, setSymptomScale] = useState(null);
+  const [patientSelection, setPatientSelection] = useState(null);
+  const [tempPatientSelection, setTempPatientSelection] = useState(null);
+  const [symptomSelection, setSymptomSelection] = useState([]);
+  const [filteredData, setFilteredData] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [patientFiles, setPatientFiles] = useState([]);
+  const initialDoctorNotesData = [[new Date().toISOString().split('T')[0], '']];
+  const [doctorNotesData, setDoctorNotesData] = useState(initialDoctorNotesData);
 
   const handleSubmit = () => {
     console.log('Submit button clicked');
     console.log('Time Range:', timeRange);
     console.log('Symptom Scale:', symptomScale);
-    console.log('Patient Selection:', patientSelection);
+    console.log('Patient Selection:', tempPatientSelection);
     console.log('Symptom Selection:', symptomSelection);
 
-    // Implement filter logic here to set filtered data
+  if (timeRange.from && timeRange.to && symptomScale && tempPatientSelection && symptomSelection.length > 0) {
     const newFilteredData = filterData();
+    console.log('Filtered Data:', newFilteredData);
     setFilteredData(newFilteredData);
+    setIsSubmitted(true);
+    setDoctorNotesData([[new Date().toISOString().split('T')[0], '']]);
+    setIsSubmitted(true);
+    setPatientSelection(tempPatientSelection);
+
+    const selectedPatient = demoPatients.find(patient => patient.id === tempPatientSelection?.value);
+    if (selectedPatient) {
+      setPatientFiles(selectedPatient.files || []); 
+    }
+    setPatientSelection(tempPatientSelection);
+  } else {
+    alert('Please fill out all filter fields before submitting.');
+    setIsSubmitted(false);
+  }
   };
 
   const filterData = () => {
     const { from, to } = timeRange;
+    const filteredData = {};
 
-    // Convert selected months to index
-    const fromIndex = patientStatusData.labels.indexOf(from ? from.toLocaleDateString('en-US', { month: '2-digit', year: '2-digit' }).replace('/', '/') : null);
-    const toIndex = patientStatusData.labels.indexOf(to ? to.toLocaleDateString('en-US', { month: '2-digit', year: '2-digit' }).replace('/', '/') : null);
+    symptomSelection.forEach(symptom => {
+      const symptomData = symptomDataMap[symptom];
+      if (!symptomData) return;
 
-    let filteredLabels = patientStatusData.labels.slice(fromIndex, toIndex + 1);
-    let filteredDatasets = [];
+      const fromIndex = from ? symptomData.labels.indexOf(from.toLocaleDateString('en-US', { month: '2-digit', year: '2-digit' }).replace('/', '/')) : 0;
+      const toIndex = to ? symptomData.labels.indexOf(to.toLocaleDateString('en-US', { month: '2-digit', year: '2-digit' }).replace('/', '/')) : symptomData.labels.length - 1;
 
-    // Filter each dataset based on selected symptom scale
-    if (symptomScale) {
-      filteredDatasets = patientStatusData.datasets
-        .filter(dataset => dataset.label.toLowerCase() === symptomScale.value)
+      const filteredLabels = symptomData.labels.slice(fromIndex, toIndex + 1);
+      const filteredDatasets = symptomData.datasets
+        .filter(dataset => symptomScale ? dataset.label.toLowerCase() === symptomScale.value : true)
         .map(dataset => ({
           ...dataset,
-          data: dataset.data.slice(fromIndex, toIndex + 1)
+          data: dataset.data.slice(fromIndex, toIndex + 1),
         }));
-    } else {
-      filteredDatasets = patientStatusData.datasets.map(dataset => ({
-        ...dataset,
-        data: dataset.data.slice(fromIndex, toIndex + 1)
-      }));
-    }
 
-    return {
-      labels: filteredLabels,
-      datasets: filteredDatasets
-    };
+      filteredData[symptom] = { labels: filteredLabels, datasets: filteredDatasets };
+    });
+
+    return filteredData;
+  };
+
+  const selectedPatient = demoPatients.find(patient => patient.id === patientSelection?.value);
+
+  const handleSave = (file) => {
+    setPatientFiles(prevFiles => [...prevFiles, file]);
   };
 
   return (
-    <div className={styles.dashboard}>
+    <div className={classes.dashboard}>
       <Filter
         timeRange={timeRange}
         setTimeRange={setTimeRange}
         symptomScale={symptomScale}
         setSymptomScale={setSymptomScale}
-        patientSelection={patientSelection}
-        setPatientSelection={setPatientSelection}
+        patientSelection={tempPatientSelection}
+        setPatientSelection={setTempPatientSelection}
         symptomSelection={symptomSelection}
         setSymptomSelection={setSymptomSelection}
         handleSubmit={handleSubmit}
+        patients={demoPatients}
       />
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Chart type="Bar" data={filteredData || patientStatusData} title="Paralysis" />
+      {isSubmitted && patientSelection && (<PatientInfo patientId={patientSelection.value} patients={demoPatients} />)}
+      <div className={classes.content}>
+        <div className={classes.leftPane}>
+          {isSubmitted && <DoctorNotes initialData={doctorNotesData} onSave={handleSave} />}
+          {isSubmitted && selectedPatient && (<PatientHistory patientId={patientSelection.value} patients={demoPatients} /> )}
+          {isSubmitted && <PatientFiles files={patientFiles} />}
         </div>
-        <div className={styles.chartContainer}>
-          <Chart type="Line" data={filteredData || patientStatusData} title="Paralysis" />
-        </div>
-      </div>
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Chart type="Bar" data={filteredData || muscleWeaknessData} title="Muscle Weakness" />
-        </div>
-        <div className={styles.chartContainer}>
-          <Chart type="Line" data={filteredData || muscleWeaknessData} title="Muscle Weakness" />
-        </div>
-      </div>
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Chart type="Bar" data={filteredData || poorCoordinationData} title="Poor Coordination" />
-        </div>
-        <div className={styles.chartContainer}>
-          <Chart type="Line" data={filteredData || poorCoordinationData} title="Poor Coordination" />
-        </div>
-      </div>
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Chart type="Bar" data={filteredData || lossOfSensationData} title="Loss of Sensation" />
-        </div>
-        <div className={styles.chartContainer}>
-          <Chart type="Line" data={filteredData || lossOfSensationData} title="Loss of Sensation" />
-        </div>
-      </div>
-      <div className={styles.chartRow}>
-        <div className={styles.chartContainer}>
-          <Chart type="Bar" data={filteredData || seizuresData} title="Seizures" />
-        </div>
-        <div className={styles.chartContainer}>
-          <Chart type="Line" data={filteredData || seizuresData} title="Seizures" />
+        <div className={classes.rightPane}>
+          {isSubmitted && symptomSelection.map(symptom => (
+            <div key={symptom} className={classes.chartRow}>
+              {filteredData && filteredData[symptom] && filteredData[symptom].labels.length > 0 && (
+                <>
+                  <div className={classes.chartContainer}>
+                    <Chart type="Bar" data={filteredData[symptom]} title={symptom.replace(/-/g, ' ')} />
+                  </div>
+                  <div className={classes.chartContainer}>
+                    <Chart type="Line" data={filteredData[symptom]} title={symptom.replace(/-/g, ' ')} />
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>
