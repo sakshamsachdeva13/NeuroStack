@@ -1,46 +1,47 @@
-const mongoose = require('mongoose');
+const { LambdaClient, InvokeCommand } = require("@aws-sdk/client-lambda");
 
-const AWS = require('aws-sdk');
-const lambda = new AWS.Lambda();
+const REGION = "us-east-1";
+const FUNCTION_NAME = "fetchPatientDataFromS3"; 
 
-// import model
-
-const patientsRecordRetriver = () => {
-
-    // call for the api 
-
-const params = {
-    FunctionName: 'your-lambda-function-name',
-    InvocationType: 'RequestResponse',
-    Payload: JSON.stringify({ key: 'value' })
-};
-
-lambda.invoke(params, (error, data) => {
-    if (error) {
-        console.error('Error invoking Lambda function:', error);
-        return;
-    }
-
-    const responsePayload = JSON.parse(data.Payload);
-    console.log('Response from Lambda:', responsePayload);
+const lambdaClient = new LambdaClient({
+  region: REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
-    
-    // call for data processing function 
+async function invokeLambda() {
+  
+  const command = new InvokeCommand({
+    FunctionName: FUNCTION_NAME,
+    InvocationType: "RequestResponse", 
+    Payload: JSON.stringify({}), 
+  });
 
-    // save data into database 
+  try {
+    const { Payload, StatusCode } = await lambdaClient.send(command);
+    const result = JSON.parse(new TextDecoder().decode(Payload));
 
+    console.log("Lambda invocation successful");
+    console.log("Status Code:", StatusCode);
+    console.log("Response:", result);
+
+    return result;
+  } catch (error) {
+    console.error("Error invoking Lambda function:", error);
+    throw error;
+  }
 }
 
+// Example usage
+// invokeLambda()
+//   .then((result) => {
+//     // Handle the result
+//     console.log("Processed result:", result);
+//   })
+//   .catch((error) => {
+//     console.error("Error:", error);
+//   });
 
-const  dataProcessor = (rawData) => {
-    
-    //  process data into respective collectrions 
-
-    
-
-    return {}  // return collection obj 
-}
-
-
-module.exports = patientsRecordRetriver
+module.exports = invokeLambda;

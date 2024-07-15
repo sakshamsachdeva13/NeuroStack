@@ -30,10 +30,14 @@ const therapySchema = new Schema({
     required: [true, 'Name of therapy is required'],
     trim: true
   },
-  frequency: {
+  duration: {
     type: String,
-    required: [true, 'Frequency is required'],
+    required: [true, 'Duration is required'],
     trim: true
+  }, 
+  durationUnit : {
+    type : String,
+    required : [true , 'Duration Unit is required']
   }
 });
 

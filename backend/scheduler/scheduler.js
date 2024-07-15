@@ -1,10 +1,10 @@
 const { CronJob }= require('cron');
-const patientsRecordRetriver = require('./job')
+const invokeLambda = require('./job')
 
 
 const job = new CronJob(
     time , 
-    patientsRecordRetriver,
+    invokeLambda,
     // more config coming ..
 )
 job.start();

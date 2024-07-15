@@ -12,6 +12,6 @@
   
   .chartContainer canvas {
     width: 100% !important; /* Ensures the canvas takes full width */
-    height: 400px; /* Adjust the height as needed */
+    height: 600px; /* Adjust the height as needed */
   }
     

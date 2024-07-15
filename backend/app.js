@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 
-const cors = require('cors');
-const compression = require('compression');
+const cors = require("cors");
+const compression = require("compression");
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require("cookie-parser");
 
-const authRouter = require('./routes/authRoute');
-
+const authRouter = require("./routes/authRoute");
+const appRoutes = require("./routes/appRoutes");
 
 const app = express();
 
@@ -22,7 +22,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(compression());
+app.set("view engine", "ejs");
 
-app.use('/api' , authRouter)
+app.use("/auth", authRouter);
+app.use("/api", appRoutes);
 
 module.exports = app;
