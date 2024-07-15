@@ -11,24 +11,28 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { NavLink } from "react-router-dom";
-import Logo from '../../assets/NeuroStack.png';
-import styles from './Navigation.module.css';
+import { NavLink, useNavigate } from "react-router-dom";
+import Logo from "../../assets/NeuroStack.png";
+import styles from "./Navigation.module.css";
 import { useSelector } from "react-redux";
-function ResponsiveAppBar({ userType }) {
-  const user = sessionStorage.getItem('user');
-
-  const username = user ? JSON.parse(user) : "";
+import { useNavigation } from "react-router-dom";
+function ResponsiveAppBar({user}) {
+  const navigate = useNavigate();
   console.log(user);
-  console.log("============" , username.role);
+  
+  
+  const username = user ? user : {};
+  // console.log("============", username.role);
   const pages =
     username.role === "ADMIN"
-      ? [{ page: "User Accessibility", path: '/' }, { page: "Create User", path: '/createUser' }]
+      ? [
+          { page: "User Accessibility", path: "/" },
+          { page: "Create User", path: "/createUser" },
+        ]
       : [
-        { page: "Dashboard", path: "/" },
-        { page: "Treatment Plan", path: "/planner" },
-      ];
-  const settings = ["Logout"];
+          { page: "Dashboard", path: "/" },
+          { page: "Treatment Plan", path: "/planner" },
+        ];
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -48,14 +52,33 @@ function ResponsiveAppBar({ userType }) {
     setAnchorElUser(null);
   };
 
-  const items = pages.map((page) => <NavLink to={page.path}>{page.page}</NavLink>);
+  const logoutHandler = () => {
+    setAnchorElUser(null);
+    
+    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
+    // window.location.href("/");
+    navigate('/')
+    window.location.reload('/');
+  };
+  const settings = [{ name: "Logout", handler: logoutHandler }];
+
+  const items = pages.map((page) => (
+    <NavLink to={page.path}>{page.page}</NavLink>
+  ));
   return (
     <AppBar position="static" sx={{backgroundColor: "#000000", padding: 0, margin: 0 }}>
       <Container sx={{ padding: 0, margin: 0 }} maxWidth={false}>
         <Toolbar disableGutters sx={{ padding: 0, margin: 0 }}>
           <img src={Logo} alt="Logo" className={styles.logo} />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: 'center' }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+              justifyContent: "center",
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -95,12 +118,20 @@ function ResponsiveAppBar({ userType }) {
 
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: 'center' }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+              justifyContent: "center",
+            }}
+          >
             {pages.map((page) => (
               <NavLink
                 key={page.page}
                 to={page.path}
-                className={({ isActive }) => isActive ? styles.activeNavLink : styles.navLink}
+                className={({ isActive }) =>
+                  isActive ? styles.activeNavLink : styles.navLink
+                }
               >
                 {page.page}
               </NavLink>
@@ -110,7 +141,10 @@ function ResponsiveAppBar({ userType }) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={username.username || "ABC"} src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt={username.username || "ABC"}
+                  src="/static/images/avatar/2.jpg"
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -130,8 +164,8 @@ function ResponsiveAppBar({ userType }) {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting} onClick={setting.handler}>
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>

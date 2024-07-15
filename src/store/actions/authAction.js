@@ -26,7 +26,7 @@ export const login = (credentials) => {
       })
       .catch((err) => {
         console.log("Error", err);
-        toast(err);
+        toast(err.message);
       });
   };
 };
@@ -81,10 +81,22 @@ export const sendLinkToEmail = (email) => {
       .post(url, email)
       .then((res) => {
         dispatch({ type: actionTypes.SEND_RESET_LINK, data: res.data });
-        toast("Email has been sent to registred Email")})
+        toast("Email has been sent to registred Email");
+      })
       .catch((err) => {
         toast(err.message);
         console.log("Error", err);
       });
   };
 };
+
+export const setUser =  () => {
+
+  return  (dispatch) => {
+    const user = sessionStorage.getItem("user") || localStorage.getItem("user");
+    dispatch({
+      type: actionTypes.SET_USER,
+      data: user ? JSON.parse(user) : {}
+    });
+  };
+} 

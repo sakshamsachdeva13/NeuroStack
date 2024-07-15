@@ -3,6 +3,7 @@ export {
   signup,
   generateUsername,
   sendLinkToEmail,
+  setUser
 } from "./authAction.js";
 export {
   createTreatmentPlan,
