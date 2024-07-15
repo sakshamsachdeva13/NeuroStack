@@ -1,40 +1,42 @@
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-  }
-  
-  .filters {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .filter {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-  }
-  
-  .filter label {
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  .datePickers {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .chartRow {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .chartContainer {
-    flex: 1;
-    height: 400px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 100px);
+}
+
+.leftPane {
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 160%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.rightPane {
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 160%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.chartRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.chartContainer {
+  margin-bottom: 20px;
+}

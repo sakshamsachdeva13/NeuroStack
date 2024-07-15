@@ -13,6 +13,15 @@ const Chart = ({ type, data, title }) => {
           },
         },
       },
+      title: {
+        display: true,
+        text: title,
+        fontSize: 20
+      },
+      legend: {
+        display: true,
+        position: 'top',
+      },
     },
   };
 

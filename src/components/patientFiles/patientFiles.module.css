@@ -1,0 +1,42 @@
+.patientFiles {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  height: 40vh;
+}
+
+.heading {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  text-align: center; /* Reduce font size */
+  
+}
+
+.patientFiles h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.patientFiles ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.patientFiles li {
+  margin-bottom: 10px;
+}
+
+.patientFiles a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.patientFiles a:hover {
+  text-decoration: underline;
+}
