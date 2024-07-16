@@ -8,7 +8,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.SET_USER:
-      return { ...state, user: action.data , username : action.data.username };
+      return { ...state, user: action.data  };
     case actionType.SET_USERNAME : 
         return {...state , username : action.data}
 
