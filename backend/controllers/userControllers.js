@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
-
+const sendEmail = require("../utils/mailer");
 const createToken = (_id) => {
   console.log(process.env.SECRET);
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -206,8 +206,12 @@ const forgotPassword = async (req, res) => {
   const token = jwt.sign(payload, secret, { expiresIn: "15m" });
 
   const link = `http://localhost:8888/auth/reset-password/${user._id}/${token}`;
-
-  // sendEmail(link);
+  
+  sendEmail({
+    recepientMailId: user.email,
+    subject: "Reset Password Link",
+    text: `this is your reset password link \n ${link}`,
+  });
 
   console.log(link);
 
