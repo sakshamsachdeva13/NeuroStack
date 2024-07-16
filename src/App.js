@@ -4,7 +4,7 @@ import { Container } from "@mui/material";
 
 import Login from "./pages/Login/login";
 import Navigation from "./components/Navigation/Navigation";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from './pages/Dashboard/Dashboard';
 import SearchUser from "./pages/user/user";
 import CreateUser from "./pages/CreateUser/createUser";
 import Page404 from "./pages/page404/page404";
@@ -43,7 +43,6 @@ function App() {
       </Routes>
     </>
   );
-
 
     const adminApp = (
       <>

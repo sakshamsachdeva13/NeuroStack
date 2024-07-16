@@ -34,29 +34,14 @@ const Filter = ({
     setPatientSelection(selectedOption);
   };
 
-  const handleSymptomChange = (event) => {
-    const { value, checked } = event.target;
-    setSymptomSelection(prev =>
-      checked ? [...prev, value] : prev.filter(symptom => symptom !== value)
-    );
+  const handleSymptomChange = (selectedOptions) => {
+    setSymptomSelection(selectedOptions ? selectedOptions.map(option => option.value) : []);
   };
-
-  // const patientOptions = patients.map(patient => ({
-  //   value: patient.name,
-  //   label: `${patient.name} (Age: ${patient.age}, Disease: ${patient.disease})`
-  // }));
-
-  // const patientOptions = patients.map(patient => ({
-  //   value: patient.id, // Assuming each patient object has an 'id' property
-  //   label: `${patient.name} (ID: ${patient.id}, Age: ${patient.age}, Disease: ${patient.disease})`
-  // }));
 
   const patientOptions = patients.map(patient => ({
     value: patient.id, // Assuming each patient object has an 'id' property
     label: `ID: ${patient.id}`
   }));
-  
-  
 
   return (
     <div className={styles.filters}>
@@ -72,7 +57,7 @@ const Filter = ({
             dateFormat="MM/yyyy"
             showMonthYearPicker
             placeholderText="From"
-            openToDate={new Date(2024, 0, 1)}
+            maxDate={new Date()}
           />
           <DatePicker
             selected={timeRange.to}
@@ -83,7 +68,7 @@ const Filter = ({
             dateFormat="MM/yyyy"
             showMonthYearPicker
             placeholderText="To"
-            openToDate={new Date(2024, 0, 1)}
+            maxDate={new Date()}
           />
         </div>
       </div>
@@ -107,20 +92,13 @@ const Filter = ({
       </div>
       <div className={styles.filter}>
         <label>Symptom Selection</label>
-        <div>
-          {symptomSelectionOptions.map(option => (
-            <div key={option.value}>
-              <input
-                type="checkbox"
-                id={option.value}
-                value={option.value}
-                onChange={handleSymptomChange}
-                checked={symptomSelection.includes(option.value)}
-              />
-              <label htmlFor={option.value}>{option.label}</label>
-            </div>
-          ))}
-        </div>
+        <Select
+          isMulti
+          options={symptomSelectionOptions}
+          value={symptomSelectionOptions.filter(option => symptomSelection.includes(option.value))}
+          onChange={handleSymptomChange}
+          placeholder="Select Symptoms"
+        />
       </div>
       <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
     </div>

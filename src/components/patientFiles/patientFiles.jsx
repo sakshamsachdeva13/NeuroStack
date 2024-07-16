@@ -7,6 +7,7 @@ const PatientFiles = ({ files }) => {
   return (
     <div className={classes.patientFiles}>
       <h2 className={classes.heading}>Patient Files</h2>
+      {files && files.length > 0 ? (
       <ul>
         {files.map((file, index) => (
           <li key={index}>
@@ -14,6 +15,9 @@ const PatientFiles = ({ files }) => {
           </li>
         ))}
       </ul>
+      ) : (
+         <p className={classes.noFilesMessage}>No Files</p>
+      )}
     </div>
   );
 };

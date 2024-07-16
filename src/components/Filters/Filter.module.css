@@ -4,25 +4,32 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding-left: 20px; /* Add padding to the left */
-  padding-right: 20px; /* Add padding to the right */
+  padding: 20px;
+  gap: 20px;
+  background-color: #87CEEB; /* Set the background color to skyblue */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  margin-top: 20px;
 }
 
 .filter {
   display: flex;
   flex-direction: column;
-  width: calc(30% -30px); /* Adjust width to account for padding */
+  width: calc(20% - 5px); /* Adjust width to account for padding */
   padding-top: 2%;
 }
 
 .filter + .filter {
   margin-left: 20px;
-  margin-right: 20px; /* Ensure spacing between filters */
+  margin-right: -90px; /* Ensure spacing between filters */
 }
 
 .filter label {
   margin-bottom: 8px;
   font-weight: bold;
+  color: rgb(255, 255, 255);
+  font-size:20px;
+  font-family: sans-serif;
 }
 
 .datePickers {
@@ -32,11 +39,11 @@
 
 .submitButton {
   padding: 8px 15px;
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   border: none;
   cursor: pointer;
-  margin-top: 28px;
+  margin-top: 60px;
   font-weight: bold;
 }
 
