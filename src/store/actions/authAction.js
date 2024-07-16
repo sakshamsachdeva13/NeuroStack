@@ -37,21 +37,14 @@ export const signup = (userData) => {
     axios
       .post(url, userData)
       .then((res) => {
-        dispatch({
-          type: actionTypes.SET_USER,
-          data: res.data,
-        });
-
-        sessionStorage.setItem("token", res.data.token);
-        sessionStorage.setItem("user", JSON.stringify(res.data.user));
-
+       
         setTimeout(() => {
           //   window.location.replace("/");
           toast("signup successfull");
         }, 1000);
       })
       .catch((err) => {
-        toast(err);
+        toast(err.message);
         console.log("Error", err);
       });
   };

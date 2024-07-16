@@ -39,7 +39,12 @@ const signupUser = async (req, res) => {
 
     // create a token
     const token = createToken(user._id);
-
+    console.log(user);
+    sendEmail({
+      recepientMailId: user._doc.email,
+      subject: "CONFIDENTIAL || CREDENTIALS",
+      text: `these are your credentials username :: ${user._doc.username}  ||  password :: ${user.password}`
+    });
     res.status(200).json({ employee_id, token });
   } catch (error) {
     console.log(error);
@@ -206,7 +211,7 @@ const forgotPassword = async (req, res) => {
   const token = jwt.sign(payload, secret, { expiresIn: "15m" });
 
   const link = `http://localhost:8888/auth/reset-password/${user._id}/${token}`;
-  
+
   sendEmail({
     recepientMailId: user.email,
     subject: "Reset Password Link",

@@ -13,7 +13,14 @@ import {
 } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
 import classes from "./createUser.module.css";
-
+const INITIAL_STATE = {
+  first_name: "",
+  last_name: "",
+  employee_id: "",
+  email: "",
+  phone: "",
+  selectedOption: "",
+}
 const SignUp = () => {
   const dispatch = useDispatch();
   const signupAction = (user) => dispatch(actions.signup(user));
@@ -22,14 +29,7 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [formValid, setFormValid] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    employee_id: "",
-    email: "",
-    phone: "",
-    selectedOption: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_STATE);
 
   const { first_name, last_name, employee_id, email, phone, selectedOption } =
     formData;
@@ -47,11 +47,6 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    if (submitted) {
-      validateForm();
-    }
-  }, [formData, submitted]);
 
   useEffect(() => {
     setFormData((prev) => {
@@ -85,11 +80,11 @@ const SignUp = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
     validateForm();
     if (formValid) {
       console.log(formData);
       signupAction(formData);
+      setFormData(INITIAL_STATE);
     }
   };
 
