@@ -47,18 +47,20 @@ function App() {
 
     const adminApp = (
       <>
-        <Navigation userType ={userType}/>
+        <Navigation user ={user}/>
         <Routes>
           <Route path='/' exact element={<SearchUser />} />
           <Route path='/createUser' element={<CreateUser />} />
         </Routes>
       </>
     )
-  const renderApp = user
-    ? userType === "admin"
+  const renderApp = user.token
+    ? userType === "ADMIN"
       ? adminApp
       : defaultApp
     : AuthApp;
+
+    console.log(user);
 
   return (
     <Container maxWidth={false} disableGutters>

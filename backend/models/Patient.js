@@ -134,6 +134,6 @@ treatmentPlanSchema.pre('save', function(next) {
   next();
 });
 
-const TreatmentPlan = mongoose.model('TreatmentPlan', treatmentPlanSchema);
+const Patient = mongoose.model('Patient', treatmentPlanSchema);
 
-module.exports = TreatmentPlan;
+module.exports = Patient;

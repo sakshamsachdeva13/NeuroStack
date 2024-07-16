@@ -22,7 +22,7 @@ function ResponsiveAppBar({user}) {
   
   
   const username = user ? user : {};
-  // console.log("============", username.role);
+  console.log("============", username.role);
   const pages =
     username.role === "ADMIN"
       ? [

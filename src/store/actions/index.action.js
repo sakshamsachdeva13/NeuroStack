@@ -3,10 +3,16 @@ export {
   signup,
   generateUsername,
   sendLinkToEmail,
-  setUser
+  setUser,
 } from "./authAction.js";
 export {
   createTreatmentPlan,
   getTreatmentPlan,
   updateTreatmentPlan,
 } from "./TreatmentPlan.actions.js";
+export {
+  getAlluserList,
+  getUserConfig,
+  createUserConfig,
+  updateUserConfig,
+} from "./admin.actions.js";
