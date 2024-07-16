@@ -40,3 +40,15 @@
 .patientFiles a:hover {
   text-decoration: underline;
 }
+
+.noFilesMessage {
+  color: #888;
+    font-size: 30px;
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-around;
+    margin-top: 70px;
+}

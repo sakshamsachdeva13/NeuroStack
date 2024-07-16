@@ -12,7 +12,7 @@
 .navLink {
   color: white;
   text-decoration: none; 
-  margin: 0 16px;
+  margin: 2px 20px;
   font-weight: bold;
   font-size: 18px;
 }
@@ -26,7 +26,7 @@
   text-decoration: none;
   font-weight:bold;
   color: #f39c12; 
-
+  font-size: 20px;
 }
 
 
