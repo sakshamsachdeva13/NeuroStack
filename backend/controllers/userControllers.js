@@ -1,10 +1,11 @@
 const User = require("../models/User");
+const Patient = require("../models/Patient");
 const UserConfig = require("../models/userConfig");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
-
+const sendEmail = require("../utils/mailer");
 const createToken = (_id) => {
   console.log(process.env.SECRET);
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
@@ -69,6 +70,29 @@ const getAllUserLists = async (req, res) => {
   }
 };
 
+const getPatientData = async (req, res) => {
+  try {
+    const result = await Patient.find({});
+    if (!result) {
+      return res.status(404).json({
+        result: result,
+        success: false,
+        message: "users not found",
+      });
+    }
+    return res.status(200).json({
+      result: result,
+      success: true,
+      message: "user List found",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err,
+    });
+  }
+};
+
 const getUserConfig = async (req, res) => {
   const id = req.body.id;
   try {
@@ -95,6 +119,7 @@ const getUserConfig = async (req, res) => {
 
 const createUserConfig = async (req, res) => {
   const config = req.body;
+  console.log(req.body);
   try {
     const result = await UserConfig.create(config);
     if (!result) {
@@ -181,8 +206,12 @@ const forgotPassword = async (req, res) => {
   const token = jwt.sign(payload, secret, { expiresIn: "15m" });
 
   const link = `http://localhost:8888/auth/reset-password/${user._id}/${token}`;
-
-  // sendEmail(link);
+  
+  sendEmail({
+    recepientMailId: user.email,
+    subject: "Reset Password Link",
+    text: `this is your reset password link \n ${link}`,
+  });
 
   console.log(link);
 
@@ -223,7 +252,7 @@ const postResetPassword = async (req, res) => {
     // const userId = ;
 
     const result = await User.findByIdAndUpdate(
-      { _id:  id },
+      { _id: id },
       { $set: { password: hash } }
     );
     console.log(result);
@@ -233,7 +262,6 @@ const postResetPassword = async (req, res) => {
       message: "400 bad request !! password could not be changed",
     });
   }
-  
 };
 function generateUsername(firstname, lastname, email, phone) {
   // Extract parts of the first name, last name, and email
@@ -276,4 +304,5 @@ module.exports = {
   forgotPassword,
   getResetPassword,
   postResetPassword,
+  getPatientData,
 };

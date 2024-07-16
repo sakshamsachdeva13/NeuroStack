@@ -6,7 +6,7 @@ import PatientInfo from '../../components/patientInfo/patientInfo';
 import PatientHistory from '../../components/patientHistory/patientHistory';
 import PatientFiles from '../../components/patientFiles/patientFiles';
 import classes from './Dashboard.module.css';
-import Handsontable from 'handsontable';
+// import Handsontable from 'handsontable';
 
 import {
   Chart as ChartJS,
