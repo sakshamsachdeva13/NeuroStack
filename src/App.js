@@ -58,7 +58,7 @@ function App() {
       <div>
         <Toaster /> {/* Rendering Toaster from react-hot-toast */}
       </div>
-      {renderApp}
+      {adminApp}
     </Container>
   );
 }
