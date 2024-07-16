@@ -8,7 +8,7 @@ const create = async (Model, req, res) => {
   console.log(req.body);
   try {
     const result = await TreatmentPlan.create(req.body);
-    console.log(result);
+    console.log(result); 
     if (result._id) {
       res.status(201).json({
         result: result,
