@@ -13,6 +13,10 @@ const {
   getPatientData
 } = require("../controllers/userControllers");
 
+const {
+getPatientRecords
+} = require('../controllers/appControllers/dashboardController');
+
 route.post("/Tp/create", createTPController().create);
 route.post("/Tp/read", createTPController().read);
 route.post("/Tp/update", createTPController().update);
@@ -22,4 +26,7 @@ route.get("/admin/get-config/:did/pid", getUserConfig);
 route.post("/admin/update-config", updateUserConfig);
 route.get("/admin/get-all-user", getAllUserLists);
 route.get('/admin/get-patients/' , getPatientData)
+
+
+route.post('/dashboard/get-patient-records' , getPatientRecords );
 module.exports = route;

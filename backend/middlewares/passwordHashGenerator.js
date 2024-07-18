@@ -17,15 +17,7 @@ const passwordGenerator = (req , res , next) => {
         for (let i = 0; i < 6; i++) {
           password += characters[getRandomInt(characters.length)];
         }
-        const text = "Your new Credentials are  username : " + employee_id + "Password :: " + password; 
-        const emailConfig = {
-            sender : "Saksham Sachdeva <Saksham5Sachdeva>@gmail.com",
-            recepientMailId : req.body.email,
-            subject : "Confidenial || Credentials",
-            text : ""
-        };
-
-      // will send a email in a while here 
+        
           
         req.body.password = password;
         next();
