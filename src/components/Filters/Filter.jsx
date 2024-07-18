@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import styled from 'styled-components';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from './Filter.module.css';
 
@@ -17,6 +18,42 @@ const symptomSelectionOptions = [
   { value: 'loss-of-sensation', label: 'Loss of Sensation' },
   { value: 'seizures', label: 'Seizures' },
 ];
+
+const StyledSelect = styled(Select)`
+  .react-select__control {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  .react-select__value-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+  }
+
+  .react-select__multi-value {
+    display: inline-block;
+    max-width: 50px; /* Adjust as necessary */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .react-select__multi-value__label {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 20px; /* Adjust to fit two characters and ellipsis */
+  }
+
+  .react-select__multi-value__remove {
+    display: inline-block;
+  }
+`;
 
 const Filter = ({
   timeRange,
@@ -39,7 +76,7 @@ const Filter = ({
   };
 
   const patientOptions = patients.map(patient => ({
-    value: patient.id, // Assuming each patient object has an 'id' property
+    value: patient.id,
     label: `ID: ${patient.id}`
   }));
 
@@ -92,12 +129,13 @@ const Filter = ({
       </div>
       <div className={styles.filter}>
         <label>Symptom Selection</label>
-        <Select
+        <StyledSelect
           isMulti
           options={symptomSelectionOptions}
           value={symptomSelectionOptions.filter(option => symptomSelection.includes(option.value))}
           onChange={handleSymptomChange}
           placeholder="Select Symptoms"
+          classNamePrefix="react-select"
         />
       </div>
       <button onClick={handleSubmit} className={styles.submitButton}>Submit</button>
