@@ -15,4 +15,8 @@ export {
   getUserConfig,
   createUserConfig,
   updateUserConfig,
+  getPatientData
 } from "./admin.actions.js";
+export {
+  getPatientRecords
+} from './dashboardActions.js'
