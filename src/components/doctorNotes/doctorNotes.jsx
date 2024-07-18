@@ -39,16 +39,38 @@ const DoctorNotes = ({ initialData, onSave }) => {
     setData(prevData => prevData.slice(0, -1));
   };
 
+  // const saveNotes = () => {
+  //   const notes = data.map(row => `${row[0]}: ${row[1]}`).join('\n');
+  //   const blob = new Blob([notes], { type: 'text/plain' });
+  //   const url = URL.createObjectURL(blob);
+  //   const today = new Date().toISOString().split('T')[0];
+  //   const fileName = `${today}-doctor-note.txt`;
+
+  //   onSave({ name: fileName, url });
+
+  //   setData(initialData);
+  // };
+
   const saveNotes = () => {
-    const notes = data.map(row => `${row[0]}: ${row[1]}`).join('\n');
-    const blob = new Blob([notes], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+    const jsonData = JSON.stringify(data);
     const today = new Date().toISOString().split('T')[0];
-    const fileName = `${today}-doctor-note.txt`;
+    const fileName = `${today}-doctor-note.json`;
 
-    onSave({ name: fileName, url });
-
-    setData(initialData);
+    fetch('/api/save-notes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonData,
+    })
+      .then(response => response.json())
+      .then(result => {
+        onSave({ name: fileName, url: result.url });
+        setData(initialData);
+      })
+      .catch(error => {
+        console.error('Error saving notes:', error);
+      });
   };
 
   return (
