@@ -25,7 +25,7 @@ import * as actions from "../../store/actions/index.action";
 
 // <<<<<<< HEAD
 // const DoctorSearchDailog = () => {
-const SearchUser = () => {
+const DoctorSearchDailog = () => {
   const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,7 +36,7 @@ const SearchUser = () => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
 // <<<<<<< HEAD
-//   const [filteredCases, setFilteredCases] = useState([]);
+  const [filteredCases, setFilteredCases] = useState([]);
   const [loading, setLoading] = useState(false);
   const usersList = useSelector((state) => state.admin.usersList);
   const userConfig = useSelector((state) => state.admin.userConfig);

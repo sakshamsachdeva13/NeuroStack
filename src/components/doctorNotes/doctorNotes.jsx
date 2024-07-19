@@ -52,9 +52,17 @@ const DoctorNotes = ({ initialData, onSave }) => {
   // };
 
   const saveNotes = () => {
-    const jsonData = JSON.stringify(data);
+      // Map data array to an array of objects
+      const note = {}
+      const formattedData = data.map(row => {
+        note[row[0]] = row[1]
+      });
+    // const jsonData = JSON.stringify(formattedData);
+    const jsonData = JSON.stringify(note);
     const today = new Date().toISOString().split('T')[0];
     const fileName = `${today}-doctor-note.json`;
+
+    console.log("Data being saved:",  note);
 
     fetch('/api/save-notes', {
       method: 'POST',
@@ -65,6 +73,7 @@ const DoctorNotes = ({ initialData, onSave }) => {
     })
       .then(response => response.json())
       .then(result => {
+        console.log("Backend response:", result);
         onSave({ name: fileName, url: result.url });
         setData(initialData);
       })
