@@ -24,16 +24,21 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
 import * as actionTypes from '../../store/actions/actionTypes';
 import deepCopy from "../../utils/deepCopy";
-const SearchUser = () => {
+// <<<<<<< HEAD
+// const DoctorSearchDailog = () => {
+const DoctorSearchDailog = () => {
+
+
   const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [openUserDialog, setOpenUserDialog] = useState(false);
-  const [openCaseDialog, setOpenCaseDialog] = useState(false);
+  const [openCaseDialog, setOpenCaseDialog] = useState(false);``
   const [caseSearchQuery, setCaseSearchQuery] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
+// <<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const usersList = useSelector((state) => state.admin.usersList);
   const userConfig = useSelector((state) => state.admin.userConfig);
@@ -141,6 +146,7 @@ const SearchUser = () => {
   const handleCloseUserDialog = () => {
     setOpenUserDialog(false);
     setSelectedUser(null);
+    setCaseSearchQuery("");
     setOpenCaseDialog(false); // Close the case dialog when the user dialog is closed
   };
 
@@ -151,6 +157,7 @@ const SearchUser = () => {
     })
     setOpenCaseDialog(false);
     setSelectedCase(null);
+    setCaseSearchQuery("");
   };
 
   const handleCheckboxChange = (event) => {
@@ -328,6 +335,6 @@ const SearchUser = () => {
       )}
     </Box>
   );
-};
+} 
 
-export default SearchUser;
+export default DoctorSearchDailog;

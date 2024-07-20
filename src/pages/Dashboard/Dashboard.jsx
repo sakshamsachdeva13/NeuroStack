@@ -305,11 +305,10 @@ const Dashboard = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [patientFiles, setPatientFiles] = useState([]);
   const initialDoctorNotesData = [[new Date().toISOString().split("T")[0], ""]];
-  const [doctorNotesData, setDoctorNotesData] = useState(
-    initialDoctorNotesData
-  );
+  const [doctorNotesData, setDoctorNotesData] = useState(initialDoctorNotesData);
   const getPatientRecords = useCallback((filterData) => dispatch(actions.getPatientRecords(filterData)));
   const patientRecords = useSelector(state => state.dashboard.patientRecords);
+  
   const handleSubmit = () => {
     console.log("Submit button clicked");
     console.log("Time Range:", timeRange);
@@ -324,6 +323,27 @@ const Dashboard = () => {
       tempPatientSelection &&
       symptomSelection.length > 0
     ) {
+
+      console.log("*******************************************");
+      console.log("Symptom Selection Structure:", symptomSelection);
+      // const filterDataObject = {
+      //   timeRange,
+      //   symptomScale,
+      //   patientSelection: tempPatientSelection,
+      //   symptomSelection,
+      // };
+
+      const filterDataObject = {
+        from: timeRange.from,
+        to: timeRange.to,
+        symptomScale: symptomScale.value,
+        patientId: tempPatientSelection.value,
+        symptoms: symptomSelection,
+        // .map(symptom => symptom.value),
+      };
+  
+      console.log("Filter Data Object:", filterDataObject);
+
       const newFilteredData = filterData();
       console.log("Filtered Data:", newFilteredData);
       setFilteredData(newFilteredData);
