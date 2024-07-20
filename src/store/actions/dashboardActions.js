@@ -16,4 +16,4 @@ export const getPatientRecords = (filterData) => {
             toast(err.message);
         })
     }
-}
+} 

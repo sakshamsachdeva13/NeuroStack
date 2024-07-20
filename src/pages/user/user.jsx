@@ -34,7 +34,7 @@ const DoctorSearchDailog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [openUserDialog, setOpenUserDialog] = useState(false);
-  const [openCaseDialog, setOpenCaseDialog] = useState(false);``
+  const [openCaseDialog, setOpenCaseDialog] = useState(false);
   const [caseSearchQuery, setCaseSearchQuery] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
