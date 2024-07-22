@@ -39,8 +39,8 @@ const Filter = ({
   };
 
   const patientOptions = patients.map(patient => ({
-    value: patient.id, // Assuming each patient object has an 'id' property
-    label: `ID: ${patient.id}`
+    value: patient.case_number, // Assuming each patient object has an 'id' property
+    label: `${patient.name}  (${patient.case_number})`
   }));
 
   return (
