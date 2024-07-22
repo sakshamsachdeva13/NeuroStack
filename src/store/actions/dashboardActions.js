@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 
 export const getPatientRecords = (filterData) => {
     return (dispatch) => {
-        const url = 'http://localhost:8888/dashboard/get-patient-records';
+        const url = 'http://localhost:8888/api/dashboard/get-patient-records';
 
         axios.post(url , filterData).then(res => {
             dispatch({

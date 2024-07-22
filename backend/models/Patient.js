@@ -19,35 +19,11 @@ const PatientSchema = new Schema({
         type: String,
         required: true
     },
-    symptoms: [{
-        name: {
-            type: String,
-            required: true
-        },
-        frequency: {
-            type: Schema.Types.Mixed, // You can adjust the type as needed
-            default: {}
-        },
-        severity: {
-            type: Schema.Types.Mixed, // You can adjust the type as needed
-            default: {}
-        },
-        intensity: {
-            type: Schema.Types.Mixed, // You can adjust the type as needed
-            default: {}
-        }
-    }],
+   
     history: [{
         type: String
     }],
-    doctorsNote: {
-        type: Schema.Types.Mixed, // Using Mixed type for any type of input
-        default: {}
-    },
-    files: [{
-        type: Schema.Types.Mixed, // You can adjust the type as needed
-        default: []
-    }]
+   
 });
 
 const Patient = mongoose.model('Patient', PatientSchema);

@@ -307,8 +307,15 @@ const Dashboard = () => {
   const initialDoctorNotesData = [[new Date().toISOString().split("T")[0], ""]];
   const [doctorNotesData, setDoctorNotesData] = useState(initialDoctorNotesData);
   const getPatientRecords = useCallback((filterData) => dispatch(actions.getPatientRecords(filterData)));
+  const getPatientData = useCallback(() => dispatch(actions.getPatientData()));
   const patientRecords = useSelector(state => state.dashboard.patientRecords);
+  const patientData = useSelector(state => state.admin.patientData)
   
+  useEffect(() => {
+      getPatientData();
+  } , [])
+
+
   const handleSubmit = () => {
     console.log("Submit button clicked");
     console.log("Time Range:", timeRange);
@@ -362,7 +369,7 @@ const Dashboard = () => {
 
       console.log("==================================")
 
-      // getPatientRecords(newFilteredData);
+      getPatientRecords(filterDataObject);
 
       console.log("=================== called patient's fetch record ::")
 
@@ -443,7 +450,7 @@ const Dashboard = () => {
         symptomSelection={symptomSelection}
         setSymptomSelection={setSymptomSelection}
         handleSubmit={handleSubmit}
-        patients={demoPatients}
+        patients={patientData}
       />
       {isSubmitted && patientSelection && (
         <PatientInfo
