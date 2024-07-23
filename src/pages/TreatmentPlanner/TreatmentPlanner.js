@@ -1,13 +1,21 @@
-import React, { useState,  useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import styles from './treatment.module.css';
-import { useDispatch , useSelector } from "react-redux";
+import styles from "./treatment.module.css";
+import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
+import { Autocomplete, TextField } from "@mui/material";
 
-const DynamicForm = () => { 
+const DynamicForm = () => {
   const dispatch = useDispatch();
   const createTP = (reqBody) => dispatch(actions.createTreatmentPlan(reqBody));
-  const setTp = useCallback((reqBody) => dispatch(actions.getTreatmentPlan(reqBody)) , [dispatch]);
+  const getPatientData = useCallback(
+    () => dispatch(actions.getPatientData()),
+    [dispatch]
+  );
+  const setTp = useCallback(
+    (reqBody) => dispatch(actions.getTreatmentPlan(reqBody)),
+    [dispatch]
+  );
   const updateTp = (reqBody) => dispatch(actions.updateTreatmentPlan(reqBody));
   const treatmentPlanFormData = useSelector(
     (state) => state.treatmentPlan.treatmentPlan
@@ -27,15 +35,20 @@ const DynamicForm = () => {
   ]);
   const [isMedicationEditable, setIsMedicationEditable] = useState(false);
   const [isTherapyEditable, setIsTherapyEditable] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState("");
+  const patientData = useSelector((state) => state.admin.patientData);
 
   useEffect(() => {
-    console.log("page update")
-    setTp({patient_id : "1234"});
-  }, [setTp]);
+    getPatientData();
+  }, []);
+  // useEffect(() => {
+  //   console.log("page update");
+  //   setTp({ patient_id: "1234" });
+  // }, [setTp]);
 
   useEffect(() => {
     console.log(treatmentPlanFormData);
-    const {medication, therapy} = treatmentPlanFormData;
+    const { medication, therapy } = treatmentPlanFormData;
 
     setMedications(medication || []);
     setTherapies(therapy || []);
@@ -131,8 +144,46 @@ const DynamicForm = () => {
     setIsTherapyEditable(!isTherapyEditable);
   };
 
+  const handlePatientSelection = (e, value) => {
+    setSelectedPatient(value);
+    // console.log(e.target.value);
+  };
+
+  const fetchSelectedPatientPlan = () => {
+    const case_number = selectedPatient.split("-")[1];
+    console.log(case_number);
+    setTp({
+      patient_id: case_number,
+    });
+
+  };
+  const preparedPatientList = (patientData) => {
+    return patientData.length
+      ? patientData.map((ele) => {
+          return `${ele.name}-${ele.case_number}`;
+        })
+      : [];
+  };
+
   return (
     <div className={`${styles.container} mt-5`}>
+      <div className={styles.selectPatient}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={preparedPatientList(patientData)}
+          onChange={handlePatientSelection}
+          sx={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Select Patient"
+              onChange={handlePatientSelection}
+            />
+          )}
+        />
+        <button onClick={fetchSelectedPatientPlan}>Submit</button>
+      </div>
       <form onSubmit={onSubmit}>
         <div className={`${styles.formSection} mb-4 border p-0`}>
           <div className="d-flex justify-content-between align-items-center mb-2 p-2">
