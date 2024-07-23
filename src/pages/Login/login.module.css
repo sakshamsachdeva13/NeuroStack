@@ -1,6 +1,6 @@
 .formContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -9,7 +9,7 @@
 }
 
 .logoContainer {
-  margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 .logo {
@@ -72,7 +72,13 @@
 
 @media (max-width: 768px) {
   .formContainer {
+    flex-direction: column;
     padding: 10px;
+  }
+
+  .logoContainer {
+    margin-right: 0;
+    margin-bottom: 20px;
   }
 
   .loginBox {

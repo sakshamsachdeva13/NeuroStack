@@ -46,13 +46,11 @@ const Login = () => {
   };
 
   const handleResetPassword = () => {
-    
     setView("reset");
   };
 
   const handleSendLink = () => {
-    sendLink({email : email});
-
+    sendLink({ email: email });
     setView("success");
   };
 
@@ -61,105 +59,107 @@ const Login = () => {
       <Box className={classes.logoContainer}>
         <Logo className={classes.logo} />
       </Box>
-      {view === "login" && (
-        <Box className={classes.loginBox}>
-          <Typography variant="h4" className={classes.loginTitle}>
-            Welcome Back!
-          </Typography>
-          <Typography variant="body1" className={classes.loginDescription}>
-            Please login to continue.
-          </Typography>
-          <form onSubmit={onSubmit} className={classes.form}>
-            <TextField
-              id="outlined-basic"
-              label="Username"
-              name="username"
-              value={username}
-              onChange={onChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              className={classes.textField}
-            />
-            <TextField
-              required
-              id="outlined-password-input"
-              label="Password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={onChange}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              className={classes.textField}
-            />
-            <Box className={classes.forgotPasswordContainer}>
-              <Typography variant="body2" className={classes.forgotPasswordText}>
-                Forgot Password?
-              </Typography>
-              <Typography
-                variant="body2"
-                className={classes.forgotPasswordLink}
-                onClick={handleResetPassword}
+      <Box className={classes.loginBox}>
+        {view === "login" && (
+          <>
+            <Typography variant="h4" className={classes.loginTitle}>
+              Welcome Back!
+            </Typography>
+            <Typography variant="body1" className={classes.loginDescription}>
+              Please login to continue.
+            </Typography>
+            <form onSubmit={onSubmit} className={classes.form}>
+              <TextField
+                id="outlined-basic"
+                label="Username"
+                name="username"
+                value={username}
+                onChange={onChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                className={classes.textField}
+              />
+              <TextField
+                required
+                id="outlined-password-input"
+                label="Password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={onChange}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                className={classes.textField}
+              />
+              <Box className={classes.forgotPasswordContainer}>
+                <Typography variant="body2" className={classes.forgotPasswordText}>
+                  Forgot Password?
+                </Typography>
+                <Typography
+                  variant="body2"
+                  className={classes.forgotPasswordLink}
+                  onClick={handleResetPassword}
+                >
+                  Click Me
+                </Typography>
+              </Box>
+              <Button
+                variant="contained"
+                type="submit"
+                fullWidth
+                color="primary"
+                className={classes.submitButton}
+                disabled={!formValid}
               >
-                Click Me
-              </Typography>
-            </Box>
+                Login
+              </Button>
+            </form>
+          </>
+        )}
+        {view === "reset" && (
+          <>
+            <Typography variant="h5" className={classes.loginTitle}>
+              Forgot Password
+            </Typography>
+            <Typography variant="body1" className={classes.loginDescription}>
+              Enter your registered Email ID
+            </Typography>
+            <TextField
+              id="outlined-email-input"
+              label="Email ID"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              className={classes.textField}
+            />
             <Button
               variant="contained"
-              type="submit"
+              onClick={handleSendLink}
               fullWidth
               color="primary"
               className={classes.submitButton}
-              disabled={!formValid}
             >
-              Login
+              Send Link
             </Button>
-          </form>
-        </Box>
-      )}
-      {view === "reset" && (
-        <Box className={classes.loginBox}>
-          <Typography variant="h5" className={classes.loginTitle}>
-            Forgot Password
-          </Typography>
-          <Typography variant="body1" className={classes.loginDescription}>
-            Enter your registered Email ID
-          </Typography>
-          <TextField
-            id="outlined-email-input"
-            label="Email ID"
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            className={classes.textField}
-          />
-          <Button
-            variant="contained"
-            onClick={handleSendLink}
-            fullWidth
-            color="primary"
-            className={classes.submitButton}
-          >
-            Send Link
-          </Button>
-        </Box>
-      )}
-      {view === "success" && (
-        <Box className={classes.loginBox}>
-          <Typography variant="h5" className={classes.loginTitle}>
-            Success
-          </Typography>
-          <Typography variant="body1" className={classes.loginDescription}>
-            A link has been sent to your Email ID.
-          </Typography>
-        </Box>
-      )}
+          </>
+        )}
+        {view === "success" && (
+          <>
+            <Typography variant="h5" className={classes.loginTitle}>
+              Success
+            </Typography>
+            <Typography variant="body1" className={classes.loginDescription}>
+              A link has been sent to your Email ID.
+            </Typography>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
