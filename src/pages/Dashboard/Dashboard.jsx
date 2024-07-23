@@ -458,7 +458,7 @@ const Dashboard = () => {
           patients={demoPatients}
         />
       )}
-      <div className={classes.content}>
+      {patientRecords.result ? (<div className={classes.content}>
         <div className={classes.leftPane}>
           {isSubmitted && (
             <DoctorNotes initialData={doctorNotesData} onSave={handleSave} />
@@ -498,7 +498,9 @@ const Dashboard = () => {
               </div>
             ))}
         </div>
-      </div>
+      </div>) : (<div className={classes.placeholder}>
+        <span>No content</span>
+      </div>)}
     </div>
   );
 };
@@ -623,3 +625,5 @@ export default Dashboard;
 //   "message": "data found",
 //   "success": true
 // }
+
+
