@@ -181,7 +181,7 @@ const symptomDataMap = {
       "05/24",
       "06/24",
       "07/24",
-      "08/24",
+      "08/24",                      
       "09/24",
       "10/24",
     ],
@@ -314,7 +314,7 @@ const Dashboard = () => {
   useEffect(() => {
       getPatientData();
   } , [])
-
+  
 
   const handleSubmit = () => {
     console.log("Submit button clicked");
@@ -370,7 +370,7 @@ const Dashboard = () => {
       console.log("==================================")
 
       getPatientRecords(filterDataObject);
-
+      
       console.log("=================== called patient's fetch record ::")
 
 
@@ -437,7 +437,7 @@ const Dashboard = () => {
   const handleSave = (file) => {
     setPatientFiles((prevFiles) => [...prevFiles, file]);
   };
-
+  console.log(patientRecords)
   return (
     <div className={classes.dashboard}>
       <Filter
@@ -504,3 +504,122 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+// {
+//   "result": {
+//       "patientDetails": {
+//           "_id": "669adf73a87c4392ea117b86",
+//           "case_number": "CN001",
+//           "name": "John Doe",
+//           "age": 45,
+//           "disease": "Hypertension",
+//           "symptoms": [
+//               {
+//                   "name": "Headache",
+//                   "frequency": 3,
+//                   "severity": 2,
+//                   "intensity": 4
+//               },
+//               {
+//                   "name": "Dizziness",
+//                   "frequency": 2,
+//                   "severity": 3,
+//                   "intensity": 2
+//               }
+//           ],
+//           "history": [
+//               "Family history of hypertension",
+//               "Smoker"
+//           ],
+//           "doctorsNote": {
+//               "advice": "Reduce salt intake",
+//               "prescribedMedication": "Amlodipine"
+//           },
+//           "files": []
+//       },
+//       "patientRecords": {
+//           "symptoms": [
+//               {
+//                   "name": "Tremor",
+//                   "frequency": {
+//                       "20240301": 8,
+//                       "20240701": 8
+//                   },
+//                   "severity": {
+//                       "20240301": 6,
+//                       "20240701": 6
+//                   },
+//                   "intensity": {
+//                       "20240301": 7,
+//                       "20240701": 7
+//                   }
+//               },
+//               {
+//                   "name": "Headache",
+//                   "frequency": {
+//                       "20240201": 5,
+//                       "20240601": 5
+//                   },
+//                   "severity": {
+//                       "20240201": 5,
+//                       "20240601": 5
+//                   },
+//                   "intensity": {
+//                       "20240201": 4,
+//                       "20240601": 4
+//                   }
+//               },
+//               {
+//                   "name": "Dizziness",
+//                   "frequency": {
+//                       "20240501": 6
+//                   },
+//                   "severity": {
+//                       "20240501": 4
+//                   },
+//                   "intensity": {
+//                       "20240501": 5
+//                   }
+//               },
+//               {
+//                   "name": "Memory loss",
+//                   "frequency": {
+//                       "20240401": 4
+//                   },
+//                   "severity": {
+//                       "20240401": 6
+//                   },
+//                   "intensity": {
+//                       "20240401": 6
+//                   }
+//               }
+//           ],
+//           "doctorsNote": {
+//               "20240201": "Patient needs regular check-ups and medication.",
+//               "20240301": "Patient advised to reduce stress and maintain a healthy diet.",
+//               "20240401": "Patient needs further tests and possible surgery.",
+//               "20240501": "Patient should get plenty of rest and follow prescribed medication.",
+//               "20240601": "Patient should continue current treatment and monitor symptoms.",
+//               "20240701": "Patient needs regular check-ups and medication."
+//           },
+//           "files": [
+//               "brain_scan1.jpg",
+//               "report1.pdf",
+//               "brain_scan2.jpg",
+//               "report2.pdf",
+//               "brain_scan3.jpg",
+//               "report3.pdf",
+//               "brain_scan4.jpg",
+//               "report4.pdf",
+//               "brain_scan5.jpg",
+//               "report5.pdf",
+//               "brain_scan1.jpg",
+//               "report1.pdf"
+//           ]
+//       }
+//   },
+//   "message": "data found",
+//   "success": true
+// }

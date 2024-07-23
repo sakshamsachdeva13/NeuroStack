@@ -2,31 +2,6 @@ const PatientRecords = require("../../models/PatientRecords");
 const Patient = require("../../models/Patient");
 const mongoose = require("mongoose");
 
-function processPatientData(data) {
-//   console.log(data);
-  const processedData = {
-    case_number: data.case_number,
-    symptoms: data.symptoms.map((symptom) => ({
-      name: symptom.name,
-      frequency: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.frequency,
-      },
-      severity: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.severity,
-      },
-      intensity: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.intensity,
-      },
-    })),
-    doctorsNote: data.doctorsNote,
-    files: data.files,
-    createdDate: data.createdDate,
-    updatedDate: data.updatedDate,
-  };
-
-  return processedData;
-}
-
 const getPatientRecords = async (req, res) => {
   try {
     // console.log(req.body);
@@ -67,16 +42,13 @@ const getPatientRecords = async (req, res) => {
     const dateMappedRecord = patientRecords.map((rec) => {
       return processPatientData(JSON.parse(JSON.stringify(rec)));
     });
-    const groupSymptomResult = groupAndAccumulateSymptoms(dateMappedRecord);
-    console.log(groupSymptomResult)
-    // patientRecords.symptoms = groupSymptomResult;
-    
-    // console.log(JSON.stringify(patientRecords));
+    const groupedRecordResult = groupAndAccumulateSymptoms(dateMappedRecord);
+    console.log(groupedRecordResult);
 
     if (patientRecords.length) {
       const result = {
         patientDetails: patientDetails,
-        patientRecords: patientRecords,
+        patientRecords: groupedRecordResult,
       };
 
       return res.status(200).json({
@@ -101,15 +73,43 @@ const getPatientRecords = async (req, res) => {
   }
 };
 
+function processPatientData(data) {
+  //   console.log(data);
+  const processedData = {
+    case_number: data.case_number,
+    symptoms: data.symptoms.map((symptom) => ({
+      name: symptom.name,
+      frequency: {
+        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.frequency,
+      },
+      severity: {
+        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.severity,
+      },
+      intensity: {
+        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.intensity,
+      },
+    })),
+    doctorsNote: data.doctorsNote,
+    files: data.files,
+    createdDate: data.createdDate,
+    updatedDate: data.updatedDate,
+  };
+
+  return processedData;
+}
+
 function groupAndAccumulateSymptoms(dataArray) {
   const groupedData = {};
-
+  const doctorsNote = {};
+  const files = [];
   dataArray.forEach((data) => {
-
+    (doctorsNote[data.createdDate.split("T")[0].replace(/-/g, "")] =
+      data.doctorsNote),
+      files.push(...data.files);
 
     data.symptoms.forEach((symptom) => {
       const { name, frequency, severity, intensity } = symptom;
-        
+
       if (!groupedData[name]) {
         groupedData[name] = {
           name: name,
@@ -129,7 +129,7 @@ function groupAndAccumulateSymptoms(dataArray) {
     });
   });
   console.log(groupedData);
-  return Object.values(groupedData);
+  return { symptoms: Object.values(groupedData), doctorsNote, files };
 }
 
 module.exports = {

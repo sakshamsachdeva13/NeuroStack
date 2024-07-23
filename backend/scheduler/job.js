@@ -12,7 +12,7 @@ const lambdaClient = new LambdaClient({
 });
 
 async function invokeLambda() {
-  
+
   const command = new InvokeCommand({
     FunctionName: FUNCTION_NAME,
     InvocationType: "RequestResponse", 
@@ -26,10 +26,12 @@ async function invokeLambda() {
     console.log("Lambda invocation successful");
     console.log("Status Code:", StatusCode);
     console.log("Response:", result);
+    // save in db
 
     return result;
   } catch (error) {
     console.error("Error invoking Lambda function:", error);
+    // save in DB 
     throw error;
   }
 }
