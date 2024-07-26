@@ -2,6 +2,7 @@ import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 
 const Chart = ({ type, data, title,  height = 300 }) => {
+ 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -26,7 +27,6 @@ const Chart = ({ type, data, title,  height = 300 }) => {
   };
 
   let chartComponent = null;
-
   switch (type) {
     case 'Bar':
       chartComponent = <Bar data={data} options={options} height={height} />;

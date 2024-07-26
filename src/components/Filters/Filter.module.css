@@ -6,12 +6,26 @@
   margin-bottom: 20px;
   padding: 20px;
   gap: 20px;
-  background-color: #87CEEB; /* Set the background color to skyblue */
+  background-color: #0b8cbf; /* Set the background color to skyblue */
   border-radius: 8px; /* Optional: Add rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
   margin-top: 20px;
 }
 
+.localFilters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  gap: 20px;
+  background-color: #0b8cbf; /* Set the background color to skyblue */
+  border-radius: 8px; /* Optional: Add rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+  margin-top: 5px;
+
+}
 .filter {
   display: flex;
   flex-direction: column;
@@ -31,6 +45,7 @@
   font-size:20px;
   font-family: sans-serif;
 }
+
 
 .datePickers {
   display: flex;
