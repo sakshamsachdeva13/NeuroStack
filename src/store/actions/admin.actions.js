@@ -15,7 +15,7 @@ export const getUserConfig = ({doctor_id , patient_id}) => {
       })
       .catch((err) => {
         console.log(err);
-        toast(err.message);
+        toast.error(err.message);
       });
   };
 };
@@ -33,7 +33,7 @@ export const getAlluserList = () => {
         });
       })
       .catch((err) => {
-        toast(err.message);
+        toast.error(err.message);
       });
   };
 };

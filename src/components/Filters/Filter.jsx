@@ -5,9 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import styles from "./Filter.module.css";
 
 const symptomScaleOptions = [
-  { value: "severity", label: "Severity" },
-  { value: "frequency", label: "Frequency" },
-  { value: "intensity", label: "Intensity" },
+  { value: "Severity", label: "Severity" },
+  { value: "Frequency", label: "Frequency" },
+  { value: "Intensity", label: "Intensity" },
 ]
 const Filter = ({
   timeRange,

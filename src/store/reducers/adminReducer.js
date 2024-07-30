@@ -3,7 +3,7 @@ import * as actionType from "../actions/actionTypes";
 const initialState = {
   userConfig: {},
   usersList: [],
-  patientData: [],
+  patientData: []
 };
 
 const reducer = (state = initialState, action) => {

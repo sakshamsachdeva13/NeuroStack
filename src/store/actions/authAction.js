@@ -73,12 +73,17 @@ export const sendLinkToEmail = (email) => {
     axios
       .post(url, email)
       .then((res) => {
-        dispatch({ type: actionTypes.SEND_RESET_LINK, data: res.data });
-        toast("Email has been sent to registred Email");
+        const view = res.data.result ? "success" : "error";
+        dispatch({ type: actionTypes.SET_VIEW, data: view });
+        toast.success("Email has been sent to registred Email");
       })
       .catch((err) => {
-        toast(err.message);
+        toast.error(err.response.data.message);
         console.log("Error", err);
+        dispatch({
+          type : actionTypes.SET_VIEW,
+          data : "error"
+        })
       });
   };
 };
