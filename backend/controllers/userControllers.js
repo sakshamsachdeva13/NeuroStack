@@ -118,7 +118,7 @@ const getUserConfig = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 };

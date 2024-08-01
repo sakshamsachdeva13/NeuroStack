@@ -4,6 +4,7 @@ import styles from "./treatment.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
 import { Autocomplete, TextField } from "@mui/material";
+import toast from "react-hot-toast";
 
 const DynamicForm = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const DynamicForm = () => {
   const [isTherapyEditable, setIsTherapyEditable] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState("");
   const patientData = useSelector((state) => state.admin.patientData);
-
+  const [errors, setErrors] = useState({});
   useEffect(() => {
     getPatientData();
   }, []);
@@ -53,6 +54,35 @@ const DynamicForm = () => {
     setMedications(medication || []);
     setTherapies(therapy || []);
   }, [treatmentPlanFormData]);
+
+  const validateForm = (medications, therapies) => {
+    const newErrors = {};
+    for (let medication of medications) {
+      if (!medication.nameOfMedicine) {
+        newErrors.nameOfMedicine = "Name of medicine is required";
+      }
+      if (!medication.dose) newErrors.dose = "Dose is required";
+      if (!medication.frequency) newErrors.frequency = "Frequency is required";
+      if (!medication.frequencyUnit)
+        newErrors.frequencyUnit = "Frequency unit is required";
+      if (!medication.duration) newErrors.duration = "Duration is required";
+      if (!medication.durationUnit)
+        newErrors.durationUnit = "Duration unit is required";
+    }
+
+    for (let therapy of therapies) {
+      if (!therapy.nameOfTherapy)
+        newErrors.nameOfTherapy = "Name of therapy is required";
+      if (!therapy.duration)
+        newErrors.duration = "Therapy Duration is required";
+      if (!therapy.durationUnit)
+        newErrors.durationUnit = "therapy Duration unit is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleAddMedication = () => {
     setMedications([
@@ -78,7 +108,10 @@ const DynamicForm = () => {
     const newMedications = medications.map((medication, i) =>
       i === index ? { ...medication, [name]: value } : medication
     );
+
     setMedications(newMedications);
+
+    validateForm(newMedications, therapies);
   };
 
   const handleAddTherapy = () => {
@@ -90,7 +123,7 @@ const DynamicForm = () => {
 
   const handleRemoveTherapy = (index) => {
     const newTherapies = therapies.filter((_, i) => i !== index);
-    setTherapies(newTherapies);
+    setTherapies(medications, newTherapies);
   };
 
   const handleTherapyChange = (index, event) => {
@@ -99,6 +132,9 @@ const DynamicForm = () => {
       i === index ? { ...therapy, [name]: value } : therapy
     );
     setTherapies(newTherapies);
+    setTimeout(() => {
+      validateForm();
+    }, 0);
   };
 
   const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
@@ -106,33 +142,36 @@ const DynamicForm = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     const requestBody = {};
+    if (validateForm(medications, therapies)) {
+      requestBody.patient_id = selectedPatient.split("-")[1];
 
-    requestBody.patient_id = "1234";
-    requestBody.doctor_id = "5678";
-    for (const medication of medications) {
-      if (!validateName(medication.nameOfMedicine)) {
-        alert("Medication name must contain only alphabets");
-        return;
+      requestBody.doctor_id = "5698";
+      console.log(selectedPatient);
+      requestBody.medication = medications;
+
+      requestBody.therapy = therapies;
+
+      if (treatmentPlanFormData._id) {
+        // requestBody._id = treatmentPlanFormData._id;
+        treatmentPlanFormData.medication.forEach((e, i) => {
+          if (requestBody.medication[i])
+          {
+            requestBody.medication[i]._id =
+            treatmentPlanFormData.medication[i]._id;
+          }
+           
+        });
+        treatmentPlanFormData.therapy.forEach((e, i) => {
+          if (requestBody.therapy[i]) {
+            requestBody.therapy[i]._id = treatmentPlanFormData.therapy[i]._id;
+          }
+        });
+        updateTp(requestBody);
+      } else {
+        createTP(requestBody);
       }
-    }
-
-    requestBody.medication = medications;
-
-    for (const therapy of therapies) {
-      if (!validateName(therapy.nameOfTherapy)) {
-        alert("Therapy name must contain only alphabets");
-        return;
-      }
-    }
-    requestBody.therapy = therapies;
-
-    if (treatmentPlanFormData._id) {
-      requestBody._id = treatmentPlanFormData._id;
-      requestBody.medication._id = treatmentPlanFormData.medication._id;
-      requestBody.therapy._id = treatmentPlanFormData.therapy._id;
-      updateTp(requestBody);
     } else {
-      createTP(requestBody);
+      Object.values(errors).forEach((e) => toast.error(e));
     }
   };
 
@@ -155,7 +194,6 @@ const DynamicForm = () => {
     setTp({
       patient_id: case_number,
     });
-
   };
   const preparedPatientList = (patientData) => {
     return patientData.length
@@ -231,7 +269,7 @@ const DynamicForm = () => {
                 value={medication.frequency}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className={`${styles.formControl} form-control me-2`}
-                readOnly={!isMedicationEditable}
+                disabled={!isMedicationEditable}
               >
                 <option value="">Frequency</option>
                 {[1, 2, 3, 4, 5].map((value) => (
@@ -245,7 +283,7 @@ const DynamicForm = () => {
                 value={medication.frequencyUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className={`${styles.formControl} form-control me-2`}
-                readOnly={!isMedicationEditable}
+                disabled={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -271,7 +309,7 @@ const DynamicForm = () => {
                 value={medication.durationUnit}
                 onChange={(event) => handleMedicationChange(index, event)}
                 className={`${styles.formControl} form-control me-2`}
-                readOnly={!isMedicationEditable}
+                disabled={!isMedicationEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -283,7 +321,7 @@ const DynamicForm = () => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => handleRemoveMedication(index)}
-                readOnly={!isMedicationEditable}
+                disabled={!isMedicationEditable}
               >
                 Delete
               </button>
@@ -328,7 +366,7 @@ const DynamicForm = () => {
                 value={therapy.duration}
                 onChange={(event) => handleTherapyChange(index, event)}
                 className={`${styles.formControl} form-control me-2`}
-                readOnly={!isTherapyEditable}
+                disabled={!isTherapyEditable}
               >
                 <option value="">Duration</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
@@ -342,7 +380,7 @@ const DynamicForm = () => {
                 value={therapy.durationUnit}
                 onChange={(event) => handleTherapyChange(index, event)}
                 className={`${styles.formControl} form-control me-2`}
-                readOnly={!isTherapyEditable}
+                disabled={!isTherapyEditable}
               >
                 <option value="">Select Unit</option>
                 <option value="Days">Days</option>
@@ -354,7 +392,7 @@ const DynamicForm = () => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => handleRemoveTherapy(index)}
-                readOnly={!isTherapyEditable}
+                disabled={!isTherapyEditable}
               >
                 Delete
               </button>

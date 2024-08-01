@@ -29,6 +29,14 @@ const Login = () => {
     validateForm();
   }, [formData]);
 
+  const resetForm = () => {
+    setEmail("");
+    setFormData({
+      username : "",
+      password : ""
+    })
+    setErrors("")
+  }
   const validateForm = () => {
     const errors = {};
     if (!formData.username.trim()) {
@@ -53,7 +61,18 @@ const Login = () => {
       type : actionTypes.SET_VIEW,
       data  : "reset"
     })
+
+    resetForm()
   };
+
+  const handleGoToLogin = () => {
+    dispatch({
+      type : actionTypes.SET_VIEW,
+      data : 'login'
+    })
+
+    resetForm();
+  }
 
   const handleSendLink = () => {
     sendLink({email : email});
@@ -144,6 +163,18 @@ const Login = () => {
             margin="normal"
             className={classes.textField}
           />
+          <Box className={classes.forgotPasswordContainer}>
+              <Typography variant="body2" className={classes.forgotPasswordText}>
+                Remember Password 
+              </Typography>
+              <Typography
+                variant="body2"
+                className={classes.forgotPasswordLink}
+                onClick={handleGoToLogin}
+              >
+                Login ?
+              </Typography>
+            </Box>
           <Button
             variant="contained"
             onClick={handleSendLink}
@@ -163,6 +194,15 @@ const Login = () => {
           <Typography variant="body1" className={classes.loginDescription}>
             A link has been sent to your Email ID.
           </Typography>
+          <Button
+            variant="contained"
+            onClick={handleGoToLogin}
+            fullWidth
+            color="primary"
+            className={classes.submitButton}
+          >
+            Go To Login
+          </Button>
         </Box>
       )}
       {view === 'error' && (<Box className={classes.loginBox}>
@@ -172,6 +212,15 @@ const Login = () => {
           <Typography variant="body1" className={classes.loginDescription}>
              Reset Link Could Not be Send.
           </Typography>
+          <Button
+            variant="contained"
+            onClick={handleResetPassword}
+            fullWidth
+            color="primary"
+            className={classes.submitButton}
+          >
+            Go To Reset
+          </Button>
         </Box>)}
     </Box>
   );

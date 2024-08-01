@@ -110,9 +110,6 @@ const Filter = ({
             placeholder="Select Symptoms"
           />
         </div>
-        <button  onClick={handleSort} className={styles.submitButton}>
-          Apply
-        </button>
       </div>
     </>
   );

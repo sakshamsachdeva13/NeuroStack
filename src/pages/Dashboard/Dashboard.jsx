@@ -67,9 +67,20 @@ const Dashboard = () => {
 
   useEffect(() => {
     getPatientData();
+    return () => {
+      console.log("this is called on unmounting")
+        // setSymptomSelection([]);
+        // setSymptomScale(null);
+        // setSymptomSelectionOption([])
+        dispatch({
+          type : 'GET_PATIENT_RECORD',
+          data : {}
+        })
+    };
   }, []);
 
   useEffect(() => {
+    console.log("---------------------------------------------------- , this was called on patient recored change")
     processPatientRecords(patientRecords);
   }, [patientRecords]);
 
@@ -154,17 +165,17 @@ const Dashboard = () => {
 
 
   const handleSubmit = () => {
-    if (timeRange.from && timeRange.to && tempPatientSelection) {
+    if (timeRange.from && timeRange.to && patientSelection) {
       const filterDataObject = {
         from: timeRange.from,
         to: timeRange.to,
-        patientId: tempPatientSelection.value,
+        patientId: patientSelection.value,
         symptoms: symptomSelection,
       };
 
       getPatientRecords(filterDataObject);
-      setPatientSelection(tempPatientSelection);
-      setPatientSelection(tempPatientSelection);
+      // setPatientSelection(tempPatientSelection);
+      // setPatientSelection(tempPatientSelection);
     } else {
       alert("Please fill out all filter fields before submitting.");
     }
@@ -183,8 +194,8 @@ const Dashboard = () => {
         setTimeRange={setTimeRange}
         symptomScale={symptomScale}
         setSymptomScale={setSymptomScale}
-        patientSelection={tempPatientSelection}
-        setPatientSelection={setTempPatientSelection}
+        patientSelection={patientSelection}
+        setPatientSelection={setPatientSelection}
         symptomSelection={symptomSelection}
         setSymptomSelection={setSymptomSelection}
         handleSubmit={handleSubmit}

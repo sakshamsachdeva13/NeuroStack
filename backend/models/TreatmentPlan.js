@@ -17,10 +17,19 @@ const medicationSchema = new Schema({
     required: [true, 'Frequency is required'],
     trim: true
   },
+  frequencyUnit: {
+    type : String ,
+    required : [true , 'Frequency Units is required']
+  },
+  
   duration: {
     type: String,
     required: [true, 'Duration is required'],
     trim: true
+  },
+  durationUnit : {
+    type : String,
+    required : [true , "Duration Unit is required"]
   }
 });
 
@@ -49,11 +58,11 @@ const treatmentPlanSchema = new Schema({
   },
   medication: {
     type: [medicationSchema],
-    required: [true, 'At least one medication is required']
+   
   },
   therapy: {
     type: [therapySchema],
-    required: [true, 'At least one therapy is required']
+    
   },
   createdDate: {
     type: Date,

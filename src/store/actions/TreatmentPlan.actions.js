@@ -44,7 +44,7 @@ export const getTreatmentPlan = (requestBody) => {
       })
       .catch((err) => {
         console.log(err);
-        toast(err.response.data.message);
+        toast.error(err.response.data.message);
       });
   };
 };
@@ -59,6 +59,9 @@ export const updateTreatmentPlan = (requestBody) => {
       });
       toast(res.data.message);
       // show Toast about tp created
-    });
+    }).catch(err => {
+      console.log(err);
+      toast.error(err.response.data.message);
+    })
   };
 };
