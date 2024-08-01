@@ -39,16 +39,31 @@ const DoctorNotes = ({ initialData, onSave }) => {
     setData(prevData => prevData.slice(0, -1));
   };
 
+  // const saveNotes = () => {
+  //   const notes = data.map(row => `${row[0]}: ${row[1]}`).join('\n');
+  //   const blob = new Blob([notes], { type: 'text/plain' });
+  //   const url = URL.createObjectURL(blob);
+  //   const today = new Date().toISOString().split('T')[0];
+  //   const fileName = `${today}-doctor-note.txt`;
+
+  //   onSave({ name: fileName, url });
+
+  //   setData(initialData);
+  // };
+
   const saveNotes = () => {
-    const notes = data.map(row => `${row[0]}: ${row[1]}`).join('\n');
-    const blob = new Blob([notes], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
+      // Map data array to an array of objects
+      const note = {}
+      const formattedData = data.map(row => {
+        note[row[0]] = row[1]
+      });
+    // const jsonData = JSON.stringify(formattedData);
+    const jsonData = JSON.stringify(note);
     const today = new Date().toISOString().split('T')[0];
-    const fileName = `${today}-doctor-note.txt`;
+    const fileName = `${today}-doctor-note.json`;
 
-    onSave({ name: fileName, url });
+    console.log("Data being saved:",  note);
 
-    setData(initialData);
   };
 
   return (
@@ -57,7 +72,7 @@ const DoctorNotes = ({ initialData, onSave }) => {
         <h2 className={classes.heading}>Doctor's Notes</h2>
         <HotTable
           data={data}
-          colHeaders={['Date', 'Notes', '']}
+          colHeaders={['Date', 'Notes']}
           rowHeaders={true}
           width="100%"
           height="100%"
@@ -65,12 +80,14 @@ const DoctorNotes = ({ initialData, onSave }) => {
           colWidths={[150, 600, 100]}
           autoRowSize={true}
           autoColumnSize={true}
+          readOnly={true}
           afterChange={handleAfterChange}
           cells={(row, col) => {
             const cellProperties = {};
             if (col === 1) {
               cellProperties.renderer = 'text';
               cellProperties.wordWrap = true;
+              
             }
             if (col === 2) {
               cellProperties.renderer = (instance, td, row, col, prop, value, cellProperties) => {
@@ -85,11 +102,11 @@ const DoctorNotes = ({ initialData, onSave }) => {
           }}
           licenseKey="non-commercial-and-evaluation"
         />
-        <div className={classes.buttonContainer}>
+        {/* <div className={classes.buttonContainer}>
           <button onClick={addRow} className={classes.addButton}>Add Row</button>
           <button onClick={deleteLastRow} className={classes.deleteButton}>Delete Row</button>
           <button onClick={saveNotes} className={classes.saveButton}>Save</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

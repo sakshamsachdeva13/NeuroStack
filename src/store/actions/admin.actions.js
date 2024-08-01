@@ -4,13 +4,13 @@ import * as actionTypes from "./actionTypes";
 
 export const getUserConfig = ({doctor_id , patient_id}) => {
   return (dispatch) => {
-    const url = `http://localhost:8888/admin/get-config/${doctor_id}/${patient_id}`;
+    const url = `http://localhost:8888/api/admin/get-config/${doctor_id}/${patient_id}`;
     axios
       .get(url)
       .then((res) => {
         dispatch({
           type: actionTypes.GET_USER_CONFIG,
-          data: res.data,
+          data: res.data.result,
         });
       })
       .catch((err) => {
@@ -22,14 +22,14 @@ export const getUserConfig = ({doctor_id , patient_id}) => {
 
 export const getAlluserList = () => {
   return (dispatch) => {
-    const url = "http://localhost:8888/admin/get-all-user";
+    const url = "http://localhost:8888/api/admin/get-all-user";
 
     axios
       .get(url)
       .then((res) => {
         dispatch({
           type: actionTypes.GET_ALL_USERS,
-          data: res.data,
+          data: res.data.result,
         });
       })
       .catch((err) => {
@@ -40,7 +40,7 @@ export const getAlluserList = () => {
 
 export const createUserConfig = (userConfig) => {
   return (dispatch) => {
-    const url = "http://localhost:8888/admin/create-config";
+    const url = "http://localhost:8888/api/admin/create-config";
 
     axios
       .post(url, userConfig)
@@ -58,7 +58,7 @@ export const createUserConfig = (userConfig) => {
 
 export const updateUserConfig = (userConfig) => {
   return (dispatch) => {
-    const url = "http://localhost:8888/admin/update-config";
+    const url = "http://localhost:8888/api/admin/update-config";
 
     axios
       .post(url, userConfig)
@@ -76,14 +76,14 @@ export const updateUserConfig = (userConfig) => {
 
 export const getPatientData = (patient_id) => {
   return (dispatch) => {
-    const url = `http://localhost:8888/admin/get-patients`;
+    const url = `http://localhost:8888/api/admin/get-patients`;
 
     axios
       .get(url)
       .then((res) => {
         dispatch({
           type: actionTypes.GET_PATIENT,
-          data: res.data,
+          data: res.data.result,
         });
       })
       .catch((err) => {

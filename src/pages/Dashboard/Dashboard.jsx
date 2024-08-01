@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useSelector , useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Chart from "../../components/Charts/chart";
 import Filter from "../../components/Filters/Filter";
@@ -40,259 +40,7 @@ ChartJS.register(
   ArcElement
 );
 
-const demoPatients = [
-  {
-    id: "123",
-    name: "John Doe",
-    age: 45,
-    disease: "Disease A",
-    symptoms: ["Fever", "Cough", "Paralysis"],
-    history: [
-      "2024-07-06: Blood test done, results normal.",
-      "2024-07-07: MRI scan completed, no abnormalities found.",
-    ],
-    files: [],
-  },
-  {
-    id: "124",
-    name: "Jane Smith",
-    age: 30,
-    disease: "Disease B",
-    symptoms: ["Muscle Weakness", "Poor Coordination"],
-    history: [
-      "2024-07-05: Blood test done, elevated CPK levels.",
-      "2024-07-06: Neurological exam shows mild weakness in limbs.",
-    ],
-    files: [],
-  },
-  {
-    id: "125",
-    name: "Alice Johnson",
-    age: 60,
-    disease: "Disease C",
-    symptoms: ["Loss of Sensation", "Seizures"],
-    history: [
-      "2024-07-04: EEG shows abnormal activity.",
-      "2024-07-05: Started on anti-seizure medication.",
-    ],
-    files: [],
-  },
-  {
-    id: "126",
-    name: "Bob Brown",
-    age: 50,
-    disease: "Disease D",
-    symptoms: ["Paralysis", "Muscle Weakness"],
-    history: [
-      "2024-07-03: EMG shows reduced nerve conduction velocity.",
-      "2024-07-04: Muscle biopsy performed, awaiting results.",
-    ],
-    files: [],
-  },
-];
-
-const symptomDataMap = {
-  paralysis: {
-    labels: [
-      "01/24",
-      "02/24",
-      "03/24",
-      "04/24",
-      "05/24",
-      "06/24",
-      "07/24",
-      "08/24",
-      "09/24",
-      "10/24",
-    ],
-    datasets: [
-      {
-        label: "Severity",
-        data: [3, 5, 4, 7, 6, 8, 7, 9, 8, 6],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Frequency",
-        data: [6, 7, 5, 8, 7, 9, 8, 7, 6, 5],
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Intensity",
-        data: [4, 6, 5, 8, 7, 9, 6, 7, 8, 5],
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  },
-  "muscle-weakness": {
-    labels: [
-      "01/24",
-      "02/24",
-      "03/24",
-      "04/24",
-      "05/24",
-      "06/24",
-      "07/24",
-      "08/24",
-      "09/24",
-      "10/24",
-    ],
-    datasets: [
-      {
-        label: "Severity",
-        data: [4, 6, 5, 8, 7, 9, 8, 7, 6, 5],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Frequency",
-        data: [5, 6, 4, 7, 6, 8, 7, 6, 5, 4],
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Intensity",
-        data: [3, 5, 4, 7, 6, 8, 5, 6, 7, 4],
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  },
-  "poor-coordination": {
-    labels: [
-      "01/24",
-      "02/24",
-      "03/24",
-      "04/24",
-      "05/24",
-      "06/24",
-      "07/24",
-      "08/24",
-      "09/24",
-      "10/24",
-    ],
-    datasets: [
-      {
-        label: "Severity",
-        data: [3, 4, 5, 6, 7, 8, 9, 7, 6, 5],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Frequency",
-        data: [4, 5, 6, 7, 8, 9, 7, 6, 5, 4],
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Intensity",
-        data: [5, 6, 7, 8, 9, 7, 6, 5, 4, 3],
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  },
-  "loss-of-sensation": {
-    labels: [
-      "01/24",
-      "02/24",
-      "03/24",
-      "04/24",
-      "05/24",
-      "06/24",
-      "07/24",
-      "08/24",
-      "09/24",
-      "10/24",
-    ],
-    datasets: [
-      {
-        label: "Severity",
-        data: [2, 4, 3, 5, 4, 6, 5, 7, 6, 4],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Frequency",
-        data: [3, 5, 4, 6, 5, 7, 6, 5, 4, 3],
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Intensity",
-        data: [4, 6, 5, 7, 6, 8, 7, 6, 5, 4],
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  },
-  seizures: {
-    labels: [
-      "01/24",
-      "02/24",
-      "03/24",
-      "04/24",
-      "05/24",
-      "06/24",
-      "07/24",
-      "08/24",
-      "09/24",
-      "10/24",
-    ],
-    datasets: [
-      {
-        label: "Severity",
-        data: [6, 5, 7, 6, 8, 7, 9, 8, 7, 6],
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Frequency",
-        data: [7, 6, 8, 7, 9, 8, 7, 6, 5, 4],
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-      {
-        label: "Intensity",
-        data: [8, 7, 9, 8, 7, 6, 5, 4, 3, 2],
-        backgroundColor: "rgba(255, 206, 86, 0.6)",
-        borderColor: "rgba(255, 206, 86, 1)",
-        fill: false,
-        tension: 0.1,
-      },
-    ],
-  },
-};
+const initialDoctorNotesData = [[new Date().toISOString().split("T")[0], ""]];
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -301,111 +49,124 @@ const Dashboard = () => {
   const [patientSelection, setPatientSelection] = useState(null);
   const [tempPatientSelection, setTempPatientSelection] = useState(null);
   const [symptomSelection, setSymptomSelection] = useState([]);
-  const [filteredData, setFilteredData] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [symptomSelectionOptions, setSymptomSelectionOption] = useState([]);
+  const [patientInfo, setPatientInfo] = useState({});
   const [patientFiles, setPatientFiles] = useState([]);
-  const initialDoctorNotesData = [[new Date().toISOString().split("T")[0], ""]];
   const [doctorNotesData, setDoctorNotesData] = useState(
     initialDoctorNotesData
   );
-  const getPatientRecords = useCallback((filterData) => dispatch(actions.getPatientRecords(filterData)));
-  const patientRecords = useSelector(state => state.dashboard.patientRecords);
-  const handleSubmit = () => {
-    console.log("Submit button clicked");
-    console.log("Time Range:", timeRange);
-    console.log("Symptom Scale:", symptomScale);
-    console.log("Patient Selection:", tempPatientSelection);
-    console.log("Symptom Selection:", symptomSelection);
 
-    if (
-      timeRange.from &&
-      timeRange.to &&
-      symptomScale &&
-      tempPatientSelection &&
-      symptomSelection.length > 0
-    ) {
-      const newFilteredData = filterData();
-      console.log("Filtered Data:", newFilteredData);
-      setFilteredData(newFilteredData);
-      setIsSubmitted(true);
-      setDoctorNotesData([[new Date().toISOString().split("T")[0], ""]]);
-      setIsSubmitted(true);
-      setPatientSelection(tempPatientSelection);
+  const [chartData, setChartData] = useState({});
+  const getPatientRecords = useCallback((filterData) =>
+    dispatch(actions.getPatientRecords(filterData))
+  );
+  const getPatientData = useCallback(() => dispatch(actions.getPatientData()));
+  const patientRecords = useSelector((state) => state.dashboard.patientRecords);
+  const patientData = useSelector((state) => state.admin.patientData);
 
-      const selectedPatient = demoPatients.find(
-        (patient) => patient.id === tempPatientSelection?.value
+  useEffect(() => {
+    getPatientData();
+  }, []);
+
+  useEffect(() => {
+    processPatientRecords(patientRecords);
+  }, [patientRecords]);
+
+  function getMonthYearDistribution(timeRange) {
+    const fromDate = new Date(timeRange.from);
+    const toDate = new Date(timeRange.to);
+
+    const result = [];
+    let currentDate = new Date(fromDate);
+
+    while (currentDate <= toDate) {
+      const month = currentDate.getMonth() + 1; 
+      const year = currentDate.getFullYear().toString().slice(-2); 
+      const formattedMonth = month < 10 ? `0${month}` : month;
+      result.push(`${formattedMonth}/${year}`);
+      currentDate.setMonth(currentDate.getMonth() + 1);
+    }
+    return result;
+  }
+
+  const processPatientRecords = (pr) => {
+    if (pr.result) {
+      const patientRecords = pr.result.patientRecords;
+      const patientDetails = pr.result.patientDetails;
+      const symptoms = patientRecords.symptoms;
+      const patientFiles = patientRecords.files;
+      const doctorsNote = Object.keys(patientRecords.doctorsNote).map((e) => [
+        e,
+        patientRecords.doctorsNote[e],
+      ]);
+      const labels = getMonthYearDistribution(timeRange);
+      const chartData = symptoms.reduce((acc, e) => {
+        acc[e.name] = {
+          labels,
+          datasets: [
+            {
+              label: "Severity",
+              data: labels.map((key) =>
+                e["severity"][key] !== undefined ? e["severity"][key] : 0
+              ),
+              backgroundColor: "rgba(255, 99, 132, 0.6)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              fill: false,
+              tension: 0.1,
+            },
+            {
+              label: "Frequency",
+              data: labels.map((key) =>
+                e["frequency"][key] !== undefined ? e["frequency"][key] : 0
+              ),
+              backgroundColor: "rgba(255, 99, 132, 0.6)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              fill: false,
+              tension: 0.1,
+            },
+            {
+              label: "Intensity",
+              data: labels.map((key) =>
+                e["intensity"][key] !== undefined ? e["intensity"][key] : 0
+              ),
+              backgroundColor: "rgba(255, 99, 132, 0.6)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              fill: false,
+              tension: 0.1,
+            },
+          ],
+        };
+        return acc;
+      }, {});
+
+      setSymptomSelectionOption(
+        Object.keys(chartData).map((e) => ({ value: e, label: e }))
       );
-      if (selectedPatient) {
-        setPatientFiles(selectedPatient.files || []);
-      }
-      setPatientSelection(tempPatientSelection);
-
-      console.log("==================================")
-
-      // getPatientRecords(newFilteredData);
-
-      console.log("=================== called patient's fetch record ::")
-
-
-    } else {
-      alert("Please fill out all filter fields before submitting.");
-      setIsSubmitted(false);
+      setSymptomSelection([Object.keys(chartData)[0]]);
+      setPatientInfo(patientDetails);
+      setChartData(chartData);
+      setDoctorNotesData(doctorsNote);
+      setPatientFiles(patientFiles);
     }
   };
 
-  const filterData = () => {
-    const { from, to } = timeRange;
-    const filteredData = {};
 
-    symptomSelection.forEach((symptom) => {
-      const symptomData = symptomDataMap[symptom];
-      if (!symptomData) return;
-
-      const fromIndex = from
-        ? symptomData.labels.indexOf(
-            from
-              .toLocaleDateString("en-US", {
-                month: "2-digit",
-                year: "2-digit",
-              })
-              .replace("/", "/")
-          )
-        : 0;
-      const toIndex = to
-        ? symptomData.labels.indexOf(
-            to
-              .toLocaleDateString("en-US", {
-                month: "2-digit",
-                year: "2-digit",
-              })
-              .replace("/", "/")
-          )
-        : symptomData.labels.length - 1;
-
-      const filteredLabels = symptomData.labels.slice(fromIndex, toIndex + 1);
-      const filteredDatasets = symptomData.datasets
-        .filter((dataset) =>
-          symptomScale
-            ? dataset.label.toLowerCase() === symptomScale.value
-            : true
-        )
-        .map((dataset) => ({
-          ...dataset,
-          data: dataset.data.slice(fromIndex, toIndex + 1),
-        }));
-
-      filteredData[symptom] = {
-        labels: filteredLabels,
-        datasets: filteredDatasets,
+  const handleSubmit = () => {
+    if (timeRange.from && timeRange.to && tempPatientSelection) {
+      const filterDataObject = {
+        from: timeRange.from,
+        to: timeRange.to,
+        patientId: tempPatientSelection.value,
+        symptoms: symptomSelection,
       };
-    });
 
-    return filteredData;
+      getPatientRecords(filterDataObject);
+      setPatientSelection(tempPatientSelection);
+      setPatientSelection(tempPatientSelection);
+    } else {
+      alert("Please fill out all filter fields before submitting.");
+    }
   };
-
-  const selectedPatient = demoPatients.find(
-    (patient) => patient.id === patientSelection?.value
-  );
 
   const handleSave = (file) => {
     setPatientFiles((prevFiles) => [...prevFiles, file]);
@@ -423,55 +184,51 @@ const Dashboard = () => {
         symptomSelection={symptomSelection}
         setSymptomSelection={setSymptomSelection}
         handleSubmit={handleSubmit}
-        patients={demoPatients}
+        symptomSelectionOptions={symptomSelectionOptions}
+        patients={patientData}
       />
-      {isSubmitted && patientSelection && (
-        <PatientInfo
-          patientId={patientSelection.value}
-          patients={demoPatients}
-        />
-      )}
-      <div className={classes.content}>
-        <div className={classes.leftPane}>
-          {isSubmitted && (
-            <DoctorNotes initialData={doctorNotesData} onSave={handleSave} />
-          )}
-          {isSubmitted && selectedPatient && (
-            <PatientHistory
-              patientId={patientSelection.value}
-              patients={demoPatients}
-            />
-          )}
-          {isSubmitted && <PatientFiles files={patientFiles} />}
-        </div>
-        <div className={classes.rightPane}>
-          {isSubmitted &&
-            symptomSelection.map((symptom) => (
+      {patientRecords.result && <PatientInfo patient={patientInfo} />}
+      {patientRecords.result && Object.keys(chartData).length ? (
+        <div className={classes.content}>
+          <div className={classes.leftPane}>
+            {patientRecords.result && (
+              <DoctorNotes initialData={doctorNotesData} onSave={handleSave} />
+            )}
+            {patientRecords.result && (
+              <PatientHistory history={patientInfo.history} />
+            )}
+            {patientRecords.result && <PatientFiles files={patientFiles} />}
+          </div>
+          <div className={classes.rightPane}>
+            {symptomSelection.map((symptom) => (
               <div key={symptom} className={classes.chartRow}>
-                {filteredData &&
-                  filteredData[symptom] &&
-                  filteredData[symptom].labels.length > 0 && (
-                    <>
-                      <div className={classes.chartContainer}>
-                        <Chart
-                          type="Bar"
-                          data={filteredData[symptom]}
-                          title={symptom.replace(/-/g, " ")}
-                        />
-                      </div>
-                      <div className={classes.chartContainer}>
-                        <Chart
-                          type="Line"
-                          data={filteredData[symptom]}
-                          title={symptom.replace(/-/g, " ")}
-                        />
-                      </div>
-                    </>
-                  )}
+                {Object.keys(chartData).length && (
+                  <>
+                    <div className={classes.chartContainer}>
+                      <Chart
+                        type="Bar"
+                        data={chartData[symptom]}
+                        title={symptom.replace(/-/g, " ")}
+                      />
+                    </div>
+                    <div className={classes.chartContainer}>
+                      <Chart
+                        type="Line"
+                        data={chartData[symptom]}
+                        title={symptom.replace(/-/g, " ")}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className={classes.placeholder}>
+          <span>Please Select Filters to see data</span>
+        </div>
+      )}
     </div>
   );
 };

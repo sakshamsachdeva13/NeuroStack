@@ -25,6 +25,11 @@ export const createTreatmentPlan = (requestBody) => {
 export const getTreatmentPlan = (requestBody) => {
   console.log(requestBody);
   return (dispatch) => {
+
+    dispatch({
+      type : actionTypes.SET_TP,
+      data : {}
+    })
     const url = "http://localhost:8888/api/Tp/read";
     axios
       .post(url, requestBody)
@@ -38,7 +43,8 @@ export const getTreatmentPlan = (requestBody) => {
         // show Toast about tp created
       })
       .catch((err) => {
-        toast(err.message);
+        console.log(err);
+        toast(err.response.data.message);
       });
   };
 };

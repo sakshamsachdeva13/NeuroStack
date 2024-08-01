@@ -54,7 +54,7 @@ const signupUser = async (req, res) => {
 
 const getAllUserLists = async (req, res) => {
   try {
-    const result = await User.find({});
+    const result = await User.find({role : {$ne : "ADMIN"}});
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -77,7 +77,7 @@ const getAllUserLists = async (req, res) => {
 
 const getPatientData = async (req, res) => {
   try {
-    const result = await Patient.find({});
+    const result = await Patient.find({} , {case_number : 1 , name : 1 , _id : 1});
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -99,9 +99,10 @@ const getPatientData = async (req, res) => {
 };
 
 const getUserConfig = async (req, res) => {
-  const id = req.body.id;
+  const doctor_id = req.params.did;
+  const patient_id = req.params.pid;
   try {
-    const result = await UserConfig.find({ user_id: id });
+    const result = await UserConfig.findOne({ patient_id , doctor_id });
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -142,7 +143,7 @@ const createUserConfig = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 };
@@ -150,7 +151,7 @@ const createUserConfig = async (req, res) => {
 const updateUserConfig = async (req, res) => {
   const config = req.body;
   try {
-    const result = await UserConfig.update({ user_id: config.user_id }, config);
+    const result = await UserConfig.findOneAndUpdate({ _id: config._id }, config);
     if (!result) {
       return res.status(400).json({
         result: result,
@@ -164,9 +165,10 @@ const updateUserConfig = async (req, res) => {
       message: "user config List updated",
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 };

@@ -19,4 +19,4 @@ export {
 } from "./admin.actions.js";
 export {
   getPatientRecords
-} from './dashboardActions.js'
+} from './dashboardActions.js' 

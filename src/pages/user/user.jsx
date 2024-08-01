@@ -22,8 +22,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import classes from "./user.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../store/actions/index.action";
+import * as actionTypes from '../../store/actions/actionTypes';
+import deepCopy from "../../utils/deepCopy";
+// <<<<<<< HEAD
+// const DoctorSearchDailog = () => {
+const DoctorSearchDailog = () => {
 
-const SearchUser = () => {
+
   const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,6 +38,7 @@ const SearchUser = () => {
   const [caseSearchQuery, setCaseSearchQuery] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
+// <<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const usersList = useSelector((state) => state.admin.usersList);
   const userConfig = useSelector((state) => state.admin.userConfig);
@@ -106,21 +112,24 @@ const SearchUser = () => {
     setCaseSearchQuery(e.target.value);
   };
 
-  const filteredUsers = mockUsers.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredUsers = usersList.filter(
+    (user) => {
+      return user ? 
+      (user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()) )
+      : false;
+    }
   );
 
-  const filteredCases = mockCases.filter((c) =>
-    c.caseNumber.toLowerCase().includes(caseSearchQuery.toLowerCase())
+  const filteredCases =  patientsList.filter((c) =>
+    c.case_number.toLowerCase().includes(caseSearchQuery.toLowerCase())
   );
 
   const handleSelectUser = (user) => {
     setSelectedUser(user);
     setOpenUserDialog(true);
-    console.log("this is userSelection");
+    // console.log("this is userSelection");
   };
 
   const handleSelectCase = (caseNumber) => {
@@ -128,42 +137,43 @@ const SearchUser = () => {
 
     setSelectedCase(caseNumber);
     setLoading(true);
+    // getUserConfig()
     setOpenCaseDialog(true);
 
-    console.log("this is case selection");
+    //console.log("this is case selection");
   };
 
   const handleCloseUserDialog = () => {
     setOpenUserDialog(false);
     setSelectedUser(null);
+    setCaseSearchQuery("");
     setOpenCaseDialog(false); // Close the case dialog when the user dialog is closed
   };
 
   const handleCloseCaseDialog = () => {
+    dispatch({
+      type : actionTypes.UPDATE_USER_CONFIG,
+      data : {}
+    })
     setOpenCaseDialog(false);
     setSelectedCase(null);
+    setCaseSearchQuery("");
   };
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
-    if (checked) {
-      setSelectedCheckboxes((prevSelected) => [...prevSelected, value]);
-    } else {
-      setSelectedCheckboxes((prevSelected) =>
-        prevSelected.filter((item) => item !== value)
-      );
-    }
+    const updatedConfig = deepCopy(userConfig)
+    const userConfigObj = deepCopy(userConfig.config);
+    updatedConfig.config = {...userConfigObj , [value] : checked ? 1 : 0};
+    dispatch({
+      type : actionTypes.UPDATE_USER_CONFIG,
+      data : updatedConfig
+    })
   };
 
   const handleSave = () => {
-    console.log("Selected checkboxes:", selectedCheckboxes);
-    console.log(selectedCase, selectedUser);
-    const userConfig = {
-      patient_id: selectedCase,
-      doctor_id: selectedUser._id,
-      config: selectedCheckboxes,
-    };
-
+   
+    console.log(userConfig);
     updateConfig(userConfig);
     setOpenCaseDialog(false);
     setOpenUserDialog(false); // Close the dialogs after saving
@@ -194,7 +204,7 @@ const SearchUser = () => {
                   onClick={() => handleSelectUser(user)}
                   style={{ cursor: "pointer" }}
                 >
-                  {user.firstName} {user.lastName}
+                  {user.firstname} {user.lastname}
                 </Typography>
                 <Typography color="textSecondary">{user.email}</Typography>
                 <Typography color="textSecondary">{user.phone}</Typography>
@@ -237,11 +247,11 @@ const SearchUser = () => {
               <List>
                 {filteredCases.map((c) => (
                   <ListItem
-                    key={c.id}
+                    key={c._id}
                     button
-                    onClick={() => handleSelectCase(c.id)}
+                    onClick={() => handleSelectCase(c._id)}
                   >
-                    <Typography variant="body1">{c.caseNumber}</Typography>
+                    <Typography variant="body1">{c.name}</Typography>
                   </ListItem>
                 ))}
               </List>
@@ -274,7 +284,7 @@ const SearchUser = () => {
                 <Typography variant="h6" component="div">
                   <strong>{selectedCase}</strong>
                 </Typography>
-                {loading ? (
+                {!userConfig.config ? (
                   <Stack spacing={1}>
                     <Skeleton variant="rectangular" width={40} height={40} />
                     <Skeleton variant="rectangular" width={210} height={60} />
@@ -289,7 +299,7 @@ const SearchUser = () => {
                     }}
                   >
                     <FormControl component="fieldset">
-                      {Array.from({ length: 10 }).map(
+                      {Object.keys(userConfig.config).map(
                         (
                           _,
                           index // example: generate 10 checkboxes
@@ -297,11 +307,9 @@ const SearchUser = () => {
                           <FormControlLabel
                             key={index}
                             control={<Checkbox />}
-                            label={`Checkbox Item ${index + 1}`}
-                            value={`checkbox${index + 1}`}
-                            checked={selectedCheckboxes.includes(
-                              `checkbox${index + 1}`
-                            )}
+                            label={_}
+                            value={_}
+                            checked={userConfig.config[_]}
                             onChange={handleCheckboxChange}
                             sx={{ mb: 1 }} // Add margin between checkboxes
                           />
@@ -327,6 +335,6 @@ const SearchUser = () => {
       )}
     </Box>
   );
-};
+} 
 
-export default SearchUser;
+export default DoctorSearchDailog;
