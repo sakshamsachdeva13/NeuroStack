@@ -64,7 +64,10 @@ function App() {
   return (
     <Container maxWidth={false} disableGutters>
       <div>
-        <Toaster /> {/* Rendering Toaster from react-hot-toast */}
+        <Toaster 
+          position="top-right"
+          reverseOrder={false}
+        /> 
       </div>
       {renderApp}
     </Container>

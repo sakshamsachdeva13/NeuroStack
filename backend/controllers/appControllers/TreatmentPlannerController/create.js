@@ -59,7 +59,7 @@ const create = async (Model, req, res) => {
   //     "doctor_id": "54321"
   //   }
 
-  res.send("flow working fine");
+  
   // console.log()
 };
 

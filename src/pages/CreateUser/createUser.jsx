@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
 import classes from "./createUser.module.css";
+import toast from "react-hot-toast";
 const INITIAL_STATE = {
   first_name: "",
   last_name: "",
@@ -35,16 +36,21 @@ const SignUp = () => {
     formData;
 
   const onChange = (e) => {
+    console.log(e)
     const { name, value } = e.target;
     if (name === "last_name" || name === "first_name") {
       const cleanedValue = value.replace(/[^A-Za-z]/gi, "");
       setFormData({ ...formData, [name]: cleanedValue });
+      validateForm({ ...formData, [name]: cleanedValue })
     } else if (name === "phone") {
       const cleanedValue = value.replace(/[^0-9]/g, "").slice(0, 10);
       setFormData({ ...formData, [name]: cleanedValue });
+      validateForm({ ...formData, [name]: cleanedValue })
     } else {
       setFormData({ ...formData, [name]: value });
+      validateForm({ ...formData, [name]: value })
     }
+    // validateForm();
   };
 
 
@@ -54,7 +60,7 @@ const SignUp = () => {
     });
   }, [username]);
 
-  const validateForm = () => {
+  const validateForm = (formData) => {
     const errors = {};
     if (!formData.first_name) errors.first_name = "First name is required.";
     if (!formData.last_name) errors.last_name = "Last name is required.";
@@ -80,11 +86,15 @@ const SignUp = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    validateForm();
+    validateForm(formData);
     if (formValid) {
       console.log(formData);
       signupAction(formData);
       setFormData(INITIAL_STATE);
+    } else {
+        Object.values(errors).forEach(e => {
+          toast.error(e);
+        })
     }
   };
 

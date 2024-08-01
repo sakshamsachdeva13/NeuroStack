@@ -43,7 +43,7 @@ const signupUser = async (req, res) => {
     sendEmail({
       recepientMailId: user._doc.email,
       subject: "CONFIDENTIAL || CREDENTIALS",
-      text: `these are your credentials username :: ${user._doc.username}  ||  password :: ${user.password}`
+      text: `these are your credentials username :: ${user._doc.username}  ||  password :: ${user.password}`,
     });
     res.status(200).json({ employee_id, token });
   } catch (error) {
@@ -54,7 +54,7 @@ const signupUser = async (req, res) => {
 
 const getAllUserLists = async (req, res) => {
   try {
-    const result = await User.find({role : {$ne : "ADMIN"}});
+    const result = await User.find({ role: { $ne: "ADMIN" } });
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -77,7 +77,7 @@ const getAllUserLists = async (req, res) => {
 
 const getPatientData = async (req, res) => {
   try {
-    const result = await Patient.find({} , {case_number : 1 , name : 1 , _id : 1});
+    const result = await Patient.find({}, { case_number: 1, name: 1, _id: 1 });
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -102,7 +102,7 @@ const getUserConfig = async (req, res) => {
   const doctor_id = req.params.did;
   const patient_id = req.params.pid;
   try {
-    const result = await UserConfig.findOne({ patient_id , doctor_id });
+    const result = await UserConfig.findOne({ patient_id, doctor_id });
     if (!result) {
       return res.status(404).json({
         result: result,
@@ -118,7 +118,7 @@ const getUserConfig = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: err,
+      message: error,
     });
   }
 };
@@ -151,7 +151,10 @@ const createUserConfig = async (req, res) => {
 const updateUserConfig = async (req, res) => {
   const config = req.body;
   try {
-    const result = await UserConfig.findOneAndUpdate({ _id: config._id }, config);
+    const result = await UserConfig.findOneAndUpdate(
+      { _id: config._id },
+      config
+    );
     if (!result) {
       return res.status(400).json({
         result: result,
@@ -165,7 +168,7 @@ const updateUserConfig = async (req, res) => {
       message: "user config List updated",
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: error,
@@ -200,8 +203,8 @@ const forgotPassword = async (req, res) => {
   console.log(user);
   if (!user) {
     return res.status(404).json({
-      success: true,
-      result: null,
+      success: false,
+      result: false,
       message: "User not registred !!",
     });
   }
@@ -222,7 +225,13 @@ const forgotPassword = async (req, res) => {
 
   console.log(link);
 
-  res.send("reset link has been sent to registered email");
+  res
+    .status(200)
+    .json({
+      success: true,
+      result: true,
+      message: "reset link has been sent to registered email",
+    });
 };
 const getResetPassword = async (req, res) => {
   //  check the token and render the reset password ejs ;

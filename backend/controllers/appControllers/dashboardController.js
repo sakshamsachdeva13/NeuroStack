@@ -75,18 +75,19 @@ const getPatientRecords = async (req, res) => {
 
 function processPatientData(data) {
   //   console.log(data);
+  const dateKey = extractMonthYear(data.createdDate.split("T")[0].replace(/-/g, ""));
   const processedData = {
     case_number: data.case_number,
     symptoms: data.symptoms.map((symptom) => ({
       name: symptom.name,
       frequency: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.frequency,
+        [dateKey]: symptom.frequency,
       },
       severity: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.severity,
+        [dateKey]: symptom.severity,
       },
       intensity: {
-        [data.createdDate.split("T")[0].replace(/-/g, "")]: symptom.intensity,
+        [dateKey]: symptom.intensity,
       },
     })),
     doctorsNote: data.doctorsNote,
@@ -130,6 +131,17 @@ function groupAndAccumulateSymptoms(dataArray) {
   });
   console.log(groupedData);
   return { symptoms: Object.values(groupedData), doctorsNote, files };
+}
+
+function extractMonthYear(dateString) {
+  if (dateString.length !== 8) {
+    throw new Error("Invalid date format. Expected YYYYMMDD.");
+  }
+
+  const year = dateString.slice(2, 4); // Extract the last two digits of the year
+  const month = dateString.slice(4, 6); // Extract the month
+
+  return `${month}/${year}`;
 }
 
 module.exports = {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
 import { TextField, Box, Button, Typography } from "@mui/material";
 import * as actions from "../../store/actions/index.action";
+import * as actionTypes from '../../store/actions/actionTypes';
 import Logo from "../../components/Logo/Logo";
 import classes from "./login.module.css";
 
@@ -9,15 +10,16 @@ const Login = () => {
   const dispatch = useDispatch();
   const loginAction = (user) => dispatch(actions.login(user));
   const sendLink = (email) => dispatch(actions.sendLinkToEmail(email));
+  
   const [errors, setErrors] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [view, setView] = useState("login");
+  // const [view, setView] = useState("login");
   const [email, setEmail] = useState("");
-
+  const view = useSelector(state => state.auth.view)
   const { username, password } = formData;
 
   const onChange = (e) =>
@@ -27,6 +29,14 @@ const Login = () => {
     validateForm();
   }, [formData]);
 
+  const resetForm = () => {
+    setEmail("");
+    setFormData({
+      username : "",
+      password : ""
+    })
+    setErrors("")
+  }
   const validateForm = () => {
     const errors = {};
     if (!formData.username.trim()) {
@@ -47,13 +57,27 @@ const Login = () => {
 
   const handleResetPassword = () => {
     
-    setView("reset");
+    dispatch({
+      type : actionTypes.SET_VIEW,
+      data  : "reset"
+    })
+
+    resetForm()
   };
+
+  const handleGoToLogin = () => {
+    dispatch({
+      type : actionTypes.SET_VIEW,
+      data : 'login'
+    })
+
+    resetForm();
+  }
 
   const handleSendLink = () => {
     sendLink({email : email});
 
-    setView("success");
+  
   };
 
   return (
@@ -139,6 +163,18 @@ const Login = () => {
             margin="normal"
             className={classes.textField}
           />
+          <Box className={classes.forgotPasswordContainer}>
+              <Typography variant="body2" className={classes.forgotPasswordText}>
+                Remember Password 
+              </Typography>
+              <Typography
+                variant="body2"
+                className={classes.forgotPasswordLink}
+                onClick={handleGoToLogin}
+              >
+                Login ?
+              </Typography>
+            </Box>
           <Button
             variant="contained"
             onClick={handleSendLink}
@@ -158,8 +194,34 @@ const Login = () => {
           <Typography variant="body1" className={classes.loginDescription}>
             A link has been sent to your Email ID.
           </Typography>
+          <Button
+            variant="contained"
+            onClick={handleGoToLogin}
+            fullWidth
+            color="primary"
+            className={classes.submitButton}
+          >
+            Go To Login
+          </Button>
         </Box>
       )}
+      {view === 'error' && (<Box className={classes.loginBox}>
+          <Typography variant="h5" className={classes.loginTitle}>
+            Error
+          </Typography>
+          <Typography variant="body1" className={classes.loginDescription}>
+             Reset Link Could Not be Send.
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={handleResetPassword}
+            fullWidth
+            color="primary"
+            className={classes.submitButton}
+          >
+            Go To Reset
+          </Button>
+        </Box>)}
     </Box>
   );
 };

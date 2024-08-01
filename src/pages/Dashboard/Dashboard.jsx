@@ -26,6 +26,7 @@ import {
   PieController,
   ArcElement,
 } from "chart.js";
+import deepCopy from "../../utils/deepCopy";
 
 ChartJS.register(
   CategoryScale,
@@ -66,9 +67,20 @@ const Dashboard = () => {
 
   useEffect(() => {
     getPatientData();
+    return () => {
+      console.log("this is called on unmounting")
+        // setSymptomSelection([]);
+        // setSymptomScale(null);
+        // setSymptomSelectionOption([])
+        dispatch({
+          type : 'GET_PATIENT_RECORD',
+          data : {}
+        })
+    };
   }, []);
 
   useEffect(() => {
+    console.log("---------------------------------------------------- , this was called on patient recored change")
     processPatientRecords(patientRecords);
   }, [patientRecords]);
 
@@ -91,8 +103,8 @@ const Dashboard = () => {
 
   const processPatientRecords = (pr) => {
     if (pr.result) {
-      const patientRecords = pr.result.patientRecords;
-      const patientDetails = pr.result.patientDetails;
+      const patientRecords = deepCopy(pr.result.patientRecords);
+      const patientDetails = deepCopy(pr.result.patientDetails);
       const symptoms = patientRecords.symptoms;
       const patientFiles = patientRecords.files;
       const doctorsNote = Object.keys(patientRecords.doctorsNote).map((e) => [
@@ -138,11 +150,12 @@ const Dashboard = () => {
         };
         return acc;
       }, {});
-
+      console.log(chartData)
       setSymptomSelectionOption(
         Object.keys(chartData).map((e) => ({ value: e, label: e }))
       );
       setSymptomSelection([Object.keys(chartData)[0]]);
+      setSymptomScale({value : "Frequency" , label : "Frequency"});
       setPatientInfo(patientDetails);
       setChartData(chartData);
       setDoctorNotesData(doctorsNote);
@@ -152,17 +165,17 @@ const Dashboard = () => {
 
 
   const handleSubmit = () => {
-    if (timeRange.from && timeRange.to && tempPatientSelection) {
+    if (timeRange.from && timeRange.to && patientSelection) {
       const filterDataObject = {
         from: timeRange.from,
         to: timeRange.to,
-        patientId: tempPatientSelection.value,
+        patientId: patientSelection.value,
         symptoms: symptomSelection,
       };
 
       getPatientRecords(filterDataObject);
-      setPatientSelection(tempPatientSelection);
-      setPatientSelection(tempPatientSelection);
+      // setPatientSelection(tempPatientSelection);
+      // setPatientSelection(tempPatientSelection);
     } else {
       alert("Please fill out all filter fields before submitting.");
     }
@@ -172,6 +185,8 @@ const Dashboard = () => {
     setPatientFiles((prevFiles) => [...prevFiles, file]);
   };
 
+  console.log(patientRecords);
+
   return (
     <div className={classes.dashboard}>
       <Filter
@@ -179,8 +194,8 @@ const Dashboard = () => {
         setTimeRange={setTimeRange}
         symptomScale={symptomScale}
         setSymptomScale={setSymptomScale}
-        patientSelection={tempPatientSelection}
-        setPatientSelection={setTempPatientSelection}
+        patientSelection={patientSelection}
+        setPatientSelection={setPatientSelection}
         symptomSelection={symptomSelection}
         setSymptomSelection={setSymptomSelection}
         handleSubmit={handleSubmit}
@@ -209,6 +224,7 @@ const Dashboard = () => {
                         type="Bar"
                         data={chartData[symptom]}
                         title={symptom.replace(/-/g, " ")}
+                        symptomScale={symptomScale}
                       />
                     </div>
                     <div className={classes.chartContainer}>
@@ -216,6 +232,7 @@ const Dashboard = () => {
                         type="Line"
                         data={chartData[symptom]}
                         title={symptom.replace(/-/g, " ")}
+                        symptomScale={symptomScale}
                       />
                     </div>
                   </>
